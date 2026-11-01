@@ -151,15 +151,15 @@ header h1{font-size:3.1rem;background:linear-gradient(#fff3d8,#e8c9a0);-webkit-b
     <div id="p-env" class="stage"><div class="scene" id="sscene"></div><div class="hint2">Kéo để xoay · chạm con dấu để mở nắp</div><button class="btn g mini" onclick="sRot.flip()">↻ Lật phong bì</button></div>
     <div id="p-letter" class="lw">
       <div class="tabs" id="tabs"><button class="on" data-l="vi">Tiếng Việt</button><button data-l="en">English</button><button data-l="zh">中文</button></div>
-      <button class="btn mini trb" id="trbtn" hidden onclick="tr(lang)">✨ Dịch từ tiếng Việt bằng Gemini</button>
+      <button class="btn mini trb" id="trbtn" hidden onclick="tr(lang)">✨ Dịch từ tiếng Việt</button>
       <div class="letter" id="letter" data-ps="lined" data-fr="none">
         <div class="frame"></div>
         <input class="dl vi" id="dateln" placeholder="Đà Nẵng, ngày … tháng … năm …">
         <div class="fl">❦</div>
         <div class="ph" onclick="photoIn.click()"><span id="phh">Đính ảnh</span><img id="phi" hidden></div>
         <textarea class="lt vi" id="t-vi" placeholder="Gửi mình của những ngày chênh vênh..."></textarea>
-        <textarea class="lt en" id="t-en" placeholder="English version (bấm Dịch bằng Gemini)" hidden></textarea>
-        <textarea class="lt zh" id="t-zh" placeholder="中文版本 (bấm Dịch bằng Gemini)" hidden></textarea>
+        <textarea class="lt en" id="t-en" placeholder="English version (bấm nút Dịch)" hidden></textarea>
+        <textarea class="lt zh" id="t-zh" placeholder="中文版本 (bấm nút Dịch)" hidden></textarea>
         <div class="sig" id="sig">— Người gửi</div>
       </div>
     </div>
@@ -180,7 +180,7 @@ header h1{font-size:3.1rem;background:linear-gradient(#fff3d8,#e8c9a0);-webkit-b
     <div class="sec s-letter"><h3>Khung viền</h3><div class="g3" id="frs" style="grid-template-columns:1fr 1fr"></div></div>
     <div class="sec s-letter"><h3>Màu mực</h3><div class="sw" id="sw-ink"></div></div>
     <div class="sec s-letter"><h3>Hoạ tiết trang trí</h3><div class="g4" id="stk"></div><p style="font-size:.78rem;color:#7a9a72;margin:6px 0">Bấm là hoạ tiết dán lên thư ngay • kéo để di chuyển • cuộn chuột hoặc nút +/− để đổi cỡ • double-click để xoá</p><div class="nav"><button class="btn g" onclick="szSt(10)">＋ Lớn</button><button class="btn g" onclick="szSt(-10)">－ Nhỏ</button><button class="btn g" onclick="clearSt()">Xoá hết</button></div></div>
-    <div class="sec s-letter"><h3>Bản dịch</h3><p style="font-size:.88rem;color:#a0c098;margin-bottom:8px">Viết tiếng Việt xong, bấm tab <b>English</b> hoặc <b>中文</b> phía trên lá thư rồi bấm nút <b>Dịch</b>. Kết quả hiện thẳng vào thư, bạn sửa tuỳ ý. (Dịch miễn phí qua Gemini)</p></div>
+    <div class="sec s-letter"><h3>Bản dịch</h3><p style="font-size:.88rem;color:#a0c098;margin-bottom:8px">Viết tiếng Việt xong, bấm tab <b>English</b> hoặc <b>中文</b> phía trên lá thư rồi bấm nút <b>Dịch</b>. Kết quả hiện thẳng vào thư, bạn sửa tuỳ ý. </p></div>
     <div class="nav s-letter"><button class="btn g" onclick="go('env')">← Phong bì</button><button class="btn" onclick="go('send')">Tiếp: Gửi →</button></div>
 
     <div class="sec s-send"><h3>Gửi thư</h3><label>Email người nhận</label><input class="f" id="email" type="email" placeholder="em@gmail.com">
