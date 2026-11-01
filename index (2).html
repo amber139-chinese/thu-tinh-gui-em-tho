@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thư tình gửi em thơ</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Kalam:wght@400;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+:root{--bg:#1a2e1c;--panel:#122016;--bd:#3a5c3e;--tx:#d8e8d0;--ink:#2a1c12}
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;background:var(--bg);font-family:'Cormorant Garamond',serif;color:var(--tx);padding:16px 12px 40px}
+[hidden]{display:none!important}
+.vi{font-family:'Dancing Script',cursive}.en{font-family:'Kalam','Segoe Print',cursive}.zh{font-family:'Ma Shan Zheng','KaiTi',serif}
+h1,h2{font-family:'Great Vibes',cursive;font-weight:400;color:#f2e8d5}
+#login{position:fixed;inset:0;background:#0a140c;display:flex;align-items:center;justify-content:center;z-index:50}
+.box{background:#152a18;border:2px solid #3d6b42;border-radius:12px;padding:34px 30px;max-width:380px;width:100%;text-align:center}
+.box h2{font-size:2.4rem}.box p{color:#a0c098;font-style:italic;margin:6px 0 20px}
+.btn{display:block;width:100%;padding:10px;border:none;border-radius:6px;font:600 1.05rem 'Cormorant Garamond',serif;cursor:pointer;margin-bottom:6px;background:linear-gradient(#5f9a56,#3f7a38);color:#0e1c0c}
+.btn.g{background:transparent;border:1.5px solid var(--bd);color:#c5dbc0}.btn:hover{filter:brightness(1.1)}
+header{text-align:center;margin-bottom:14px;position:relative}header h1{font-size:2.6rem}
+.ub{position:absolute;right:0;top:8px;font-size:.9rem;color:#a0c098;display:flex;gap:8px;align-items:center}
+.ub button{background:0;border:1px solid var(--bd);color:#c5dbc0;padding:3px 9px;border-radius:4px;cursor:pointer;font:inherit}
+.main{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 360px;gap:22px;align-items:start}
+@media(max-width:920px){.main{grid-template-columns:1fr}.ub{position:static;justify-content:center;margin-top:6px}}
+.pv{display:flex;flex-direction:column;align-items:center;gap:16px}
+.ew{height:250px;display:flex;align-items:center;justify-content:center}
+/* envelope */
+.envelope{width:350px;height:220px;position:relative;filter:drop-shadow(0 12px 18px rgba(0,0,0,.4))}
+.eb{position:absolute;inset:0;background:#e8d5b5;border-radius:4px 4px 6px 6px;overflow:hidden}
+.flap{position:absolute;top:0;left:0;width:100%;height:52%;background:#e8d5b5;clip-path:polygon(0 0,50% 100%,100% 0);z-index:2;filter:brightness(.94);transform-origin:top;transition:transform .8s ease,z-index 0s .4s}
+.envelope.square .flap{clip-path:polygon(0 0,0 100%,100% 100%,100% 0);height:40%}
+.envelope.wavy .flap{clip-path:polygon(0 0,7% 78%,18% 100%,32% 78%,48% 100%,63% 78%,78% 100%,90% 72%,100% 0)}
+.envelope.scalloped .flap{clip-path:polygon(0 0,3% 88%,10% 100%,18% 88%,26% 100%,34% 88%,42% 100%,50% 88%,58% 100%,66% 88%,74% 100%,82% 88%,90% 100%,97% 85%,100% 0)}
+.envelope.heart .flap{height:58%;clip-path:polygon(50% 100%,0 5%,100% 5%)}
+.envelope.open .flap{transform:rotateX(180deg);z-index:0}
+.pat{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.7}
+.seal{position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;z-index:6;background:radial-gradient(circle at 32% 30%,#e8a0a0,#b03a3a 45%,#7a2020 80%,#4a1010);box-shadow:0 3px 8px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;transition:opacity .4s}
+.seal::after{content:'❀';font-size:18px;color:#f8d0d0}
+.envelope.open .seal{opacity:0}
+.seal.gold{background:radial-gradient(circle at 32% 30%,#f0d080,#c9a030 45%,#8a6820 80%,#5a4010)}
+.seal.green{background:radial-gradient(circle at 32% 30%,#a0d0a0,#3a8a3a 45%,#206020 80%,#103810)}
+.seal.blue{background:radial-gradient(circle at 32% 30%,#a0c8e8,#3a6a9a 45%,#204060 80%,#102030)}
+.seal.purple{background:radial-gradient(circle at 32% 30%,#d0a0e0,#7a3a9a 45%,#4a2060 80%,#2a1038)}
+.seal.black{background:radial-gradient(circle at 32% 30%,#6a6a6a,#2a2a2a 45%,#111 80%,#000)}
+/* letter */
+.letter{background:#f7f0e3;border-radius:3px;box-shadow:8px 12px 0 rgba(0,0,0,.2);padding:22px 22px 30px;width:min(460px,92vw);min-height:440px;position:relative;color:var(--ink);background-image:repeating-linear-gradient(transparent,transparent 28px,rgba(0,0,0,.05) 28px,rgba(0,0,0,.05) 29px)}
+.tabs{display:flex;gap:4px;justify-content:center;margin-bottom:8px}
+.tabs button{background:rgba(0,0,0,.06);border:0;border-radius:12px;padding:2px 12px;cursor:pointer;font:600 .85rem 'Cormorant Garamond',serif;color:#5c3d2e}.tabs button.on{background:#5c3d2e;color:#fff}
+.ph{width:120px;height:120px;border:2px dashed rgba(0,0,0,.15);border-radius:4px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;color:#9a8b70;font-size:.85rem;text-align:center}
+.ph img{width:100%;height:100%;object-fit:cover}
+.lt{width:100%;min-height:210px;background:transparent;border:0;outline:0;resize:vertical;font-size:1.45rem;line-height:1.5;color:var(--ink);white-space:pre-wrap;display:block}
+.zh.lt,.lt.zh{font-size:1.5rem}
+.sig{text-align:right;margin-top:8px;font-family:'Great Vibes',cursive;font-size:1.55rem;color:#5c3d2e}
+.st{position:absolute;font-size:24px;cursor:grab;user-select:none;z-index:10;touch-action:none}
+/* panel */
+.panel{background:var(--panel);border:2px solid var(--bd);border-radius:10px;padding:16px;box-shadow:5px 7px 0 rgba(0,0,0,.3);max-height:92vh;overflow-y:auto}
+.panel h3{font:500 1rem 'Cormorant Garamond',serif;font-weight:700;color:#c5dbc0;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid #2a4530}
+.sec{margin-bottom:15px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.o{background:#1a2e1c;border:1.5px solid var(--bd);border-radius:5px;padding:7px 3px;color:#c5dbc0;font:inherit;font-size:.8rem;cursor:pointer}.o:hover,.o.on{background:#2a4530;border-color:#6a9e62;color:#fff}
+.sw{display:flex;flex-wrap:wrap;gap:6px}.sw i{width:27px;height:27px;border-radius:50%;border:2px solid transparent;cursor:pointer;box-shadow:0 2px 4px rgba(0,0,0,.25)}.sw i.on,.sw i:hover{border-color:#fff}
+input.f{width:100%;padding:8px 10px;margin-bottom:8px;border:1.5px solid var(--bd);border-radius:5px;background:#1a2e1c;color:#e0f0d8;font:inherit}
+label{font-size:.85rem;color:#a0c098;display:block;margin-bottom:2px}
+.msg{margin-top:8px;padding:7px;border-radius:5px;font-size:.88rem;text-align:center}.msg.ok{background:#243f28;color:#c0f0b8}.msg.err{background:#3f2424;color:#f0c0c0}
+.lst div{display:flex;justify-content:space-between;gap:6px;padding:5px 0;border-bottom:1px solid #2a4530;font-size:.9rem}.lst a{color:#9fd091;cursor:pointer}.lst a.d{color:#e09090}
+/* viewer */
+#view{position:fixed;inset:0;background:radial-gradient(#264a2a,#0f1e11);z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;overflow:auto;padding:16px}
+#scene{perspective:1100px;touch-action:none;cursor:grab;padding:30px}
+#e3{width:350px;height:220px;position:relative;transform-style:preserve-3d;max-width:92vw}
+.face{position:absolute;inset:0;backface-visibility:hidden}
+.face.b{transform:rotateY(180deg);background:#e8d5b5;border-radius:5px;box-shadow:0 12px 20px rgba(0,0,0,.4);overflow:hidden}
+.addr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;z-index:3;color:#4a3524;font-size:1.5rem;text-align:center}
+.hint{color:#a0c098;font-style:italic;text-align:center}
+#paper{position:fixed;inset:0;background:rgba(5,12,6,.85);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:24px 10px;z-index:70;opacity:0;pointer-events:none;transition:opacity .7s}
+#paper.show{opacity:1;pointer-events:auto}#paper .letter{transform:translateY(60px) scale(.9);transition:transform .8s}#paper.show .letter{transform:none}
+.vt{white-space:pre-wrap;font-size:1.5rem;line-height:1.55;min-height:260px}
+.vp{width:130px;height:130px;margin:0 auto 12px;border-radius:4px;overflow:hidden}.vp img{width:100%;height:100%;object-fit:cover}
+</style>
+</head>
+<body>
+
+<div id="login"><div class="box">
+  <h2>Thư tình gửi em thơ</h2><p>Đăng nhập bằng Google để viết, lưu và gửi thư qua Gmail của bạn</p>
+  <button class="btn" onclick="login()">Đăng nhập với Google</button><div class="msg err" id="lerr" hidden></div>
+</div></div>
+
+<div id="app" hidden>
+<header><h1>Thư tình gửi em thơ</h1>
+  <div class="ub"><span id="who"></span><button onclick="auth.signOut().then(()=>location.reload())">Đăng xuất</button></div></header>
+<div class="main">
+  <div class="pv">
+    <div class="ew"><div class="envelope classic" id="env"><div class="eb" id="eb"><div class="pat" id="pat"></div></div><div class="flap" id="flap"></div><div class="seal" id="seal"></div></div></div>
+    <div class="letter" id="letter">
+      <div class="tabs" id="tabs"><button class="on" data-l="vi">Tiếng Việt</button><button data-l="en">English</button><button data-l="zh">中文</button></div>
+      <div class="ph" id="phb" onclick="photoIn.click()"><span id="phh">Nhấn để<br>đính ảnh</span><img id="phi" hidden></div>
+      <textarea class="lt vi" id="t-vi" placeholder="Gửi mình của những ngày chênh vênh..."></textarea>
+      <textarea class="lt en" id="t-en" placeholder="English version (bấm Dịch bằng Gemini)" hidden></textarea>
+      <textarea class="lt zh" id="t-zh" placeholder="中文版本 (bấm Dịch bằng Gemini)" hidden></textarea>
+      <div class="sig" id="sig">— Người gửi</div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="sec"><h3>Hình dạng phong bì</h3><div class="g3" id="shapes">
+      <button class="o on" data-v="classic">Cổ điển</button><button class="o" data-v="square">Nắp vuông</button><button class="o" data-v="wavy">Sóng</button><button class="o" data-v="scalloped">Răng cưa</button><button class="o" data-v="heart">Trái tim</button></div></div>
+    <div class="sec"><h3>Màu phong bì</h3><div class="sw" id="sw-env"></div></div>
+    <div class="sec"><h3>Hoạ tiết phong bì</h3><div class="g3" id="pats"></div></div>
+    <div class="sec"><h3>Màu giấy thư</h3><div class="sw" id="sw-paper"></div></div>
+    <div class="sec"><h3>Màu sáp</h3><div class="sw" id="sw-seal"></div></div>
+    <div class="sec"><h3>Hoạ tiết trên thư</h3><div class="g4" id="stk"></div><p style="font-size:.76rem;color:#7a9a72;margin-top:5px">Click thêm • kéo di chuyển • double-click xoá</p></div>
+    <div class="sec"><h3>Dịch bằng Gemini (miễn phí)</h3>
+      <button class="btn g" onclick="tr('en')">Dịch sang English</button>
+      <button class="btn g" onclick="tr('zh')">Dịch sang 中文</button>
+      <button class="btn g" onclick="setKey()" style="font-size:.9rem">🔑 Nhập / đổi Gemini API key</button></div>
+    <div class="sec"><h3>Lưu &amp; gửi</h3>
+      <label>Tên người gửi</label><input class="f" id="sender" maxlength="28" placeholder="Tên của bạn">
+      <label>Tên người nhận (ghi trên phong bì)</label><input class="f" id="toname" maxlength="28" placeholder="Em thơ">
+      <label>Email người nhận</label><input class="f" id="email" type="email" placeholder="em@gmail.com">
+      <button class="btn g" onclick="save()">💾 Lưu thư</button>
+      <button class="btn" onclick="send()">Gửi qua Gmail của tôi ✉</button>
+      <button class="btn g" onclick="copyLink()">🔗 Copy link thư</button>
+      <button class="btn g" onclick="newLetter()">+ Thư mới</button>
+      <div class="msg" id="msg" hidden></div></div>
+    <div class="sec"><h3>Thư đã lưu</h3><div class="lst" id="lst">Chưa có thư</div></div>
+  </div>
+</div>
+</div>
+<input type="file" id="photoIn" accept="image/*" hidden>
+
+<!-- RECIPIENT VIEW -->
+<div id="view" hidden>
+  <div id="scene"><div id="e3">
+    <div class="face a"><div class="envelope classic" id="venv" style="width:100%;height:100%"><div class="eb" id="veb"><div class="pat" id="vpat"></div></div><div class="flap" id="vflap"></div><div class="seal" id="vseal" style="cursor:pointer"></div></div></div>
+    <div class="face b"><div class="pat" id="vpat2"></div><div class="addr"><div style="font-size:.95rem;opacity:.7">Gửi tới</div><div class="vi" id="vto" style="font-size:2rem"></div><div style="font-size:.95rem;opacity:.7;margin-top:8px">từ <span id="vfrom"></span></div></div></div>
+  </div></div>
+  <div class="hint" id="vhint">Kéo để xoay phong bì • chạm vào con dấu để mở thư</div>
+  <button class="btn g" style="width:auto;padding:6px 18px" onclick="flip()">↻ Lật phong bì</button>
+  <div id="paper"><div class="letter" id="vletter">
+    <div class="tabs" id="vtabs"></div><div class="vp" id="vph" hidden><img id="vpi"></div>
+    <div class="vt" id="vtext"></div><div class="sig" id="vsig"></div></div></div>
+</div>
+
+<script>
+/* ====== CẤU HÌNH — thay bằng config Firebase của bạn ====== */
+const FIREBASE_CONFIG={apiKey:"AIzaSyCMg2YKbcmx4-NsIdDBGRFHBp3yGxR9d4k",authDomain:"letter-project-9d674.firebaseapp.com",projectId:"letter-project-9d674",storageBucket:"letter-project-9d674.firebasestorage.app",messagingSenderId:"218227197117",appId:"1:218227197117:web:e54fdcecbb1eee327963d4"};
+/* ========================================================== */
+const $=id=>document.getElementById(id);
+firebase.initializeApp(FIREBASE_CONFIG);
+const auth=firebase.auth(),db=firebase.firestore();
+const ENV_C=['#e8d5b5','#f2c8c8','#c8d8f0','#d0e4c4','#e4d0f0','#f0e6c0','#3a3a3a'];
+const PAPER_C=['#f7f0e3','#fff8f0','#f5e8e0','#e8f0e6','#f0e8f4','#e6f0f4'];
+const SEAL_C=[['red','#b03a3a'],['gold','#c9a030'],['green','#3a8a3a'],['blue','#3a6a9a'],['purple','#7a3a9a'],['black','#2a2a2a']];
+const PATS=[['none','○','Trơn'],['stars-green','★','Sao xanh'],['stars-gold','★','Sao vàng'],['dots','•','Chấm bi'],['dots-pink','•','Chấm hồng'],['hearts','♥','Trái tim'],['leaves','❧','Lá cổ'],['floral','❀','Hoa nhỏ'],['grid','▦','Caro'],['lines','≡','Sọc'],['glitter','✦','Lấp lánh']];
+const STK=['🌸','🌹','🌺','🍀','🦋','✨','💫','🎀','💌','🕊️','🌙','⭐'];
+let S={shape:'classic',color:ENV_C[0],pat:'none',paper:PAPER_C[0],seal:'red'},lang='vi',photo='',id=null,token=sessionStorage.gtok||'',user=null;
+
+/* ---------- hoạ tiết ---------- */
+function applyPat(p,type){p.style.cssText='';p.innerHTML='';if(type=='none')return;
+ const dots=c=>{let b='';for(let i=0;i<16;i++)b+=`radial-gradient(1.6px 1.6px at ${15+i*47%320}px ${12+i*37%200}px,${c} 50%,transparent 50%),`;p.style.backgroundImage=b.slice(0,-1)};
+ const sc=(ch,col,n,sz)=>{for(let i=0;i<n;i++){const s=document.createElement('div');s.textContent=ch;s.style.cssText=`position:absolute;color:${col};opacity:.32;font-size:${sz+Math.random()*10}px;left:${Math.random()*90}%;top:${Math.random()*88}%;transform:rotate(${Math.random()*50-25}deg)`;p.appendChild(s)}};
+ if(type=='stars-green')dots('#5a9a4a');else if(type=='stars-gold')dots('#c9a84c');
+ else if(type=='dots'){p.style.backgroundImage='radial-gradient(circle,rgba(0,0,0,.14) 1.3px,transparent 1.4px)';p.style.backgroundSize='20px 20px'}
+ else if(type=='dots-pink'){p.style.backgroundImage='radial-gradient(circle,rgba(200,100,130,.35) 1.5px,transparent 1.6px)';p.style.backgroundSize='18px 18px'}
+ else if(type=='hearts')sc('♥','#c45c6a',16,9);else if(type=='leaves')sc('❧','#5a7a4a',14,11);else if(type=='floral')sc('❀','#c48a6a',12,10);
+ else if(type=='grid'){p.style.backgroundImage='linear-gradient(rgba(0,0,0,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.07) 1px,transparent 1px)';p.style.backgroundSize='16px 16px'}
+ else if(type=='lines')p.style.backgroundImage='repeating-linear-gradient(90deg,transparent,transparent 10px,rgba(0,0,0,.06) 10px,rgba(0,0,0,.06) 11px)';
+ else if(type=='glitter'){let b='';for(let i=0;i<22;i++)b+=`radial-gradient(1.2px 1.2px at ${Math.random()*340}px ${Math.random()*210}px,${['#e8d080','#d0e0f0','#f0c0d0','#c0e8c0'][i%4]} 50%,transparent 50%),`;p.style.backgroundImage=b.slice(0,-1)}}
+function paintMain(){const e=$('env');e.className='envelope '+S.shape;$('eb').style.background=$('flap').style.background=S.color;$('seal').className='seal '+(S.seal=='red'?'':S.seal);applyPat($('pat'),S.pat);$('letter').style.backgroundColor=S.paper}
+
+/* ---------- panel UI ---------- */
+function swatches(box,arr,key){const b=$(box);arr.forEach(c=>{const v=Array.isArray(c)?c[0]:c,col=Array.isArray(c)?c[1]:c,i=document.createElement('i');i.style.background=col;i.dataset.v=v;i.onclick=()=>{S[key]=v;mark();paintMain()};b.appendChild(i)})}
+swatches('sw-env',ENV_C,'color');swatches('sw-paper',PAPER_C,'paper');swatches('sw-seal',SEAL_C,'seal');
+PATS.forEach(([v,ic,n])=>{const b=document.createElement('button');b.className='o';b.dataset.v=v;b.innerHTML=ic+'<br>'+n;b.onclick=()=>{S.pat=v;mark();paintMain()};$('pats').appendChild(b)});
+$('shapes').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.shape=b.dataset.v;mark();paintMain()});
+function mark(){[['shapes','shape'],['sw-env','color'],['pats','pat'],['sw-paper','paper'],['sw-seal','seal']].forEach(([b,k])=>$(b).querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('on',x.dataset.v==S[k])))}
+STK.forEach(e=>{const b=document.createElement('button');b.className='o';b.textContent=e;b.style.fontSize='18px';b.onclick=()=>addSt(e,.1+Math.random()*.7,50+Math.random()*240);$('stk').appendChild(b)});
+function addSt(e,x,y){const el=document.createElement('div');el.className='st';el.textContent=e;el.style.left=x*100+'%';el.style.top=y+'px';$('letter').appendChild(el);
+ let d=0,ox,oy;el.onpointerdown=ev=>{d=1;ox=ev.clientX-el.offsetLeft;oy=ev.clientY-el.offsetTop;el.setPointerCapture(ev.pointerId)};
+ el.onpointermove=ev=>{if(d){el.style.left=(ev.clientX-ox)+'px';el.style.top=(ev.clientY-oy)+'px'}};el.onpointerup=()=>{d=0;const w=$('letter').offsetWidth;el.style.left=el.offsetLeft/w*100+'%'};el.ondblclick=()=>el.remove()}
+$('tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{lang=b.dataset.l;$('tabs').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x==b));['vi','en','zh'].forEach(l=>$('t-'+l).hidden=l!=lang)});
+$('sender').oninput=e=>$('sig').textContent='— '+(e.target.value.trim()||'Người gửi');
+$('photoIn').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const im=new Image();im.onload=()=>{const s=Math.min(1,360/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);setPhoto(c.toDataURL('image/jpeg',.72))};im.src=ev.target.result};r.readAsDataURL(f)};
+function setPhoto(u){photo=u;$('phi').src=u;$('phi').hidden=!u;$('phh').hidden=!!u}
+function msg(t,ok=true){const m=$('msg');m.hidden=false;m.textContent=t;m.className='msg '+(ok?'ok':'err')}
+
+/* ---------- đăng nhập Google (+ quyền gửi Gmail) ---------- */
+function provider(gm){const p=new firebase.auth.GoogleAuthProvider();if(gm)p.addScope('https://www.googleapis.com/auth/gmail.send');return p}
+async function getToken(){const r=await auth.currentUser.reauthenticateWithPopup(provider(true));token=r.credential.accessToken;sessionStorage.gtok=token}
+async function login(){try{await auth.signInWithPopup(provider())}catch(e){$('lerr').hidden=false;$('lerr').textContent='Đăng nhập lỗi: '+e.message}}
+auth.onAuthStateChanged(u=>{if(new URLSearchParams(location.search).get('l'))return;user=u;$('login').hidden=!!u;$('app').hidden=!u;if(u){$('who').textContent=u.displayName||u.email;if(!$('sender').value){$('sender').value=u.displayName||'';$('sender').oninput({target:$('sender')})}mark();paintMain();list()}});
+
+/* ---------- lưu / tải thư ---------- */
+function gather(){const st=[...$('letter').querySelectorAll('.st')].map(s=>({e:s.textContent,x:s.offsetLeft/$('letter').offsetWidth,y:s.offsetTop}));
+ return{uid:user.uid,sender:$('sender').value.trim()||'Người thương',toName:$('toname').value.trim(),email:$('email').value.trim(),env:S,photo,st,text:{vi:$('t-vi').value,en:$('t-en').value,zh:$('t-zh').value},updated:Date.now()}}
+async function save(){if(!$('t-vi').value.trim())return msg('Hãy viết vài dòng',false);try{const d=gather();if(id)await db.collection('letters').doc(id).set(d);else id=(await db.collection('letters').add(d)).id;msg('Đã lưu thư ✔');list()}catch(e){msg('Lưu lỗi: '+e.message,false)}}
+async function list(){const q=await db.collection('letters').where('uid','==',user.uid).get();const a=q.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>y.updated-x.updated);
+ $('lst').innerHTML=a.length?'':'Chưa có thư';a.forEach(l=>{const r=document.createElement('div');r.innerHTML=`<span>${esc((l.text.vi||'').slice(0,26))||'(trống)'} → ${esc(l.toName||l.email||'?')}</span><span><a>Mở</a> <a class="d">Xoá</a></span>`;
+  r.querySelector('a').onclick=()=>load(l);r.querySelector('a.d').onclick=async()=>{if(confirm('Xoá thư này?')){await db.collection('letters').doc(l.id).delete();if(id==l.id)id=null;list()}};$('lst').appendChild(r)})}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function load(l){id=l.id;S={...l.env};$('t-vi').value=l.text.vi||'';$('t-en').value=l.text.en||'';$('t-zh').value=l.text.zh||'';$('sender').value=l.sender;$('sender').oninput({target:$('sender')});$('toname').value=l.toName||'';$('email').value=l.email||'';setPhoto(l.photo||'');
+ $('letter').querySelectorAll('.st').forEach(s=>s.remove());(l.st||[]).forEach(s=>addSt(s.e,s.x,s.y));mark();paintMain();scrollTo(0,0)}
+function newLetter(){id=null;['t-vi','t-en','t-zh','toname','email'].forEach(i=>$(i).value='');setPhoto('');$('letter').querySelectorAll('.st').forEach(s=>s.remove());$('msg').hidden=true}
+
+/* ---------- Gemini dịch ---------- */
+function setKey(){const k=prompt('Dán Gemini API key (lấy free tại aistudio.google.com/apikey). Key chỉ lưu trên trình duyệt này:',localStorage.gkey||'');if(k!==null)localStorage.gkey=k.trim()}
+async function tr(l){const src=$('t-vi').value.trim();if(!src)return msg('Hãy viết tiếng Việt trước',false);if(!localStorage.gkey){setKey();if(!localStorage.gkey)return}
+ msg('Gemini đang dịch...');try{const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='+localStorage.gkey,{method:'POST',headers:{'Content-Type':'application/json'},
+ body:JSON.stringify({contents:[{parts:[{text:`Translate this Vietnamese love letter into ${l=='en'?'natural, warm English':'natural, warm Simplified Chinese'}. Keep line breaks and tone. Output ONLY the translation.\n\n${src}`}]}]})});
+ const j=await r.json();if(!r.ok)throw new Error(j.error?.message||r.status);$('t-'+l).value=j.candidates[0].content.parts.map(p=>p.text).join('').trim();$('tabs').querySelector(`[data-l=${l}]`).click();msg('Đã dịch ✔ (bạn có thể sửa lại)')}catch(e){msg('Dịch lỗi: '+e.message,false)}}
+
+/* ---------- gửi Gmail ---------- */
+const b64=s=>{const u=new TextEncoder().encode(s);let b='';for(let i=0;i<u.length;i+=8000)b+=String.fromCharCode(...u.subarray(i,i+8000));return btoa(b)};
+async function gmail(to,subject,html,retry){
+ const raw=`To: ${to}\r\nSubject: =?UTF-8?B?${b64(subject)}?=\r\nMIME-Version: 1.0\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n${b64(html).replace(/.{76}/g,'$&\r\n')}`;
+ const r=await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({raw:b64(raw).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')})});
+ if(r.status==401&&!retry){token='';sessionStorage.gtok='';await getToken();return gmail(to,subject,html,1)}
+ if(!r.ok)throw new Error((await r.json()).error?.message||r.status)}
+async function send(){const d=gather();if(!d.email)return msg('Nhập email người nhận',false);if(!d.text.vi.trim())return msg('Hãy viết vài dòng',false);
+ let gm=!!token;if(!gm){try{await getToken();gm=true}catch(e){gm=false}} // popup phải mở ngay khi bấm nút
+ try{msg('Đang gửi...');await save();const url=location.origin+location.pathname+'?l='+id;
+ const html=`<div style="font-family:Georgia,serif;max-width:480px;margin:auto;text-align:center;padding:24px;background:#f7f0e3;border-radius:8px"><div style="font-size:48px">💌</div><h2 style="color:#5c3d2e">Bạn có một lá thư từ ${esc(d.sender)}</h2><p style="color:#5c3d2e">Bấm nút bên dưới để mở phong bì.</p><a href="${url}" style="display:inline-block;background:#b03a3a;color:#fff;padding:12px 26px;border-radius:24px;text-decoration:none;font-size:16px">Mở thư ✉</a><p style="font-size:12px;color:#9a8b70;margin-top:18px">Nếu nút không bấm được: ${url}</p></div>`;
+ if(gm){try{await gmail(d.email,`💌 Thư gửi ${d.toName||'bạn'} từ ${d.sender}`,html);return msg('Đã gửi thư từ Gmail của bạn ✔')}catch(e){gm=false}}
+ // dự phòng: mở app mail có sẵn nội dung + copy link
+ try{await navigator.clipboard.writeText(url)}catch(e){}
+ msg('Chưa gửi trực tiếp qua Gmail được → đã mở app mail của bạn, link thư cũng đã được copy.',true);
+ location.href=`mailto:${d.email}?subject=${encodeURIComponent('💌 Thư gửi '+(d.toName||'bạn')+' từ '+d.sender)}&body=${encodeURIComponent('Mình có một lá thư gửi bạn, bấm vào link để mở phong bì nhé:\n'+url)}`
+ }catch(e){msg('Gửi lỗi: '+e.message,false)}}
+async function copyLink(){if(!$('t-vi').value.trim())return msg('Hãy viết vài dòng',false);try{await save();const u=location.origin+location.pathname+'?l='+id;await navigator.clipboard.writeText(u);msg('Đã copy link thư ✔ gửi cho ai cũng được')}catch(e){msg('Lỗi: '+e.message,false)}}
+
+/* ---------- NGƯỜI NHẬN: mở & xoay phong bì ---------- */
+const LID=new URLSearchParams(location.search).get('l');
+if(LID){$('login').hidden=true;$('view').hidden=false;db.collection('letters').doc(LID).get().then(s=>{if(!s.exists){$('vhint').textContent='Không tìm thấy thư này.';return}viewer(s.data())}).catch(e=>$('vhint').textContent='Lỗi: '+e.message)}
+let ry=0,rx=0,turned=0;
+function viewer(l){const o=l.env;const e=$('venv');e.className='envelope '+o.shape;$('veb').style.background=$('vflap').style.background=o.color;$('vseal').className='seal '+(o.seal=='red'?'':o.seal);applyPat($('vpat'),o.pat);applyPat($('vpat2'),o.pat);
+ $('vto').textContent=l.toName||'Người thương';$('vfrom').textContent=l.sender;$('vletter').style.backgroundColor=o.paper;
+ if(l.photo){$('vph').hidden=false;$('vpi').src=l.photo}$('vsig').textContent='— '+l.sender;
+ const langs=['vi','en','zh'].filter(k=>l.text[k]&&l.text[k].trim()),names={vi:'Tiếng Việt',en:'English',zh:'中文'};
+ const show=k=>{$('vtext').className='vt '+k;$('vtext').textContent=l.text[k];$('vtabs').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.l==k))};
+ if(langs.length>1)langs.forEach(k=>{const b=document.createElement('button');b.textContent=names[k];b.dataset.l=k;b.onclick=()=>show(k);$('vtabs').appendChild(b)});
+ show(langs[0]||'vi');
+ (l.st||[]).forEach(s=>{const el=document.createElement('div');el.className='st';el.style.cssText=`left:${s.x*100}%;top:${s.y}px;cursor:default`;el.textContent=s.e;$('vletter').appendChild(el)});
+ $('vseal').onclick=()=>{if(e.classList.contains('open'))return;if(turned){flip();setTimeout(openIt,700)}else openIt()};
+ function openIt(){e.classList.add('open');$('vhint').textContent='';setTimeout(()=>$('paper').classList.add('show'),1000)}
+ $('paper').onclick=ev=>{if(ev.target==$('paper'))$('paper').classList.remove('show')};
+ // xoay bằng kéo
+ let d=0,sx,sy;const sc=$('scene');const up=()=>$('e3').style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;
+ sc.onpointerdown=ev=>{d=1;sx=ev.clientX;sy=ev.clientY;$('e3').style.transition='none'};
+ window.onpointermove=ev=>{if(!d)return;ry+=(ev.clientX-sx)*.6;rx=Math.max(-40,Math.min(40,rx-(ev.clientY-sy)*.4));sx=ev.clientX;sy=ev.clientY;up()};
+ window.onpointerup=()=>{if(!d)return;d=0;ry=Math.round(ry/180)*180;rx=0;turned=(Math.abs(ry/180)%2);$('e3').style.transition='transform .6s';up()};
+ window.flip=()=>{ry+=180;turned=!turned;$('e3').style.transition='transform .7s';up()}}
+</script>
+</body>
+</html>
