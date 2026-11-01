@@ -180,11 +180,16 @@ header h1{font-size:3.1rem;background:linear-gradient(#fff3d8,#e8c9a0);-webkit-b
     <div class="sec s-letter"><h3>Khung viền</h3><div class="g3" id="frs" style="grid-template-columns:1fr 1fr"></div></div>
     <div class="sec s-letter"><h3>Màu mực</h3><div class="sw" id="sw-ink"></div></div>
     <div class="sec s-letter"><h3>Hoạ tiết trang trí</h3><div class="g4" id="stk"></div><p style="font-size:.78rem;color:#7a9a72;margin:6px 0">Bấm là hoạ tiết dán lên thư ngay • kéo để di chuyển • cuộn chuột hoặc nút +/− để đổi cỡ • double-click để xoá</p><div class="nav"><button class="btn g" onclick="szSt(10)">＋ Lớn</button><button class="btn g" onclick="szSt(-10)">－ Nhỏ</button><button class="btn g" onclick="clearSt()">Xoá hết</button></div></div>
-    <div class="sec s-letter"><h3>Bản dịch</h3><p style="font-size:.88rem;color:#a0c098;margin-bottom:8px">Viết tiếng Việt xong, bấm tab <b>English</b> hoặc <b>中文</b> phía trên lá thư rồi bấm nút <b>Dịch</b>. Kết quả hiện thẳng vào thư, bạn sửa tuỳ ý.</p><button class="btn g" onclick="setKey()" style="font-size:.9rem">🔑 Nhập / đổi Gemini API key</button></div>
+    <div class="sec s-letter"><h3>Bản dịch</h3><p style="font-size:.88rem;color:#a0c098;margin-bottom:8px">Viết tiếng Việt xong, bấm tab <b>English</b> hoặc <b>中文</b> phía trên lá thư rồi bấm nút <b>Dịch</b>. Kết quả hiện thẳng vào thư, bạn sửa tuỳ ý. (Dịch miễn phí qua Gemini)</p></div>
     <div class="nav s-letter"><button class="btn g" onclick="go('env')">← Phong bì</button><button class="btn" onclick="go('send')">Tiếp: Gửi →</button></div>
 
     <div class="sec s-send"><h3>Gửi thư</h3><label>Email người nhận</label><input class="f" id="email" type="email" placeholder="em@gmail.com">
       <button class="btn g" onclick="save()">💾 Lưu thư</button><button class="btn" onclick="send()">Gửi qua Gmail của tôi ✉</button><button class="btn g" onclick="copyLink()">🔗 Copy link thư</button><button class="btn g" onclick="newLetter()">+ Thư mới</button></div>
+    <div class="sec s-send"><h3>Nhạc nền (YouTube)</h3>
+      <label>Dán link YouTube</label>
+      <input class="f" id="music" placeholder="https://www.youtube.com/watch?v=... hoặc https://youtu.be/...">
+      <p style="font-size:0.78rem;color:#7a9a72;margin-top:4px">Để trống nếu không muốn có nhạc</p>
+    </div>
     <div class="sec s-send"><h3>Thư đã lưu</h3><div class="lst" id="lst">Chưa có thư</div></div>
     <div class="nav s-send"><button class="btn g" onclick="go('letter')">← Lá thư</button></div>
     <div class="msg" id="msg" hidden></div>
@@ -203,6 +208,16 @@ header h1{font-size:3.1rem;background:linear-gradient(#fff3d8,#e8c9a0);-webkit-b
     <div class="letter" id="vletter" data-ps="lined" data-fr="none"><div class="frame"></div><div class="dl vi" id="vdate"></div><div class="fl">❦</div>
       <div class="ph" id="vph" hidden><img id="vpi"></div><div class="vt" id="vtext"></div><div class="sig" id="vsig"></div></div></div></div>
   <button class="btn" id="reread" hidden onclick="$('paper').classList.add('show');this.hidden=true">📖 Đọc lại thư</button>
+  <div id="music-box" hidden style="position:fixed;bottom:20px;right:20px;z-index:80;display:flex;gap:8px;align-items:center">
+    <button id="music-toggle" style="background:#2a4530;border:1px solid #4a7c42;color:#c8e0b8;padding:8px 14px;border-radius:20px;cursor:pointer;font-family:inherit">
+      🔊 Tắt nhạc
+    </button>
+  </div>
+  <iframe id="yt-player"
+    style="position:absolute;width:0;height:0;opacity:0;pointer-events:none"
+    allow="autoplay; encrypted-media"
+    src="">
+  </iframe>
 </div>
 
 <script>
@@ -316,22 +331,40 @@ auth.onAuthStateChanged(u=>{if(new URLSearchParams(location.search).get('l'))ret
 
 /* ---------- lưu / tải thư ---------- */
 function gather(){const st=[...$('letter').querySelectorAll('.st')].map(s=>({e:s.dataset.k,x:s.offsetLeft/$('letter').offsetWidth,y:s.offsetTop,w:s.offsetWidth}));
- return{uid:user.uid,sender:$('sender').value.trim()||'Người thương',toName:$('toname').value.trim(),email:$('email').value.trim(),env:S,date:$('dateln').value,photo,st,text:{vi:$('t-vi').value,en:$('t-en').value,zh:$('t-zh').value},updated:Date.now()}}
+ return{uid:user.uid,sender:$('sender').value.trim()||'Người thương',toName:$('toname').value.trim(),email:$('email').value.trim(),music:$('music').value.trim(),env:S,date:$('dateln').value,photo,st,text:{vi:$('t-vi').value,en:$('t-en').value,zh:$('t-zh').value},updated:Date.now()}}
 async function save(){if(!$('t-vi').value.trim())return msg('Hãy viết vài dòng',false);try{const d=gather();if(id)await db.collection('letters').doc(id).set(d);else id=(await db.collection('letters').add(d)).id;msg('Đã lưu thư ✔');list()}catch(e){msg('Lưu lỗi: '+e.message,false)}}
 async function list(){const q=await db.collection('letters').where('uid','==',user.uid).get();const a=q.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>y.updated-x.updated);
  $('lst').innerHTML=a.length?'':'Chưa có thư';a.forEach(l=>{const r=document.createElement('div');r.innerHTML=`<span>${esc((l.text.vi||'').slice(0,26))||'(trống)'} → ${esc(l.toName||l.email||'?')}</span><span><a>Mở</a> <a class="d">Xoá</a></span>`;
   r.querySelector('a').onclick=()=>load(l);r.querySelector('a.d').onclick=async()=>{if(confirm('Xoá thư này?')){await db.collection('letters').doc(l.id).delete();if(id==l.id)id=null;list()}};$('lst').appendChild(r)})}
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function load(l){id=l.id;S={...DEF,...l.env};$('t-vi').value=l.text.vi||'';$('t-en').value=l.text.en||'';$('t-zh').value=l.text.zh||'';$('sender').value=l.sender;$('sender').oninput({target:$('sender')});$('toname').value=l.toName||'';$('email').value=l.email||'';$('dateln').value=l.date||'';setPhoto(l.photo||'');
+function load(l){id=l.id;S={...DEF,...l.env};$('t-vi').value=l.text.vi||'';$('t-en').value=l.text.en||'';$('t-zh').value=l.text.zh||'';$('sender').value=l.sender;$('sender').oninput({target:$('sender')});$('toname').value=l.toName||'';$('email').value=l.email||'';$('dateln').value=l.date||'';$('music').value=l.music||'';setPhoto(l.photo||'');
  clearSt();(l.st||[]).forEach(s=>addSt(s.e,s.x,s.y,s.w||64));mark();paintMain();go('letter');['vi','en','zh'].forEach(k=>grow($('t-'+k)))}
-function newLetter(){id=null;S={...DEF};['t-vi','t-en','t-zh','toname','email','dateln'].forEach(i=>$(i).value='');setPhoto('');clearSt();$('msg').hidden=true;mark();paintMain();go('env')}
+function newLetter(){id=null;S={...DEF};['t-vi','t-en','t-zh','toname','email','dateln','music'].forEach(i=>$(i).value='');setPhoto('');clearSt();$('msg').hidden=true;mark();paintMain();go('env')}
 
-/* ---------- Gemini dịch ---------- */
-function setKey(){const k=prompt('Dán Gemini API key (lấy free tại aistudio.google.com/apikey). Key chỉ lưu trên trình duyệt này:',localStorage.gkey||'');if(k!==null)localStorage.gkey=k.trim()}
-async function tr(l){const src=$('t-vi').value.trim();if(!src)return msg('Hãy viết tiếng Việt trước',false);if(!localStorage.gkey){setKey();if(!localStorage.gkey)return}
- if($('t-'+l).value.trim()&&!confirm('Thay bản đã có bằng bản dịch mới?'))return;msg('Gemini đang dịch...');$('trbtn').disabled=true;try{const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='+localStorage.gkey,{method:'POST',headers:{'Content-Type':'application/json'},
- body:JSON.stringify({contents:[{parts:[{text:`Translate this Vietnamese love letter into ${l=='en'?'natural, warm English':'natural, warm Simplified Chinese'}. Keep line breaks and tone. Output ONLY the translation.\n\n${src}`}]}]})});
- const j=await r.json();if(!r.ok)throw new Error(j.error?.message||r.status);$('t-'+l).value=j.candidates[0].content.parts.map(p=>p.text).join('').trim();$('tabs').querySelector(`[data-l=${l}]`).click();msg('Đã dịch ✔ (bạn có thể sửa lại)')}catch(e){msg('Dịch lỗi: '+e.message,false)}$('trbtn').disabled=false}
+/* ---------- Gemini dịch (qua Cloudflare Worker) ---------- */
+const GEMINI_PROXY = 'https://gemini-proxy.ngthuhuong139.workers.dev';
+async function tr(l){
+  const src = $('t-vi').value.trim();
+  if(!src) return msg('Hãy viết tiếng Việt trước', false);
+  if($('t-'+l).value.trim() && !confirm('Thay bản đã có bằng bản dịch mới?')) return;
+  msg('Gemini đang dịch...');
+  $('trbtn').disabled = true;
+  try {
+    const r = await fetch(GEMINI_PROXY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: src, target: l })
+    });
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.error || r.status);
+    $('t-'+l).value = (j.result || '').trim();
+    $('tabs').querySelector(`[data-l=${l}]`).click();
+    msg('Đã dịch ✔ (bạn có thể sửa lại)');
+  } catch(e) {
+    msg('Dịch lỗi: ' + e.message, false);
+  }
+  $('trbtn').disabled = false;
+}
 
 /* ---------- gửi Gmail ---------- */
 const b64=s=>{const u=new TextEncoder().encode(s);let b='';for(let i=0;i<u.length;i+=8000)b+=String.fromCharCode(...u.subarray(i,i+8000));return btoa(b)};
@@ -352,6 +385,41 @@ async function send(){const d=gather();if(!d.email)return msg('Nhập email ngư
  }catch(e){msg('Gửi lỗi: '+e.message,false)}}
 async function copyLink(){if(!$('t-vi').value.trim())return msg('Hãy viết vài dòng',false);try{await save();const u=location.origin+location.pathname+'?l='+id;await navigator.clipboard.writeText(u);msg('Đã copy link thư ✔ gửi cho ai cũng được')}catch(e){msg('Lỗi: '+e.message,false)}}
 
+/* ---------- Music (YouTube) ---------- */
+function getYoutubeId(url) {
+  if (!url) return null;
+  const reg = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+  const match = url.match(reg);
+  return match ? match[1] : null;
+}
+
+function playMusic(url) {
+  const id = getYoutubeId(url);
+  if (!id) return;
+
+  const player = document.getElementById('yt-player');
+  const box = document.getElementById('music-box');
+  const btn = document.getElementById('music-toggle');
+
+  // autoplay (một số trình duyệt sẽ chặn, nên có nút bật)
+  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}&controls=0&modestbranding=1`;
+
+  box.hidden = false;
+  let playing = true;
+
+  btn.onclick = () => {
+    if (playing) {
+      player.src = '';
+      btn.textContent = '🔇 Bật nhạc';
+      playing = false;
+    } else {
+      player.src = `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}&controls=0&modestbranding=1`;
+      btn.textContent = '🔊 Tắt nhạc';
+      playing = true;
+    }
+  };
+}
+
 /* ---------- NGƯỜI NHẬN: mở & xoay phong bì ---------- */
 const LID=new URLSearchParams(location.search).get('l');
 if(LID){$('login').hidden=true;$('view').hidden=false;
@@ -368,7 +436,12 @@ function viewer(l){const o={...DEF,...l.env};envApply('v',o,l.updated);addr('v',
  const e=$('venv');
  const openIt=()=>{e.classList.add('open');$('vhint').textContent='';setTimeout(()=>$('paper').classList.add('show'),2200)};
  $('vseal').onclick=()=>{if(e.classList.contains('open'))return;if(!vRot.front()){vRot.flip();setTimeout(openIt,750)}else openIt()};
- $('paper').onclick=ev=>{if(ev.target==$('paper')||ev.target.classList.contains('lw')){$('paper').classList.remove('show');$('reread').hidden=false}}}
+ $('paper').onclick=ev=>{if(ev.target==$('paper')||ev.target.classList.contains('lw')){$('paper').classList.remove('show');$('reread').hidden=false}}
+ if (l.music) {
+   // Đợi một chút cho hiệu ứng mở phong bì xong rồi mới phát
+   setTimeout(() => playMusic(l.music), 2500);
+ }
+}
 </script>
 </body>
 </html>
