@@ -151,7 +151,7 @@ header h1{font-size:3.1rem;background:linear-gradient(#fff3d8,#e8c9a0);-webkit-b
     <div id="p-env" class="stage"><div class="scene" id="sscene"></div><div class="hint2">Kéo để xoay · chạm con dấu để mở nắp</div><button class="btn g mini" onclick="sRot.flip()">↻ Lật phong bì</button></div>
     <div id="p-letter" class="lw">
       <div class="tabs" id="tabs"><button class="on" data-l="vi">Tiếng Việt</button><button data-l="en">English</button><button data-l="zh">中文</button></div>
-      <button class="btn mini trb" id="trbtn" hidden onclick="tr(lang)">✨ Dịch từ tiếng Việt</button>
+      <button class="btn mini trb" id="trbtn" hidden onclick="tr(document.querySelector('#tabs [data-l].on')?.dataset.l)">✨ Dịch từ tiếng Việt</button>
       <div class="letter" id="letter" data-ps="lined" data-fr="none">
         <div class="frame"></div>
         <input class="dl vi" id="dateln" placeholder="Đà Nẵng, ngày … tháng … năm …">
@@ -346,33 +346,100 @@ function newLetter(){id=null;S={...DEF};['t-vi','t-en','t-zh','toname','email','
 
 /* ---------- Dịch (qua Cloudflare Worker) ---------- */
 const GEMINI_PROXY = 'https://gemini-proxy.ngthuhuong139.workers.dev';
-async function tr(l){
+
+async function tr(l) {
   const srcEl = $('t-vi');
   const dstEl = $('t-' + l);
-  if(!srcEl || !dstEl) return msg('Không tìm thấy ô thư. Hãy tải lại trang.', false);
+  const btn = $('trbtn');
+
+  if (!srcEl || !dstEl) {
+    return msg('Không tìm thấy ô thư. Hãy tải lại trang.', false);
+  }
+
   const src = (srcEl.value || '').trim();
-  if(!src) return msg('Hãy viết tiếng Việt trước', false);
-  if((dstEl.value || '').trim() && !confirm('Thay bản đã có bằng bản dịch mới?')) return;
+
+  if (!src) {
+    return msg('Hãy viết tiếng Việt trước.', false);
+  }
+
+  if ((dstEl.value || '').trim() &&
+      !confirm('Thay bản đã có bằng bản dịch mới?')) {
+    return;
+  }
+
+  if (btn) btn.disabled = true;
   msg('Đang dịch...');
-  if($('trbtn')) $('trbtn').disabled = true;
+
   try {
     const r = await fetch(GEMINI_PROXY, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: src, target: l })
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        text: src,
+        target: l
+      })
     });
+
     const j = await r.json().catch(() => ({}));
-    if(!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
-    dstEl.value = (j.result || '').trim();
+
+    if (!r.ok) {
+      const detail = j.error || '';
+      const lower = detail.toLowerCase();
+
+      if (/api.?key|invalid key|permission denied|unauthorized/.test(lower)) {
+        throw new Error('API KEY không hợp lệ hoặc không có quyền truy cập.');
+      }
+
+      if (/quota|resource_exhausted|rate.?limit/.test(lower)) {
+        throw new Error('API đã hết hạn mức hoặc đang bị giới hạn. Hãy thử lại sau.');
+      }
+
+      if (r.status === 503) {
+        throw new Error('Máy chủ dịch đang bận hoặc dịch vụ AI không phản hồi. Hãy thử lại sau.');
+      }
+
+      if (r.status === 500) {
+        throw new Error('Máy chủ gặp lỗi cấu hình. Hãy kiểm tra GEMINI_KEY.');
+      }
+
+      throw new Error(detail || `Lỗi máy chủ HTTP ${r.status}.`);
+    }
+
+    const translated = (j.result || '').trim();
+
+    if (!translated) {
+      throw new Error('Máy chủ không trả về nội dung bản dịch.');
+    }
+
+    dstEl.value = translated;
     grow(dstEl);
-    const tab = $('tabs') && $('tabs').querySelector(`[data-l=${l}]`);
-    if(tab) tab.click();
+
+    const tab = $('tabs') &&
+      $('tabs').querySelector(`[data-l="${l}"]`);
+
+    if (tab) tab.click();
+
     msg('Đã dịch ✔ (bạn có thể sửa lại)');
-  } catch(e) {
-    msg('Dịch lỗi: ' + e.message, false);
+    return translated;
+
+  } catch (e) {
+    console.error('Translation error:', e);
+
+    let errorMessage = e.message || 'Lỗi không xác định.';
+
+    if (e instanceof TypeError) {
+      errorMessage = 'Không thể kết nối máy chủ. Hãy kiểm tra mạng hoặc CORS.';
+    }
+
+    msg('Dịch lỗi: ' + errorMessage, false);
+
+  } finally {
+    if (btn) btn.disabled = false;
   }
-  if($('trbtn')) $('trbtn').disabled = false;
 }
+
 
 /* ---------- gửi Gmail ---------- */
 const b64=s=>{const u=new TextEncoder().encode(s);let b='';for(let i=0;i<u.length;i+=8000)b+=String.fromCharCode(...u.subarray(i,i+8000));return btoa(b)};
