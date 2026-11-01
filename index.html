@@ -305,10 +305,13 @@ opts('frs',[['none','Không'],['line','Viền kép'],['floral','Hoa góc'],['hea
 swatches('sw-ink',INK_C,'ink');
 function mark(){[['shapes','shape'],['sw-env','color'],['pats','pat'],['sw-seal','seal'],['ems','em'],['stamps','stamp'],['airs','air'],['pms','pm'],['sw-rib','rib'],['pss','ps'],['sw-paper','paper'],['frs','fr'],['sw-ink','ink']].forEach(([b,k])=>$(b).querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('on',x.dataset.v==String(S[k]))))}
 mark();
-Object.keys(STK).forEach(k=>{const b=document.createElement('button');b.className='o';b.innerHTML=`<svg viewBox="0 0 64 64" width="34" height="34">${STK[k]}</svg>`;b.title=k;b.onclick=()=>addSt(k,.5+Math.random()*.28,90+Math.random()*190);$('stk').appendChild(b)});
-function addSt(k,x,y,w=64){const el=document.createElement('div');el.className='st';el.dataset.k=k;el.innerHTML=stHTML(k);el.style.cssText=`left:${x*100}%;top:${y}px;width:${w}px;height:${w}px`;$('letter').appendChild(el);selSt=el;
+Object.keys(STK).forEach(k=>{const b=document.createElement('button');b.className='o';b.innerHTML=`<svg viewBox="0 0 64 64" width="34" height="34">${STK[k]}</svg>`;b.title=k;b.onclick=()=>addSt(k,.15+Math.random()*.55,.12+Math.random()*.45);$('stk').appendChild(b)});
+function addSt(k,x,y,w=64){const el=document.createElement('div');el.className='st';el.dataset.k=k;el.innerHTML=stHTML(k);
+ // x,y are 0..1 ratios of letter width/height
+ el.style.cssText=`left:${x*100}%;top:${y*100}%;width:${w}px;height:${w}px`;$('letter').appendChild(el);selSt=el;
  let d=0,ox,oy;el.onpointerdown=ev=>{selSt=el;d=1;ox=ev.clientX-el.offsetLeft;oy=ev.clientY-el.offsetTop;el.setPointerCapture(ev.pointerId)};
- el.onpointermove=ev=>{if(d){el.style.left=(ev.clientX-ox)+'px';el.style.top=(ev.clientY-oy)+'px'}};el.onpointerup=()=>{d=0;el.style.left=el.offsetLeft/$('letter').offsetWidth*100+'%'};
+ el.onpointermove=ev=>{if(d){el.style.left=(ev.clientX-ox)+'px';el.style.top=(ev.clientY-oy)+'px'}};
+ el.onpointerup=()=>{d=0;const L=$('letter');el.style.left=(el.offsetLeft/L.offsetWidth*100)+'%';el.style.top=(el.offsetTop/L.offsetHeight*100)+'%'};
  el.onwheel=ev=>{ev.preventDefault();szSt(ev.deltaY<0?8:-8,el)};el.ondblclick=()=>el.remove()}
 function szSt(d,el=selSt){if(!el)return;const w=Math.max(28,Math.min(180,el.offsetWidth+d));el.style.width=el.style.height=w+'px'}
 function clearSt(){$('letter').querySelectorAll('.st').forEach(s=>s.remove())}
@@ -330,7 +333,7 @@ async function login(){try{await auth.signInWithPopup(provider())}catch(e){$('le
 auth.onAuthStateChanged(u=>{if(new URLSearchParams(location.search).get('l'))return;user=u;$('login').hidden=!!u;$('app').hidden=!u;if(u){$('who').textContent=u.displayName||u.email;if(!$('sender').value){$('sender').value=u.displayName||'';$('sender').oninput({target:$('sender')})}mark();paintMain();list()}});
 
 /* ---------- lưu / tải thư ---------- */
-function gather(){const st=[...$('letter').querySelectorAll('.st')].map(s=>({e:s.dataset.k,x:s.offsetLeft/$('letter').offsetWidth,y:s.offsetTop,w:s.offsetWidth}));
+function gather(){const L=$('letter');const st=[...L.querySelectorAll('.st')].map(s=>({e:s.dataset.k,x:s.offsetLeft/L.offsetWidth,y:s.offsetTop/L.offsetHeight,w:s.offsetWidth}));
  return{uid:user.uid,sender:$('sender').value.trim()||'Người thương',toName:$('toname').value.trim(),email:$('email').value.trim(),music:$('music').value.trim(),env:S,date:$('dateln').value,photo,st,text:{vi:$('t-vi').value,en:$('t-en').value,zh:$('t-zh').value},updated:Date.now()}}
 async function save(){if(!$('t-vi').value.trim())return msg('Hãy viết vài dòng',false);try{const d=gather();if(id)await db.collection('letters').doc(id).set(d);else id=(await db.collection('letters').add(d)).id;msg('Đã lưu thư ✔');list()}catch(e){msg('Lưu lỗi: '+e.message,false)}}
 async function list(){const q=await db.collection('letters').where('uid','==',user.uid).get();const a=q.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>y.updated-x.updated);
@@ -338,7 +341,7 @@ async function list(){const q=await db.collection('letters').where('uid','==',us
   r.querySelector('a').onclick=()=>load(l);r.querySelector('a.d').onclick=async()=>{if(confirm('Xoá thư này?')){await db.collection('letters').doc(l.id).delete();if(id==l.id)id=null;list()}};$('lst').appendChild(r)})}
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function load(l){id=l.id;S={...DEF,...l.env};$('t-vi').value=l.text.vi||'';$('t-en').value=l.text.en||'';$('t-zh').value=l.text.zh||'';$('sender').value=l.sender;$('sender').oninput({target:$('sender')});$('toname').value=l.toName||'';$('email').value=l.email||'';$('dateln').value=l.date||'';$('music').value=l.music||'';setPhoto(l.photo||'');
- clearSt();(l.st||[]).forEach(s=>addSt(s.e,s.x,s.y,s.w||64));mark();paintMain();go('letter');['vi','en','zh'].forEach(k=>grow($('t-'+k)))}
+ clearSt();(l.st||[]).forEach(s=>{let yy=s.y;if(yy>1)yy=Math.min(0.9,yy/800);addSt(s.e,s.x,yy,s.w||64)});mark();paintMain();go('letter');['vi','en','zh'].forEach(k=>grow($('t-'+k)))}
 function newLetter(){id=null;S={...DEF};['t-vi','t-en','t-zh','toname','email','dateln','music'].forEach(i=>$(i).value='');setPhoto('');clearSt();$('msg').hidden=true;mark();paintMain();go('env')}
 
 /* ---------- Dịch (qua Cloudflare Worker) ---------- */
@@ -437,7 +440,9 @@ function viewer(l){const o={...DEF,...l.env};envApply('v',o,l.updated);addr('v',
  const show=k=>{$('vtext').className='vt '+k;$('vtext').textContent=l.text[k];$('vtabs').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.l==k))};
  if(langs.length>1)langs.forEach(k=>{const b=document.createElement('button');b.textContent=names[k];b.dataset.l=k;b.onclick=()=>show(k);$('vtabs').appendChild(b)});
  show(langs[0]||'vi');
- (l.st||[]).forEach(s=>{const el=document.createElement('div');el.className='st';el.style.cssText=`left:${s.x*100}%;top:${s.y}px;cursor:default`;el.innerHTML=stHTML(s.e);el.style.width=el.style.height=(s.w||56)+'px';$('vletter').appendChild(el)});
+ (l.st||[]).forEach(s=>{const el=document.createElement('div');el.className='st';
+  let yy=s.y;if(yy>1)yy=Math.min(0.9,yy/800);
+  el.style.cssText=`left:${s.x*100}%;top:${yy*100}%;cursor:default`;el.innerHTML=stHTML(s.e);el.style.width=el.style.height=(s.w||56)+'px';$('vletter').appendChild(el)});
  const e=$('venv');
  const openIt=()=>{e.classList.add('open');$('vhint').textContent='';setTimeout(()=>$('paper').classList.add('show'),2200)};
  $('vseal').onclick=()=>{if(e.classList.contains('open'))return;if(!vRot.front()){vRot.flip();setTimeout(openIt,750)}else openIt()};
