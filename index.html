@@ -341,29 +341,34 @@ function load(l){id=l.id;S={...DEF,...l.env};$('t-vi').value=l.text.vi||'';$('t-
  clearSt();(l.st||[]).forEach(s=>addSt(s.e,s.x,s.y,s.w||64));mark();paintMain();go('letter');['vi','en','zh'].forEach(k=>grow($('t-'+k)))}
 function newLetter(){id=null;S={...DEF};['t-vi','t-en','t-zh','toname','email','dateln','music'].forEach(i=>$(i).value='');setPhoto('');clearSt();$('msg').hidden=true;mark();paintMain();go('env')}
 
-/* ---------- Gemini dịch (qua Cloudflare Worker) ---------- */
+/* ---------- Dịch (qua Cloudflare Worker) ---------- */
 const GEMINI_PROXY = 'https://gemini-proxy.ngthuhuong139.workers.dev';
 async function tr(l){
-  const src = $('t-vi').value.trim();
+  const srcEl = $('t-vi');
+  const dstEl = $('t-' + l);
+  if(!srcEl || !dstEl) return msg('Không tìm thấy ô thư. Hãy tải lại trang.', false);
+  const src = (srcEl.value || '').trim();
   if(!src) return msg('Hãy viết tiếng Việt trước', false);
-  if($('t-'+l).value.trim() && !confirm('Thay bản đã có bằng bản dịch mới?')) return;
-  msg('Gemini đang dịch...');
-  $('trbtn').disabled = true;
+  if((dstEl.value || '').trim() && !confirm('Thay bản đã có bằng bản dịch mới?')) return;
+  msg('Đang dịch...');
+  if($('trbtn')) $('trbtn').disabled = true;
   try {
     const r = await fetch(GEMINI_PROXY, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: src, target: l })
     });
-    const j = await r.json();
-    if(!r.ok) throw new Error(j.error || r.status);
-    $('t-'+l).value = (j.result || '').trim();
-    $('tabs').querySelector(`[data-l=${l}]`).click();
+    const j = await r.json().catch(() => ({}));
+    if(!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
+    dstEl.value = (j.result || '').trim();
+    grow(dstEl);
+    const tab = $('tabs') && $('tabs').querySelector(`[data-l=${l}]`);
+    if(tab) tab.click();
     msg('Đã dịch ✔ (bạn có thể sửa lại)');
   } catch(e) {
     msg('Dịch lỗi: ' + e.message, false);
   }
-  $('trbtn').disabled = false;
+  if($('trbtn')) $('trbtn').disabled = false;
 }
 
 /* ---------- gửi Gmail ---------- */
