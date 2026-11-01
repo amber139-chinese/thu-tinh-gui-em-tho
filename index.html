@@ -335,7 +335,130 @@ auth.onAuthStateChanged(u=>{if(new URLSearchParams(location.search).get('l'))ret
 /* ---------- lưu / tải thư ---------- */
 function gather(){const L=$('letter');const st=[...L.querySelectorAll('.st')].map(s=>({e:s.dataset.k,x:s.offsetLeft/L.offsetWidth,y:s.offsetTop/L.offsetHeight,w:s.offsetWidth}));
  return{uid:user.uid,sender:$('sender').value.trim()||'Người thương',toName:$('toname').value.trim(),email:$('email').value.trim(),music:$('music').value.trim(),env:S,date:$('dateln').value,photo,st,text:{vi:$('t-vi').value,en:$('t-en').value,zh:$('t-zh').value},updated:Date.now()}}
-async function save(){if(!$('t-vi').value.trim())return msg('Hãy viết vài dòng',false);try{const d=gather();if(id)await db.collection('letters').doc(id).set(d);else id=(await db.collection('letters').add(d)).id;msg('Đã lưu thư ✔');list()}catch(e){msg('Lưu lỗi: '+e.message,false)}}
+
+async function save() {
+  if (!$('t-vi').value.trim()) {
+    return msg('Hãy viết vài dòng', false);
+  }
+
+  try {
+    const d = gather();
+
+    // Lưu thư lên cơ sở dữ liệu như trước
+    if (id) {
+      await db.collection('letters').doc(id).set(d);
+    } else {
+      id = (await db.collection('letters').add(d)).id;
+    }
+
+    // Tạo nội dung HTML để tải về
+    const languages = [
+      ['vi', 'Tiếng Việt'],
+      ['en', 'English'],
+      ['zh', '中文']
+    ];
+
+    const sections = languages
+      .filter(([key]) => d.text && d.text[key])
+      .map(([key, name]) => `
+        <section>
+          <h2>${name}</h2>
+          <div class="letter-text">${esc(d.text[key]).replace(/\n/g, '<br>')}</div>
+        </section>
+      `).join('');
+
+    const html = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(d.toName || 'Thư gửi em')}</title>
+<style>
+  body {
+    margin: 0;
+    padding: 40px 16px;
+    background: #f7f1e8;
+    color: #51463d;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+  main {
+    max-width: 720px;
+    margin: auto;
+    padding: 40px;
+    background: #fffdf7;
+    border: 1px solid #e7d9c5;
+    box-shadow: 0 5px 25px #00000010;
+  }
+  h1 {
+    text-align: center;
+    color: #98745d;
+    font-weight: normal;
+  }
+  h2 {
+    color: #98745d;
+    font-size: 18px;
+    border-bottom: 1px solid #e8ddcf;
+    padding-bottom: 8px;
+  }
+  section { margin-top: 30px; }
+  .letter-text {
+    font-size: 17px;
+    line-height: 1.9;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .info {
+    text-align: center;
+    color: #9b8b7c;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  @media(max-width: 600px) {
+    main { padding: 24px 18px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>${esc(d.toName || 'Thư gửi em')}</h1>
+  <div class="info">
+    ${d.sender ? 'Người gửi: ' + esc(d.sender) + '<br>' : ''}
+    ${d.date ? 'Ngày: ' + esc(d.date) : ''}
+  </div>
+  ${sections}
+</main>
+</body>
+</html>`;
+
+    // Tải file HTML về máy
+    const blob = new Blob([html], {
+      type: 'text/html;charset=utf-8'
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+
+    const filename = (d.toName || 'Thu-gui-em')
+      .replace(/[\\/:*?"<>|]/g, '-')
+      .trim();
+
+    a.href = url;
+    a.download = filename + '.html';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    msg('Đã lưu thư và tải file HTML về máy ✔');
+    list();
+
+  } catch (e) {
+    console.error('Save error:', e);
+    msg('Lưu lỗi: ' + e.message, false);
+  }
+}
+
 async function list(){const q=await db.collection('letters').where('uid','==',user.uid).get();const a=q.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>y.updated-x.updated);
  $('lst').innerHTML=a.length?'':'Chưa có thư';a.forEach(l=>{const r=document.createElement('div');r.innerHTML=`<span>${esc((l.text.vi||'').slice(0,26))||'(trống)'} → ${esc(l.toName||l.email||'?')}</span><span><a>Mở</a> <a class="d">Xoá</a></span>`;
   r.querySelector('a').onclick=()=>load(l);r.querySelector('a.d').onclick=async()=>{if(confirm('Xoá thư này?')){await db.collection('letters').doc(l.id).delete();if(id==l.id)id=null;list()}};$('lst').appendChild(r)})}
