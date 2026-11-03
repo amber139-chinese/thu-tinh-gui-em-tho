@@ -192,7 +192,7 @@ mask:radial-gradient(circle at 50% 0,#0000 3px,#000 3.5px) 0 0/10px 100% repeat-
 #mz .letter.sheet{position:relative;transform:none}
 /* viewer */
 #view{position:fixed;inset:0;background:radial-gradient(#264a2a,#0f1e11);z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;overflow:auto;padding:16px}
-.vtitle{font-size:2.3rem;color:#f2e8d5;text-align:center}
+.vtitle{font-family:'Great Vibes',cursive;font-size:clamp(2.4rem,6vw,3.2rem);color:#f2e8d5;text-align:center;letter-spacing:.02em;text-shadow:0 2px 10px rgba(0,0,0,.4)}
 #paper{position:fixed;inset:0;background:rgba(5,12,6,.85);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:24px 10px;z-index:70;opacity:0;pointer-events:none;transition:opacity .7s}
 #paper.show{opacity:1;pointer-events:auto}#paper .sheetbox{transform:translateY(60px) scale(.9);transition:transform .8s}#paper.show .sheetbox{transform:none}#paper .lw{padding-bottom:80px}
 .vp{display:none}
@@ -283,7 +283,7 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
       <input class="f" id="music" placeholder="Dán link YouTube hoặc link file .mp3">
       <div class="g2"><button class="btn g" id="musplay" onclick="musToggle()">▶ Nghe nhạc</button><button class="btn g" onclick="musIn.click()">Tải file nhạc lên</button></div>
       <label style="margin-top:6px">Âm lượng</label><input type="range" id="musvol" min="0" max="100" value="60">
-      <p class="note">Bấm Nghe nhạc để vừa viết vừa nghe. Nhạc sẽ phát cho người nhận khi họ mở phong bì.</p>
+      <p class="note">Bấm Nghe nhạc để vừa viết vừa nghe. Nhạc sẽ phát cho người nhận khi họ mở phong bì. Link MP3 phải là link trực tiếp tới file; tải file lên thì dùng Cloudinary (tối đa 20MB). Để trống nếu không muốn có nhạc.</p>
       <input type="file" id="musIn" accept="audio/*" hidden></div>
     <div class="sec s-env"><h3>Ghi trên phong bì</h3><label>Tên người nhận</label><input class="f" id="toname" maxlength="28" placeholder="Em thơ"><label>Tên người gửi</label><input class="f" id="sender" maxlength="28" placeholder="Tên của bạn"></div>
     <div class="sec s-env"><h3>Dịp đặc biệt <small>(chọn nhanh bộ phong bì)</small></h3><div class="g3" id="evs"></div></div>
@@ -944,7 +944,7 @@ function buildAcc(o,acc){const box=$('vacc');box.innerHTML='';if(!acc.length)ret
  b.onclick=()=>{const w=document.createElement('div');w.className='vitem';w.innerHTML=accHTML(acc[n++]);$('vlist').appendChild(w);upd();setTimeout(()=>w.scrollIntoView({behavior:'smooth',block:'center'}),100)};upd()}
 
 function viewer(l){const o=norm(l.env);o.sealed=true;envApply('v',o,l.updated);addr('v',l.toName,l.sender);
- $('vtitle').textContent='💌 Thư từ '+l.sender;calcZ();
+ $('vtitle').textContent='Thư từ '+l.sender;calcZ();
  const langs=['vi','en','zh'].filter(k=>l.text[k]&&l.text[k].trim()),names={vi:'Tiếng Việt',en:'English',zh:'中文'};
  const acc=(l.acc||[]).concat((l.st||[]).filter(s=>s.e&&s.e[0]=='@'));
  const stm=(l.st||[]).filter(s=>!(s.e&&s.e[0]=='@')).map(s=>{let yy=s.y;if(yy>1)yy=Math.min(0.9,yy/800);return{...s,y:yy,w:s.w||56,p:s.p||0}});
