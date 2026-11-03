@@ -250,13 +250,11 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
 .insc.go{transform:translateY(230px) scale(.7) rotate(2deg);opacity:0}
 .inst{margin-top:6px;color:#c5dbc0;font-style:italic;min-height:1.4em}
 #insz .stamper,.vacc .stamper{display:none}
-.vacc{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:18px;width:100%;color:#c5dbc0;position:relative;z-index:80}
+.vacc{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:14px;width:100%;color:#c5dbc0}
 .vacc .btn{width:auto;padding:10px 26px}
-.vlist{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;position:relative;z-index:2}
-.vitem{width:220px;animation:vrise .9s cubic-bezier(.2,.8,.3,1) both;position:relative;z-index:2}
+.vlist{display:flex;flex-wrap:wrap;gap:24px;justify-content:center}
+.vitem{width:190px;animation:vrise .9s cubic-bezier(.2,.8,.3,1) both}
 .vitem img{width:100%;display:block}
-.vitem .pol{pointer-events:auto}
-.vitem audio,.vitem video{position:relative;z-index:3;pointer-events:auto;width:100%}
 @keyframes vrise{from{opacity:0;transform:translateY(200px) scale(.4) rotate(-8deg)}to{opacity:1;transform:none}}
 </style>
 </head>
@@ -343,8 +341,7 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
   <div class="hint" id="vhint">Kéo để xoay phong bì • chạm vào con dấu để mở thư</div>
   <button class="btn g mini" onclick="vRot.flip()">↻ Lật phong bì</button>
   <div id="paper"><div class="lw"><div class="tabs" id="vtabs"></div>
-    <div class="pgs" id="vpgs"></div></div></div>
-  <div class="vacc" id="vacc"></div>
+    <div class="pgs" id="vpgs"></div><div class="vacc" id="vacc"></div></div></div>
   <button class="btn" id="reread" hidden onclick="$('paper').classList.add('show');this.hidden=true">📖 Đọc lại thư</button>
 </div>
 
@@ -864,7 +861,7 @@ $('stk').innerHTML='';Object.keys(STK).filter(k=>k.startsWith('h_')).forEach(k=>
 function accHTML(m){const k=m.e;
  if(k=='@pol')return `<div class="pol ${m.d||''}"><img src="${m.src}"><div>${esc(m.cap||'')}</div></div>`;
  if(k=='@img')return `<img src="${m.src}" style="width:100%;display:block">`;
- if(k=='@aud')return `<div class="pol kraft" style="padding-bottom:10px"><svg viewBox="0 0 80 40" width="100%" style="display:block;margin-bottom:6px"><rect x="2" y="2" width="76" height="36" rx="4" fill="#efe3c8" stroke="#5a4028"/><circle cx="24" cy="20" r="8" fill="#5a4028"/><circle cx="56" cy="20" r="8" fill="#5a4028"/><circle cx="24" cy="20" r="3" fill="#efe3c8"/><circle cx="56" cy="20" r="3" fill="#efe3c8"/></svg><audio controls src="${m.src}" style="width:100%;height:36px;display:block;position:relative;z-index:5"></audio></div>`;
+ if(k=='@aud')return `<div class="pol kraft"><svg viewBox="0 0 80 40" width="100%"><rect x="2" y="2" width="76" height="36" rx="4" fill="#efe3c8" stroke="#5a4028"/><circle cx="24" cy="20" r="8" fill="#5a4028"/><circle cx="56" cy="20" r="8" fill="#5a4028"/><circle cx="24" cy="20" r="3" fill="#efe3c8"/><circle cx="56" cy="20" r="3" fill="#efe3c8"/></svg><audio controls src="${m.src}"></audio></div>`;
  if(k=='@vid')return `<div class="pol ${m.d||'film'}"><video controls playsinline src="${m.src}"></video></div>`;return ''}
 let ACC=[],FLY=null;
 const ACCN={'@pol':'Polaroid','@img':'Sticker','@aud':'Ghi âm','@vid':'Video'};
@@ -998,7 +995,8 @@ function viewer(l){const o=norm(l.env);o.sealed=true;envApply('v',o,l.updated);a
  const langs=['vi','en','zh'].filter(k=>l.text[k]&&l.text[k].trim()),names={vi:'Tiếng Việt',en:'English',zh:'中文'};
  const acc=(l.acc||[]).concat((l.st||[]).filter(s=>s.e&&s.e[0]=='@'));
  const stm=(l.st||[]).filter(s=>!(s.e&&s.e[0]=='@')).map(s=>{let yy=s.y;if(yy>1)yy=Math.min(0.9,yy/800);return{...s,y:yy,w:s.w||56,p:s.p||0}});
- buildAcc(o,acc);
+ let accReady=false;
+ const showAcc=()=>{if(accReady||!acc.length)return;accReady=true;buildAcc(o,acc)};
  let cur=langs[0]||'vi';
  const show=k=>{cur=k;const ctx={o,l:k,date:l.date||'',photo:l.photo||'',ph:o.pf!='none'&&!!l.photo,sig:'— '+l.sender,max:99},r=paginate(l.text[k]||'',k,ctx),box=$('vpgs');box.innerHTML='';
   const sh=r.pages.map((p,i)=>{const s=buildSheet({...ctx,idx:i,total:r.pages.length,text:p,ro:true});const bx=document.createElement('div');bx.className='sheetbox';bx.appendChild(s);box.appendChild(bx);return s});
@@ -1009,7 +1007,7 @@ function viewer(l){const o=norm(l.env);o.sealed=true;envApply('v',o,l.updated);a
  const e=$('venv');
  const openIt=()=>{e.classList.add('open');$('vhint').textContent='';setTimeout(()=>$('paper').classList.add('show'),2200)};
  $('vseal').onclick=()=>{if(e.classList.contains('open'))return;if(l.music&&!MUS.started)musStart(l.music);if(!vRot.front()){vRot.flip();setTimeout(openIt,750)}else openIt()};
- $('paper').onclick=ev=>{if(ev.target==$('paper')||ev.target.classList.contains('lw')||ev.target.classList.contains('pgs')){$('paper').classList.remove('show');$('reread').hidden=false}}
+ $('paper').onclick=ev=>{if(ev.target==$('paper')||ev.target.classList.contains('lw')||ev.target.classList.contains('pgs')){$('paper').classList.remove('show');$('reread').hidden=false;showAcc()}};
  musPrime(l.music);
 }
 </script>
