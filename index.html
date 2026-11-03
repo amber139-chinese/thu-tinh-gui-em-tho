@@ -279,6 +279,12 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
     </div>
   </div>
   <div class="panel">
+    <div class="sec" id="musec"><h3>🎵 Nhạc nền <small>(YouTube hoặc MP3)</small></h3>
+      <input class="f" id="music" placeholder="Dán link YouTube hoặc link file .mp3">
+      <div class="g2"><button class="btn g" id="musplay" onclick="musToggle()">▶ Nghe nhạc</button><button class="btn g" onclick="musIn.click()">Tải file nhạc lên</button></div>
+      <label style="margin-top:6px">Âm lượng</label><input type="range" id="musvol" min="0" max="100" value="60">
+      <p class="note">Bấm Nghe nhạc để vừa viết vừa nghe. Nhạc sẽ phát cho người nhận khi họ mở phong bì. Link MP3 phải là link trực tiếp tới file; tải file lên thì dùng Cloudinary (tối đa 20MB). Để trống nếu không muốn có nhạc.</p>
+      <input type="file" id="musIn" accept="audio/*" hidden></div>
     <div class="sec s-env"><h3>Ghi trên phong bì</h3><label>Tên người nhận</label><input class="f" id="toname" maxlength="28" placeholder="Em thơ"><label>Tên người gửi</label><input class="f" id="sender" maxlength="28" placeholder="Tên của bạn"></div>
     <div class="sec s-env"><h3>Dịp đặc biệt <small>(chọn nhanh bộ phong bì)</small></h3><div class="g3" id="evs"></div></div>
     <div class="sec s-env"><h3>Hình dạng nắp</h3><div class="g3" id="shapes"></div></div>
@@ -301,17 +307,12 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
     <div class="sec s-letter"><h3>Font chữ <small id="fontlang"></small></h3><div class="g3" id="fonts"></div><p class="note">Chuyển tab ngôn ngữ phía trên lá thư để chọn font cho từng ngôn ngữ.</p></div>
     <div class="sec s-letter"><h3>Màu mực</h3><div class="sw" id="sw-ink"></div></div>
     <div class="sec s-letter"><h3>Hoạ tiết trang trí</h3><div class="g4" id="stk"></div><p class="note">Bấm là hoạ tiết dán lên thư ngay • kéo để di chuyển • cuộn chuột hoặc nút +/− để đổi cỡ • double-click để xoá</p><div class="nav"><button class="btn g" onclick="szSt(10)">＋ Lớn</button><button class="btn g" onclick="szSt(-10)">－ Nhỏ</button><button class="btn g" onclick="clearSt()">Xoá hết</button></div></div>
-    <div class="sec s-letter"><h3>Phụ kiện kèm thư</h3><label>Kiểu thiết kế (polaroid / video)</label><select class="f" id="accd"><option value="">Polaroid trắng</option><option value="kraft">Giấy kraft + băng keo</option><option value="film">Phim đen</option></select><div class="g2"><button class="btn g" onclick="polIn.click()">Polaroid</button><button class="btn g" onclick="imgIn.click()">Sticker của bạn</button><button class="btn g" id="recb" onclick="rec()">Ghi âm</button><button class="btn g" onclick="vidIn.click()">Video</button></div><p class="note">Mỗi món sẽ được bỏ vào phong bì, người nhận rút ra lần lượt sau khi đọc thư.</p><div class="lst" id="acclst"></div><input type="file" id="polIn" accept="image/*" hidden><input type="file" id="imgIn" accept="image/*" hidden><input type="file" id="vidIn" accept="video/*" hidden></div>
+    <div class="sec s-letter"><h3>Phụ kiện kèm thư</h3><label>Kiểu thiết kế (polaroid / video)</label><select class="f" id="accd"><option value="">Polaroid trắng</option><option value="kraft">Giấy kraft + băng keo</option><option value="film">Phim đen</option></select><div class="g2"><button class="btn g" onclick="polIn.click()">Polaroid</button><button class="btn g" onclick="imgIn.click()">Sticker của bạn</button><button class="btn g" id="recb" onclick="rec()">Ghi âm</button><button class="btn g" onclick="vidIn.click()">Video</button></div><p class="note">Mỗi món sẽ được bỏ vào phong bì, người nhận rút ra lần lượt sau khi đọc thư. Ghi âm và video được tải lên Cloudinary.</p><div class="lst" id="acclst"></div><input type="file" id="polIn" accept="image/*" hidden><input type="file" id="imgIn" accept="image/*" hidden><input type="file" id="vidIn" accept="video/*" hidden></div>
 <div class="sec s-letter"><h3>Bản dịch</h3><p style="font-size:.88rem;color:#a0c098;margin-bottom:8px">Viết tiếng Việt xong, bấm tab <b>English</b> hoặc <b>中文</b> phía trên lá thư rồi bấm nút <b>Dịch</b>. Kết quả hiện thẳng vào thư, bạn sửa tuỳ ý.</p></div>
     <div class="nav s-letter"><button class="btn g" onclick="go('env')">← Phong bì</button><button class="btn" onclick="go('send')">Tiếp: Gửi →</button></div>
 
     <div class="sec s-send"><h3>Gửi thư</h3><label>Email người nhận</label><input class="f" id="email" type="email" placeholder="em@gmail.com">
       <button class="btn g" onclick="save()">💾 Lưu thư</button><button class="btn" onclick="send()">Gửi qua Gmail của tôi ✉</button><button class="btn g" onclick="copyLink()">🔗 Copy link thư</button><button class="btn g" onclick="newLetter()">+ Thư mới</button></div>
-    <div class="sec s-send"><h3>Nhạc nền (YouTube)</h3>
-      <label>Dán link YouTube</label>
-      <input class="f" id="music" placeholder="https://www.youtube.com/watch?v=... hoặc https://youtu.be/...">
-      <p class="note">Để trống nếu không muốn có nhạc</p>
-    </div>
     <div class="sec s-send"><h3>Thư đã lưu</h3><div class="lst" id="lst">Chưa có thư</div></div>
     <div class="nav s-send"><button class="btn g" onclick="go('letter')">← Lá thư</button></div>
     <div class="msg" id="msg" hidden></div>
@@ -331,12 +332,13 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
   <div id="paper"><div class="lw"><div class="tabs" id="vtabs"></div>
     <div class="pgs" id="vpgs"></div><div class="vacc" id="vacc"></div></div></div>
   <button class="btn" id="reread" hidden onclick="$('paper').classList.add('show');this.hidden=true">📖 Đọc lại thư</button>
-  <div id="music-box" hidden style="position:fixed;bottom:20px;right:20px;z-index:80;display:flex;gap:8px;align-items:center">
-    <button id="music-toggle" style="background:#2a4530;border:1px solid #4a7c42;color:#c8e0b8;padding:8px 14px;border-radius:20px;cursor:pointer;font-family:inherit">🔊 Tắt nhạc</button>
-  </div>
-  <iframe id="yt-player" style="position:absolute;width:0;height:0;opacity:0;pointer-events:none" allow="autoplay; encrypted-media" src=""></iframe>
 </div>
 
+<div id="music-box" hidden style="position:fixed;bottom:18px;left:18px;z-index:130;display:flex;gap:8px;align-items:center;background:#122016ee;border:1px solid #4a7c42;border-radius:22px;padding:5px 8px 5px 5px">
+  <button id="music-toggle" onclick="musToggle()" style="background:#2a4530;border:1px solid #4a7c42;color:#c8e0b8;padding:7px 14px;border-radius:18px;cursor:pointer;font-family:inherit">🔇 Bật nhạc</button>
+  <span style="color:#a0c098;font-size:.8rem">🎵</span><input type="range" id="musvol2" min="0" max="100" value="60" style="width:80px;accent-color:#7fbf70">
+</div>
+<iframe id="yt-player" style="position:fixed;left:-9999px;top:0;width:220px;height:220px;border:0;pointer-events:none" allow="autoplay; encrypted-media" src=""></iframe>
 <script>
 /* ====== CẤU HÌNH — config Firebase ====== */
 const FIREBASE_CONFIG={apiKey:"AIzaSyCMg2YKbcmx4-NsIdDBGRFHBp3yGxR9d4k",authDomain:"letter-project-9d674.firebaseapp.com",projectId:"letter-project-9d674",storageBucket:"letter-project-9d674.firebasestorage.app",messagingSenderId:"218227197117",appId:"1:218227197117:web:e54fdcecbb1eee327963d4"};
@@ -786,25 +788,37 @@ async function send(){
 }
 async function copyLink(){if(!TXT.vi.trim())return msg('Hãy viết vài dòng',false);try{if(!await save(false))return;const u=location.origin+location.pathname+'?l='+id;await navigator.clipboard.writeText(u);msg('Đã copy link thư ✔ gửi cho ai cũng được')}catch(e){msg('Lỗi: '+e.message,false)}}
 
-/* ---------- Music (YouTube) ---------- */
-function getYoutubeId(url) {
-  if (!url) return null;
-  const reg = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-  const match = url.match(reg);
-  return match ? match[1] : null;
-}
-function playMusic(url) {
-  const id = getYoutubeId(url);
-  if (!id) return;
-  const player = document.getElementById('yt-player'), box = document.getElementById('music-box'), btn = document.getElementById('music-toggle');
-  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}&controls=0&modestbranding=1`;
-  box.hidden = false;
-  let playing = true;
-  btn.onclick = () => {
-    if (playing) { player.src = ''; btn.textContent = '🔇 Bật nhạc'; playing = false; }
-    else { player.src = `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}&controls=0&modestbranding=1`; btn.textContent = '🔊 Tắt nhạc'; playing = true; }
-  };
-}
+/* ---------- Nhạc nền: YouTube hoặc MP3 (nghe được cả lúc viết thư lẫn lúc người nhận mở) ---------- */
+function getYoutubeId(url){if(!url)return null;const m=url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);return m?m[1]:null}
+const MUS={url:'',k:'',au:null,started:false,on:false,vol:60};
+function parseMusic(u){u=(u||'').trim();if(!u)return null;const y=getYoutubeId(u);if(y)return{k:'yt',id:y};if(/^https?:\/\//i.test(u))return{k:'au',url:u};return null}
+function ytCmd(fn,args){try{$('yt-player').contentWindow.postMessage(JSON.stringify({event:'command',func:fn,args:args||[]}),'*')}catch(e){}}
+function musUI(){const b=$('music-toggle'),p=$('musplay'),box=$('music-box');box.hidden=!MUS.url;b.textContent=MUS.on?'🔊 Tắt nhạc':'🔇 Bật nhạc';p.textContent=MUS.on?'⏸ Dừng nhạc':'▶ Nghe nhạc'}
+function musKill(){if(MUS.au){MUS.au.pause();MUS.au=null}$('yt-player').src='';MUS.started=false;MUS.on=false}
+function musStart(url){url=(url||'').trim();const m=parseMusic(url);musKill();MUS.url=m?url:'';
+ if(!m){musUI();if(url)msg('Link nhạc chưa đúng. Hãy dán link YouTube hoặc link trực tiếp tới file .mp3',false);return false}
+ MUS.k=m.k;MUS.started=true;MUS.on=true;
+ if(m.k=='yt'){const f=$('yt-player');f.onload=()=>setTimeout(()=>ytCmd('setVolume',[MUS.vol]),900);f.src=`https://www.youtube.com/embed/${m.id}?autoplay=1&loop=1&playlist=${m.id}&controls=0&enablejsapi=1&modestbranding=1&playsinline=1`}
+ else{const a=new Audio(m.url);a.loop=true;a.volume=MUS.vol/100;
+  a.onerror=()=>{if(MUS.au!==a)return;MUS.on=false;musUI();msg('Không phát được link nhạc này. Hãy dùng link YouTube hoặc link trực tiếp tới file .mp3',false)};
+  a.play().catch(()=>{if(MUS.au===a){MUS.on=false;musUI()}});MUS.au=a}
+ musUI();return true}
+function musToggle(){const v=($('music').value||'').trim()||MUS.url;
+ if(!v)return msg('Hãy dán link YouTube hoặc MP3 trước',false);
+ if(!MUS.started||v!=MUS.url){musStart(v);return}
+ if(MUS.on){MUS.on=false;if(MUS.k=='yt')ytCmd('pauseVideo');else MUS.au&&MUS.au.pause()}
+ else{MUS.on=true;if(MUS.k=='yt')ytCmd('playVideo');else MUS.au&&MUS.au.play().catch(()=>{})}
+ musUI()}
+/* người nhận bấm phát ghi âm / video trong phong bì → nhạc nền tự dừng */
+function musPause(){if(!MUS.on)return;MUS.on=false;if(MUS.k=='yt')ytCmd('pauseVideo');else MUS.au&&MUS.au.pause();musUI()}
+document.addEventListener('play',e=>{const t=e.target;if(t&&t.closest&&t.closest('#vacc'))musPause()},true);
+/* người nhận: chuẩn bị sẵn nút nhạc, nhạc tự phát khi họ chạm vào dấu sáp */
+function musPrime(url){MUS.url=(url||'').trim();musUI()}
+function musVol(v){MUS.vol=+v;if(MUS.au)MUS.au.volume=MUS.vol/100;if(MUS.k=='yt')ytCmd('setVolume',[MUS.vol]);$('musvol').value=v;$('musvol2').value=v}
+$('musvol').oninput=e=>musVol(e.target.value);$('musvol2').oninput=e=>musVol(e.target.value);
+$('music').onchange=()=>{const v=$('music').value.trim();if(!v){musKill();MUS.url='';musUI();return}if(MUS.started)musStart(v);else{MUS.url=v;musUI()}};
+$('musIn').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(f.size>20e6)return msg('File nhạc tối đa 20MB',false);msg('Đang tải nhạc lên...');
+ try{const u=await upl(f);$('music').value=u;msg('Đã tải nhạc lên ✔');musStart(u)}catch(er){msg('Tải nhạc lỗi (kiểm tra cloud name và preset Cloudinary): '+er.message,false)}};
 
 /* ---------- ruy băng tự cột ---------- */
 const _rib=ribbon;
@@ -944,9 +958,9 @@ function viewer(l){const o=norm(l.env);o.sealed=true;envApply('v',o,l.updated);a
  if(document.fonts&&document.fonts.addEventListener)document.fonts.addEventListener('loadingdone',()=>show(cur));
  const e=$('venv');
  const openIt=()=>{e.classList.add('open');$('vhint').textContent='';setTimeout(()=>$('paper').classList.add('show'),2200)};
- $('vseal').onclick=()=>{if(e.classList.contains('open'))return;if(!vRot.front()){vRot.flip();setTimeout(openIt,750)}else openIt()};
+ $('vseal').onclick=()=>{if(e.classList.contains('open'))return;if(l.music&&!MUS.started)musStart(l.music);if(!vRot.front()){vRot.flip();setTimeout(openIt,750)}else openIt()};
  $('paper').onclick=ev=>{if(ev.target==$('paper')||ev.target.classList.contains('lw')||ev.target.classList.contains('pgs')){$('paper').classList.remove('show');$('reread').hidden=false}}
- if (l.music) { setTimeout(() => playMusic(l.music), 2500); }
+ musPrime(l.music);
 }
 </script>
 </body>
