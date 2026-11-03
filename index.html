@@ -118,6 +118,12 @@ label{font-size:.85rem;color:#a0c098;display:block;margin-bottom:2px}
 .face.b[data-pat=on] .addr{background:rgba(255,249,236,.9);color:#4a3524;box-shadow:0 1px 4px rgba(0,0,0,.25)}
 .addr small{font-size:.8rem;opacity:.7;line-height:1.15}.addr .nm{font-size:1.45rem;line-height:1.15;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.al{display:block;width:150px;max-width:100%;border-bottom:1.5px dashed currentColor;opacity:.35;height:10px}
 .air{display:none;position:absolute;inset:0;z-index:2;pointer-events:none;border:10px solid transparent;border-image:repeating-linear-gradient(135deg,#c0392b 0 12px,#fff 12px 24px,#2a5db0 24px 36px,#fff 36px 48px) 10}.air.on{display:block}
+.air.green{border-image:repeating-linear-gradient(135deg,#1e6b3a 0 12px,#fff 12px 24px,#c9a030 24px 36px,#fff 36px 48px) 10}
+.air.gold{border:0;border-image:none;box-shadow:inset 0 0 0 3px #c9a030,inset 0 0 0 8px transparent,inset 0 0 0 10px #8a6a18}
+.air.dash{border:0;border-image:none;box-shadow:inset 0 0 0 3px rgba(60,40,30,.55)}
+.air.rose{border-image:repeating-linear-gradient(90deg,#e07a9a 0 10px,#fff6ee 10px 16px) 10}
+.air.vine{border:0;border-image:none;box-shadow:inset 0 0 0 12px #3f6b38}
+.pm.heart{border-color:#b03a55;color:#b03a55}.pm.avion{width:96px;height:52px;border-radius:3px;color:#1d3f78;border-color:#1d3f78}.pm.kiss{border-style:dashed;color:#a8324a;border-color:#a8324a}.pm.wave{width:120px;height:28px;border:0;background:repeating-linear-gradient(transparent 0 5px,rgba(60,40,30,.55) 5px 7px)}.pm.wave::after{display:none}.pm.star{border-radius:6px;color:#8a6a18;border-color:#8a6a18}
 .pm{display:none;position:absolute;top:34px;right:98px;width:76px;height:76px;border:2px solid rgba(60,40,30,.5);border-radius:50%;align-items:center;justify-content:center;text-align:center;font:700 .62rem/1.3 sans-serif;color:rgba(60,40,30,.6);transform:rotate(-14deg);z-index:3}
 .pm::after{content:'';position:absolute;left:100%;top:28%;width:46px;height:22px;background:repeating-linear-gradient(transparent 0 6px,rgba(60,40,30,.45) 6px 8px)}
 /* stamp (tem thư) */
@@ -198,7 +204,10 @@ mask:radial-gradient(circle at 50% 0,#0000 3px,#000 3.5px) 0 0/10px 100% repeat-
 .vp{display:none}
 .petals{position:fixed;inset:0;pointer-events:none;overflow:hidden}.petal{position:absolute;top:-6vh;opacity:.45;animation:fall linear infinite}
 @keyframes fall{to{transform:translateY(112vh) rotate(360deg)}}
-#reread{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);width:auto;padding:10px 26px;z-index:65}
+#vbar{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:65;display:flex;gap:10px}#vbar .btn{width:auto;padding:10px 24px;margin:0}
+#pfold{position:fixed;top:14px;right:14px;z-index:75;background:#122016e6;margin:0}
+#accz{position:fixed;inset:0;z-index:75;background:radial-gradient(#264a2a,#0f1e11);overflow:auto;display:flex;flex-direction:column;align-items:center;padding:26px 12px 70px;gap:14px}#accz>.vacc{margin:auto 0}#accz .mini{margin-bottom:6px}
+.replybox{max-width:560px;margin:18px auto 40px;background:#fffaf0;color:#4a3524;border-radius:10px;padding:16px}.replybox h3{font-family:'Great Vibes',cursive;font-size:2rem;font-weight:400;color:#7a2a32}.replybox textarea{width:100%;min-height:110px;border:1.5px solid #e0d0b8;border-radius:6px;padding:8px;font:1.05rem 'Cormorant Garamond',serif;background:#fff;color:#2a1c12}.replybox .f{background:#fff;color:#2a1c12;border-color:#e0d0b8}.bell{margin:0 auto 12px;max-width:1180px;background:#243f28;border:1px solid #8bc47e;color:#e7f6e0;border-radius:8px;padding:8px 12px;cursor:pointer}.nnew{color:#f6d77a}
 @media(max-width:920px){.main{grid-template-columns:1fr}.panel{position:static}.ub{position:static;justify-content:center;margin-top:6px}}
 #login{background:radial-gradient(800px 500px at 20% 10%,#2f5a35aa,transparent 70%),radial-gradient(600px 400px at 90% 90%,#5a2f3f55,transparent 70%),#0a140c;display:block;overflow:auto}
 .lp{min-height:100%;position:relative;display:flex;align-items:center;justify-content:center;padding:30px 16px}
@@ -246,16 +255,45 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
 @keyframes fi{from{opacity:0}}
 .insw{position:relative;width:440px;max-width:96vw;padding-top:190px;text-align:center}
 .insw .scene{position:relative;z-index:2;padding:30px}
-.insc{position:absolute;left:50%;top:0;width:150px;margin-left:-75px;z-index:1;transition:transform 1s cubic-bezier(.5,0,.7,.4),opacity .3s .8s}
-.insc.go{transform:translateY(230px) scale(.7) rotate(2deg);opacity:0}
+.insc{position:absolute;left:50%;top:0;width:170px;margin-left:-85px;z-index:20;pointer-events:none;filter:drop-shadow(0 14px 14px rgba(0,0,0,.45));transition:transform 1.05s cubic-bezier(.5,0,.7,.4),opacity .35s .85s}
+.insc.go{transform:translateY(250px) scale(.62) rotate(3deg);opacity:0}
 .inst{margin-top:6px;color:#c5dbc0;font-style:italic;min-height:1.4em}
 #insz .stamper,.vacc .stamper{display:none}
 .vacc{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:14px;width:100%;color:#c5dbc0}
 .vacc .btn{width:auto;padding:10px 26px}
-.vlist{display:flex;flex-wrap:wrap;gap:24px;justify-content:center}
+.vlist{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;position:relative;z-index:30}
+.vlist:empty{display:none}
+#wenv .peek,#ienv .peek{display:none}#wscene{position:relative;z-index:1}
 .vitem{width:190px;animation:vrise .9s cubic-bezier(.2,.8,.3,1) both}
 .vitem img{width:100%;display:block}
 @keyframes vrise{from{opacity:0;transform:translateY(200px) scale(.4) rotate(-8deg)}to{opacity:1;transform:none}}
+
+/* ===== nâng cấp trải nghiệm ===== */
+.vacc .ahead{font:italic 1.35rem 'Cormorant Garamond',serif;color:#f2e8d5;text-align:center;margin:8px 0 4px}
+.vacc .asub{font-size:.95rem;opacity:.8;text-align:center;margin-bottom:10px}
+.vitem{position:relative;z-index:30;filter:drop-shadow(0 12px 12px rgba(0,0,0,.4))}
+.vitem .ord{position:absolute;top:-10px;left:-10px;z-index:3;width:26px;height:26px;border-radius:50%;background:#9b2226;color:#fff;display:grid;place-items:center;font:700 .85rem sans-serif;box-shadow:0 2px 4px #0006}
+#pnote{position:fixed;left:50%;top:14px;transform:translate(-50%,-140%);z-index:80;width:min(520px,92vw);background:#fff8ea;color:#4a3524;border:1.5px solid #d9c3a0;border-radius:12px;padding:12px 16px;box-shadow:0 10px 26px #0007;display:flex;gap:12px;align-items:center;transition:transform .7s cubic-bezier(.2,.9,.3,1.1);font-size:1.02rem;line-height:1.35}
+#pnote.on{transform:translate(-50%,0)}
+#pnote b{color:#9b2226}#pnote .btn{width:auto;margin:0;padding:7px 14px;white-space:nowrap;background:#9b2226;color:#fff}
+#pnote .x{background:0;border:0;color:#8a7a62;font-size:1.3rem;cursor:pointer;padding:0 2px}
+.psnote{width:calc(100% - 60px);margin:4px auto 0;background:#e7cf9d;color:#4a3524;padding:12px 16px;border-radius:3px;transform:rotate(-1.2deg);box-shadow:0 4px 10px #0005;font:1.15rem 'Cormorant Garamond',serif;position:relative;cursor:pointer}
+.psnote::before{content:'';position:absolute;top:-9px;left:42%;width:90px;height:18px;background:rgba(240,200,200,.8);transform:rotate(-3deg)}
+.psnote b{font-family:'Dancing Script',cursive;font-size:1.3rem;color:#9b2226}
+#view #vscene{animation:arrive 1.3s cubic-bezier(.2,.9,.3,1.15) both}
+@keyframes arrive{from{opacity:0;transform:translateY(-70vh) rotate(-9deg) scale(.8)}60%{opacity:1}to{opacity:1;transform:none}}
+.hint.pulse{animation:hp 1.6s ease-in-out infinite}@keyframes hp{50%{opacity:.45}}
+.main[data-step=letter] .pv{background:radial-gradient(ellipse at 50% 0,rgba(255,214,150,.22),transparent 55%),repeating-linear-gradient(92deg,rgba(0,0,0,.05) 0 3px,transparent 3px 9px),linear-gradient(#5b3a22,#3d2616);border-radius:16px;padding:22px 8px 30px;box-shadow:inset 0 0 70px #0009,0 6px 18px #0006}
+.main[data-step=letter] .tabs button{background:#2e1c10;color:#e8d3b0}.main[data-step=letter] .tabs button.on{background:#c9a030;color:#2a1c12}
+.main[data-step=letter] .pgc{color:#e8d3b0}
+.tip{font-size:.9rem;font-style:italic;color:#e8d3b0;opacity:.85;text-align:center;max-width:560px}
+.sheetbox{animation:paperin .6s cubic-bezier(.2,.9,.3,1) both}@keyframes paperin{from{opacity:0;transform:translateY(28px) rotate(-1deg)}}
+#mailz{position:fixed;inset:0;z-index:140;background:rgba(5,12,6,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;animation:fi .3s}
+#mailz .scene{padding:30px}#mailz .stamper{display:none}
+#mailz .fly{animation:away 2.2s .9s cubic-bezier(.6,0,.9,.4) forwards}
+@keyframes away{to{transform:translate(60vw,-80vh) rotate(18deg) scale(.15);opacity:0}}
+#mailz .mt{font:2.6rem 'Great Vibes',cursive;color:#f2e8d5;opacity:0;animation:fi 1s 2.6s forwards}
+.main[data-step=send] .panel .hintbox{font-size:.88rem;color:#a0c098;margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -265,8 +303,9 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
 
 <div id="app" hidden>
 <header><h1>Thư tình gửi em thơ</h1><div class="sub">Chọn phong bì · viết thư · gửi người thương</div>
-  <div class="ub"><span id="who"></span><button onclick="auth.signOut().then(()=>location.reload())">Đăng xuất</button></div></header>
+  <div class="ub"><button id="notiBtn" hidden onclick="notiAsk()">🔔 Bật thông báo lời đáp</button><span id="who"></span><button onclick="auth.signOut().then(()=>location.reload())">Đăng xuất</button></div></header>
 <nav class="stepper" id="stepper"><button class="on" data-s="env"><b>1</b>Phong bì</button><button data-s="letter"><b>2</b>Lá thư</button><button data-s="send"><b>3</b>Lưu &amp; gửi</button></nav>
+<div class="bell" id="bell" hidden></div>
 <div class="main" id="main" data-step="env">
   <div class="pv">
     <div id="p-env" class="stage"><div class="scene" id="sscene"></div><div class="hint2" id="shint"></div><div class="tray" id="tray"><div class="trayb"><div class="slot" id="slot"></div></div><svg id="twz" viewBox="0 0 40 170" width="34" height="150"><rect x="10" y="0" width="20" height="12" rx="4" fill="#8a929e"/><path d="M13 6L19 166" stroke="#c9ced6" stroke-width="5" stroke-linecap="round"/><path d="M27 6L21 166" stroke="#dfe3e8" stroke-width="5" stroke-linecap="round"/></svg></div>
@@ -274,7 +313,7 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
     <div id="p-letter" class="lw">
       <div class="tabs" id="tabs"><button class="on" data-l="vi">Tiếng Việt</button><button data-l="en">English</button><button data-l="zh">中文</button></div>
       <button class="btn mini trb" id="trbtn" hidden onclick="tr(document.querySelector('#tabs [data-l].on')?.dataset.l)">✨ Dịch từ tiếng Việt</button>
-      <div class="pgc" id="pgc"></div>
+      <div class="pgc" id="pgc"></div><div class="tip">Cứ viết như đang cầm bút: chữ tự xuống lá mới khi hết giấy. Chạm vào khung ảnh để đính ảnh, kéo hoạ tiết để dán lên thư.</div>
       <div class="pgs" id="pgs"></div>
     </div>
   </div>
@@ -325,7 +364,8 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
     <div class="nav s-letter"><button class="btn g" onclick="go('env')">← Phong bì</button><button class="btn" onclick="go('send')">Tiếp: Gửi →</button></div>
 
     <div class="sec s-send"><h3>Gửi thư</h3><label>Email người nhận</label><input class="f" id="email" type="email" placeholder="em@gmail.com">
-      <button class="btn g" onclick="save()">💾 Lưu thư</button><button class="btn" onclick="send()">Gửi qua Gmail của tôi ✉</button><button class="btn g" onclick="copyLink()">🔗 Copy link thư</button><button class="btn g" onclick="newLetter()">+ Thư mới</button></div>
+      <label>Mở thư lúc <small>(để trống = mở ngay)</small></label><input class="f" id="openAt" type="datetime-local"><label>Mưa khi mở nắp</label><select class="f" id="rain"><option value="auto">Theo dịp</option><option value="mai">Mai vàng</option><option value="sakura">Hoa anh đào</option><option value="heart">Trái tim</option><option value="mix">Lá và hoa</option><option value="off">Không mưa</option></select><button class="btn g" onclick="save()">💾 Lưu thư</button><button class="btn" onclick="send()">Gửi qua Gmail của tôi ✉</button><button class="btn g" onclick="copyLink()">🔗 Copy link thư</button><button class="btn g" onclick="newLetter()">+ Thư mới</button></div>
+    <div class="sec s-send"><h3>Lời đáp <small id="notiSt"></small></h3><button class="btn g" id="mailBtn" onclick="emailToggle()" style="margin-bottom:4px"></button><p class="note" id="mailNote"></p><div class="lst" id="notices">Chưa có lời đáp</div></div>
     <div class="sec s-send"><h3>Thư đã lưu</h3><div class="lst" id="lst">Chưa có thư</div></div>
     <div class="nav s-send"><button class="btn g" onclick="go('letter')">← Lá thư</button></div>
     <div class="msg" id="msg" hidden></div>
@@ -343,8 +383,10 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
   <div class="hint" id="vhint">Kéo để xoay phong bì • chạm vào con dấu để mở thư</div>
   <button class="btn g mini" onclick="vRot.flip()">↻ Lật phong bì</button>
   <div id="paper"><div class="lw"><div class="tabs" id="vtabs"></div>
-    <div class="pgs" id="vpgs"></div><div class="vacc" id="vacc"></div></div></div>
-  <button class="btn" id="reread" hidden onclick="$('paper').classList.add('show');this.hidden=true">📖 Đọc lại thư</button>
+    <div class="pgs" id="vpgs"></div><div class="replybox" id="replybox" hidden><h3>Viết lại cho người gửi</h3><textarea id="replytxt" maxlength="800" placeholder="Vài dòng gửi ngược lại..."></textarea><label>Gửi lời này lúc (để trống = gửi ngay)</label><input class="f" id="replyat" type="datetime-local"><button class="btn" id="replybtn" style="background:#9b2226;color:#fff">Gửi lời đáp</button><div class="msg" id="replymsg" hidden></div></div></div></div>
+  <button id="pfold" class="btn g mini" hidden>✕ Gấp thư lại</button>
+  <div id="accz" hidden><div class="vacc" id="vacc"></div><button class="btn g mini" id="accback">📖 Đọc lại thư</button></div>
+  <div id="vbar" hidden><button class="btn" id="reread">📖 Đọc lại thư</button><button class="btn" id="reacc" hidden>🎁 Món kèm theo</button></div>
 </div>
 
 <div id="music-box" hidden style="position:fixed;bottom:18px;left:18px;z-index:130;display:flex;gap:8px;align-items:center;background:#122016ee;border:1px solid #4a7c42;border-radius:22px;padding:5px 8px 5px 5px">
@@ -357,6 +399,15 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
 const FIREBASE_CONFIG={apiKey:"AIzaSyCMg2YKbcmx4-NsIdDBGRFHBp3yGxR9d4k",authDomain:"letter-project-9d674.firebaseapp.com",projectId:"letter-project-9d674",storageBucket:"letter-project-9d674.firebasestorage.app",messagingSenderId:"218227197117",appId:"1:218227197117:web:e54fdcecbb1eee327963d4"};
 /* ======================================= */
 const $=id=>document.getElementById(id);
+/* ---------- âm thanh giấy (tổng hợp bằng WebAudio, không cần file) ---------- */
+let AC=null,_sct=0;
+function sfx(k){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state=='suspended')AC.resume();const c=AC,t=c.currentTime;
+ if(k=='thump'){const o=c.createOscillator(),g=c.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(48,t+.18);g.gain.setValueAtTime(.4,t);g.gain.exponentialRampToValueAtTime(.001,t+.24);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+.26);return}
+ if(k=='scratch'){if(Date.now()-_sct<70)return;_sct=Date.now()}
+ const n=k=='scratch'?.09:.55,b=c.createBuffer(1,Math.floor(c.sampleRate*n),c.sampleRate),d=b.getChannelData(0);
+ for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,k=='scratch'?1.5:2.2)*(k=='rustle'?(.6+.4*Math.sin(i/900)):1);
+ const s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();f.type='bandpass';f.frequency.value=k=='scratch'?3400:1700;f.Q.value=.7;g.gain.value=k=='scratch'?.045:.2;s.buffer=b;s.connect(f);f.connect(g);g.connect(c.destination);s.start(t)}catch(e){}}
+
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 firebase.initializeApp(FIREBASE_CONFIG);
 const auth=firebase.auth(),db=firebase.firestore();
@@ -449,7 +500,7 @@ function envMarkup(p){return `<div class="gsh"></div><div class="e3" id="${p}e3"
 $('sscene').innerHTML=envMarkup('s');$('vscene').innerHTML=envMarkup('v');
 
 const DEF={shape:'classic',color:ENV_C[0],pat:'none',paper:PAPER_C[0],seal:'red',em:'❀',stamp:'',stp:'',stz:1,stx:50,sty:50,stf:1,air:0,pm:0,rib:RIB_C[0],ribs:'none',sealed:false,ps:'lined',fr:'none',pf:'polaroid',ink:INK_C[0],fvi:'Dancing Script',fen:'Kalam',fzh:'Ma Shan Zheng'};
-function norm(raw){raw=raw||{};const e={...DEF,...raw};if(raw.rib&&!raw.ribs)e.ribs='satin';if(!('sealed' in raw))e.sealed=true;return e}
+function norm(raw){raw=raw||{};const e={...DEF,...raw};if(raw.rib&&!raw.ribs)e.ribs='satin';if(!('sealed' in raw))e.sealed=true;if(e.air===1||e.air==='1')e.air='stripe';if(e.pm===1||e.pm==='1')e.pm='date';return e}
 let S={...DEF},lang='vi',photo='',id=null,token=sessionStorage.gtok||'',user=null,selSt=null;
 
 function envApply(p,o,ts){const g=k=>$(p+k),e=g('env'),open=e.classList.contains('open'),sealing=e.classList.contains('sealing');
@@ -461,9 +512,14 @@ function envApply(p,o,ts){const g=k=>$(p+k),e=g('env'),open=e.classList.contains
  s.style.setProperty('--w1',shade(sc,.35));s.style.setProperty('--w2',sc);s.style.setProperty('--w3',shade(sc,-.42));s.style.setProperty('--em',embCss(o.em,shade(sc,.35)));
  applyPat(g('pat'),o.pat);applyPat(g('pat2'),o.pat);const ps=patSpec(o.pat);if(ps){e.style.setProperty('--pt',ps[0]);e.style.setProperty('--ps',ps[1])}else{e.style.removeProperty('--pt');e.style.removeProperty('--ps')}
  g('rib').innerHTML=ribbon(p,o.rib,o.ribs);
- g('air').classList.toggle('on',!!+o.air);
+ const AIRK={1:'stripe','1':'stripe',stripe:'stripe',green:'green',gold:'gold',dash:'dash',rose:'rose',vine:'vine'};
+ const ak=AIRK[o.air]||'';g('air').className='air'+(ak?' on '+ak:'');
+ const PMK={1:'date','1':'date',date:'date',heart:'heart',avion:'avion',kiss:'kiss',wave:'wave',star:'star'};
+ const pk=PMK[o.pm]||'';const pm0=g('pm');pm0.className='pm'+(pk?' on '+pk:'');pm0.style.display=pk?'flex':'none';
+ const dt=new Date(ts||Date.now()).toLocaleDateString('en-GB');
+ pm0.innerHTML=({date:'LOVE<br>'+dt,heart:'♥<br>WITH<br>LOVE',avion:'PAR<br>AVION',kiss:'A KISS<br>'+dt,wave:'',star:'★<br>SPECIAL'})[pk]||'';
  const st=g('stamp');st.innerHTML=stampHTML(o);st.style.display=o.stamp?'block':'none';if(o.spx!=null){st.style.right='auto';st.style.left=o.spx+'%';st.style.top=o.spy+'%'}else{st.style.left=st.style.top=st.style.right=''}
- const pm=g('pm');pm.style.display=+o.pm?'flex':'none';pm.innerHTML='LOVE<br>'+new Date(ts||Date.now()).toLocaleDateString('en-GB')}
+}
 function addr(p,to,from){$(p+'to').textContent=to||'Người thương';$(p+'from').textContent=from||'Người gửi'}
 function paperApply(el,o){el.dataset.ps=o.ps;el.dataset.fr=o.fr;el.style.setProperty('--ink',o.ink);el.style.backgroundColor=o.paper}
 function upHint(){$('shint').textContent=S.sealed?'Kéo để xoay · chạm vào dấu sáp để mở nắp':'Chạm vào chiếc ấn để tự tay đóng sáp · kéo để xoay'}
@@ -483,7 +539,7 @@ function rot(sc,e3){let ry=0,rx=0,d=0,sx,sy,hx_=0,hy_=0;const gs=sc.querySelecto
 const sRot=rot($('sscene'),$('se3')),vRot=rot($('vscene'),$('ve3'));
 $('sseal').onclick=()=>$('senv').classList.toggle('open');
 function stampSeal(){const e=$('senv'),st=$('sstamper');if(S.sealed||st.classList.contains('down'))return;e.classList.remove('open');st.classList.add('down');
- setTimeout(()=>{e.classList.add('sealing');S.sealed=true;paintMain();mark()},430);
+ setTimeout(()=>{e.classList.add('sealing');sfx('thump');S.sealed=true;paintMain();mark()},430);
  setTimeout(()=>st.classList.add('up'),700);
  setTimeout(()=>{e.classList.remove('sealing');st.classList.remove('down','up');paintMain()},1400)}
 $('sstamper').onclick=stampSeal;
@@ -514,8 +570,8 @@ swatches('sw-seal',SEAL_C,'seal');
 opts('ems',['❀','♥','✦','✉','☾','❦','❄','★','✿','☘','♪','✺'].map(x=>[x,x]),'em');
 (function(){const b=$('stamps'),none=document.createElement('button');none.className='o';none.dataset.v='';none.textContent='Không';none.onclick=()=>{S.stamp='';mark();paintMain()};b.appendChild(none);
  Object.keys(STAMPS).forEach(k=>{const x=document.createElement('button');x.className='o';x.dataset.v=k;x.innerHTML=`<div class="sm"><svg viewBox="0 0 60 76" preserveAspectRatio="xMidYMid slice">${STAMPS[k]}</svg></div>${STN[k]}`;x.onclick=()=>{S.stamp=k;mark();paintMain()};b.appendChild(x)})})();
-opts('airs',[[0,'Trơn'],[1,'Viền hàng không']],'air');
-opts('pms',[[0,'Không dấu'],[1,'Dấu bưu điện']],'pm');
+opts('airs',[[0,'Trơn'],['stripe','Viền hàng không'],['green','Viền xanh-vàng'],['gold','Khung vàng'],['dash','Khung gạch'],['rose','Viền hoa hồng'],['vine','Khung lá']],'air');
+opts('pms',[[0,'Không dấu'],['date','Dấu ngày LOVE'],['heart','Dấu trái tim'],['avion','Par Avion'],['kiss','Dấu nụ hôn'],['wave','Vân huỷ thư'],['star','Dấu đặc biệt']],'pm');
 opts('pss',[['lined','Giấy kẻ'],['plain','Giấy trơn'],['grid','Ô vuông'],['dots','Chấm bi'],['kraft','Giấy kraft'],['wash','Màu nước'],['rose','Hồng nhạt'],['vintage','Giấy cổ cháy viền']],'ps');
 swatches('sw-paper',PAPER_C,'paper');
 opts('frs',[['none','Không'],['line','Viền kép'],['stitch','Đường may'],['floral','Hoa góc'],['hearts','Tim góc'],['washi','Băng washi']],'fr');
@@ -547,7 +603,31 @@ const US_STARS=[...Array(12)].map((_,i)=>spark(5+(i%4)*6.4,14+((i/4)|0)*8,.5,'#f
 ['my_twin','my','Tháp đôi','RM2',`<rect width='60' height='76' fill='#1a2a5a'/><g fill='#cfd8e6'><rect x='12' y='24' width='13' height='42'/><rect x='35' y='24' width='13' height='42'/><rect x='25' y='40' width='10' height='4'/></g><path d='M18.500 24V12M41.500 24V12' stroke='#cfd8e6' stroke-width='2'/><path d='M12 34h13M35 34h13M12 46h13M35 46h13' stroke='#1a2a5a'/><rect y='66' width='60' height='10' fill='#c0392b'/>`],
 ['us_flag','us','Cờ sao','25¢',`<rect width='60' height='76' fill='#f4ecd8'/><g fill='#b22234'><rect y='8' width='60' height='6'/><rect y='20' width='60' height='6'/><rect y='32' width='60' height='6'/><rect y='44' width='60' height='6'/><rect y='56' width='60' height='6'/></g><rect y='8' width='28' height='30' fill='#3c3b6e'/>${US_STARS}`],
 ['uk_penny','uk','One Penny','1d',`<rect width='60' height='76' fill='#b3261e'/><rect x='5' y='5' width='50' height='66' fill='none' stroke='#f6e8d0'/><circle cx='30' cy='32' r='15' fill='#f6e8d0'/><path d='M22 28L25 21L30 26L35 21L38 28z' fill='#c9a030'/><rect x='22' y='28' width='16' height='4' fill='#c9a030'/><text x='30' y='64' text-anchor='middle' font-size='7' fill='#f6e8d0' font-family='serif'>ONE PENNY</text>`],
-['uk_bigben','uk','Big Ben','2p',`<rect width='60' height='76' fill='#dbe3ea'/><circle cx='44' cy='16' r='7' fill='#f6efe0'/><rect x='22' y='20' width='14' height='46' fill='#b89a5a'/><path d='M22 20L29 4L36 20z' fill='#6a5a3a'/><circle cx='29' cy='30' r='4.500' fill='#f6efe0' stroke='#3a2a12'/><path d='M29 27V30H31' stroke='#111' fill='none'/><rect y='66' width='60' height='10' fill='#3a5a7a'/>`]
+['uk_bigben','uk','Big Ben','2p',`<rect width='60' height='76' fill='#dbe3ea'/><circle cx='44' cy='16' r='7' fill='#f6efe0'/><rect x='22' y='20' width='14' height='46' fill='#b89a5a'/><path d='M22 20L29 4L36 20z' fill='#6a5a3a'/><circle cx='29' cy='30' r='4.500' fill='#f6efe0' stroke='#3a2a12'/><path d='M29 27V30H31' stroke='#111' fill='none'/><rect y='66' width='60' height='10' fill='#3a5a7a'/>`],
+['jp_tea','jp','Trà đạo','四銭',`<rect width='60' height='76' fill='#efe2c8'/><ellipse cx='30' cy='46' rx='16' ry='7' fill='#6b3a22'/><path d='M14 46Q14 30 30 30Q46 30 46 46' fill='#c47a3a'/>`],
+['jp_kimono','jp','Kimono','七銭',`<rect width='60' height='76' fill='#f6efe4'/><path d='M30 12L46 24L40 68H20L14 24z' fill='#9c1f3a'/><path d='M30 26V66' stroke='#e8b84c' stroke-width='3'/>`],
+['jp_pagoda','jp','Chùa tầng','九銭',`<rect width='60' height='76' fill='#f3e2c4'/><path d='M30 14L42 28H18zM30 28L48 44H12zM30 44L54 64H6z' fill='#6a2a22'/>`],
+['cn_dragon','cn','Rồng','龙',`<rect width='60' height='76' fill='#8d1d24'/><path d='M8 50Q22 28 34 40Q46 24 52 40Q56 56 36 58Q16 66 8 50z' fill='#e8b84c'/>`],
+['cn_wall','cn','Vạn Lý','贰元',`<rect width='60' height='76' fill='#e7d3a8'/><path d='M6 30H16V54H6zM24 18H36V54H24zM44 30H54V54H44z' fill='#b08958'/><rect y='54' width='60' height='22' fill='#6a8cae'/>`],
+['cn_peony','cn','Mẫu đơn','牡丹',`<rect width='60' height='76' fill='#f8e7ef'/>${flo(30,34,16,'#d23b6a','#f2d46a')}`],
+['vn_aodai','vn','Áo dài','200đ',`<rect width='60' height='76' fill='#f7ecd4'/><circle cx='30' cy='16' r='6' fill='#e6c2a0'/><path d='M22 24Q30 30 38 24L42 70H18z' fill='#f4c6cf'/>`],
+['vn_nonla','vn','Nón lá','300đ',`<rect width='60' height='76' fill='#e7f0d8'/><path d='M8 42Q30 16 52 42L46 48H14z' fill='#d8b15a'/>`],
+['vn_star','vn','Sao vàng','50đ',`<rect width='60' height='76' fill='#da2a2a'/><path d='M30 18l4 12h12l-10 7 4 12-10-7-10 7 4-12-10-7h12z' fill='#f6d35b'/>`],
+['th_orchid','th','Lan','฿3',`<rect width='60' height='76' fill='#f8efe0'/><ellipse cx='30' cy='32' rx='7' ry='14' fill='#c45ad0'/><ellipse cx='16' cy='42' rx='6' ry='11' fill='#d47ae0'/><ellipse cx='44' cy='42' rx='6' ry='11' fill='#d47ae0'/><circle cx='30' cy='40' r='4' fill='#f2d46a'/>`],
+['th_boat','th','Thuyền','฿8',`<rect width='60' height='76' fill='#87b7d8'/><circle cx='46' cy='18' r='6' fill='#f6e27a'/><path d='M8 52L52 46L46 58H12z' fill='#8a4a22'/>`],
+['th_garuda','th','Garuda','฿20',`<rect width='60' height='76' fill='#f3d48a'/><circle cx='30' cy='36' r='10' fill='#b3261e'/><path d='M6 36Q20 16 30 36Q40 16 54 36Q40 50 30 44Q20 50 6 36z' fill='#e8b84c'/>`],
+['kr_fan','kr','Quạt','十원',`<rect width='60' height='76' fill='#f4efe6'/><path d='M12 58Q30 12 48 58z' fill='#fff' stroke='#0047a0' stroke-width='2'/>`],
+['kr_mugung','kr','Mugunghwa','三十원',`<rect width='60' height='76' fill='#f7f3ea'/>${flo(30,34,14,'#f4b6c8','#cd2e3a')}<rect y='64' width='60' height='12' fill='#0047a0'/>`],
+['kr_tiger','kr','Hổ','천원',`<rect width='60' height='76' fill='#f0e2c0'/><ellipse cx='30' cy='40' rx='16' ry='13' fill='#e0a24a'/><circle cx='23' cy='38' r='1.5'/><circle cx='37' cy='38' r='1.5'/>`],
+['my_wau','my','Diều Wau','50sen',`<rect width='60' height='76' fill='#12325c'/><path d='M30 12L48 38L30 64L12 38z' fill='#c0392b'/><path d='M30 12V64M12 38H48' stroke='#f2d46a'/>`],
+['my_tea','my','Đồi trà','RM5',`<rect width='60' height='76' fill='#e9f2cf'/><path d='M0 46Q30 32 60 46V76H0z' fill='#4f7a32'/><circle cx='44' cy='18' r='6' fill='#f2d46a'/>`],
+['my_batik','my','Batik','RM10',`<rect width='60' height='76' fill='#f6e7c4'/><circle cx='30' cy='26' r='8' fill='none' stroke='#1a3a6a' stroke-width='3'/><circle cx='30' cy='50' r='8' fill='none' stroke='#b3261e' stroke-width='3'/>`],
+['us_torch','us','Ngọn đuốc','10¢',`<rect width='60' height='76' fill='#e7eef8'/><rect x='27' y='36' width='6' height='26' fill='#c9a030'/><path d='M30 36C22 24 26 10 30 10c4 0 8 14 0 26z' fill='#e07a32'/>`],
+['us_eagle','us','Đại bàng','$1',`<rect width='60' height='76' fill='#f4ecd8'/><path d='M30 26C14 24 8 38 14 44c8-6 10-2 16 0 6-2 8-6 16 0 6-6 0-20-16-18z' fill='#3c3b6e'/>`],
+['us_sunflower','us','Hướng dương','15¢',`<rect width='60' height='76' fill='#f8efd4'/>${flo(30,32,15,'#f2d46a','#6a3a12')}<rect x='28' y='46' width='4' height='18' fill='#4f7a32'/>`],
+['uk_rose','uk','Hồng Anh','3p',`<rect width='60' height='76' fill='#f7f1ea'/><circle cx='30' cy='32' r='10' fill='#b3261e'/><path d='M30 44V66' stroke='#3f6b38' stroke-width='2'/>`],
+['uk_crown','uk','Vương miện','5p',`<rect width='60' height='76' fill='#4a1d4e'/><path d='M12 44L20 22L30 36L40 22L48 44z' fill='#e8b84c'/>`],
+['uk_booth','uk','Bốt điện thoại','4p',`<rect width='60' height='76' fill='#d5e2ea'/><rect x='18' y='16' width='24' height='50' fill='#c0392b'/><rect x='22' y='26' width='16' height='14' fill='#d5eaf5'/>`],
 ].forEach(([k,c,n,v,s])=>{STAMPS[k]=s;STC[k]=c;STN[k]=n;STV[k]=v});
 let PEND=null,CC='all';
 const slotShow=()=>{$('slot').innerHTML=PEND?stampHTML({stamp:PEND}):'<span>Chọn một con tem ở bảng bên phải</span>'};
@@ -687,11 +767,11 @@ function msg(t,ok=true){const m=$('msg');m.hidden=false;m.textContent=t;m.classN
 function provider(gm){const p=new firebase.auth.GoogleAuthProvider();if(gm)p.addScope('https://www.googleapis.com/auth/gmail.send');return p}
 async function getToken(){const r=await auth.currentUser.reauthenticateWithPopup(provider(true));token=r.credential.accessToken;sessionStorage.gtok=token}
 async function login(){try{await auth.signInWithPopup(provider())}catch(e){$('lerr').hidden=false;$('lerr').textContent='Đăng nhập lỗi: '+e.message}}
-auth.onAuthStateChanged(u=>{if(new URLSearchParams(location.search).get('l'))return;user=u;$('login').hidden=!!u;$('app').hidden=!u;if(u){$('who').textContent=u.displayName||u.email;if(!$('sender').value){$('sender').value=u.displayName||'';$('sender').oninput({target:$('sender')})}calcZ();renderFonts();paintMain();list()}});
+auth.onAuthStateChanged(u=>{if(new URLSearchParams(location.search).get('l'))return;user=u;$('login').hidden=!!u;$('app').hidden=!u;if(u){$('who').textContent=u.displayName||u.email;if(!$('sender').value){$('sender').value=u.displayName||'';$('sender').oninput({target:$('sender')})}calcZ();renderFonts();paintMain();list();watchReplies()}});
 
 /* ---------- lưu / tải thư ---------- */
 function gather(){
- return{uid:user.uid,sender:$('sender').value.trim()||'Người thương',toName:$('toname').value.trim(),email:$('email').value.trim(),music:$('music').value.trim(),env:S,date:dateVal,photo,acc:ACC,st:ST.map(m=>({...m,p:m.p||0})),text:{vi:TXT.vi,en:TXT.en,zh:TXT.zh},updated:Date.now()}}
+ return{uid:user.uid,sender:$('sender').value.trim()||'Người thương',toName:$('toname').value.trim(),email:$('email').value.trim(),music:$('music').value.trim(),env:S,date:dateVal,photo,acc:ACC,st:ST.map(m=>({...m,p:m.p||0})),text:{vi:TXT.vi,en:TXT.en,zh:TXT.zh},openAt:$('openAt').value?new Date($('openAt').value).getTime():0,rain:$('rain').value||'auto',updated:Date.now()}}
 
 /* file tải về: giữ nguyên form thư (giấy, khung, ảnh, hoạ tiết, font, từng lá) */
 function exportHTML(d){
@@ -733,12 +813,45 @@ async function save(download=true){
 async function list(){const q=await db.collection('letters').where('uid','==',user.uid).get();const a=q.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>y.updated-x.updated);
  $('lst').innerHTML=a.length?'':'Chưa có thư';a.forEach(l=>{const r=document.createElement('div');r.innerHTML=`<span>${esc((l.text.vi||'').slice(0,26))||'(trống)'} → ${esc(l.toName||l.email||'?')}</span><span><a>Mở</a> <a class="d">Xoá</a></span>`;
   r.querySelector('a').onclick=()=>load(l);r.querySelector('a.d').onclick=async()=>{if(confirm('Xoá thư này?')){await db.collection('letters').doc(l.id).delete();if(id==l.id)id=null;list()}};$('lst').appendChild(r)})}
-function load(l){id=l.id;S=norm(l.env);TXT={vi:l.text.vi||'',en:l.text.en||'',zh:l.text.zh||''};$('sender').value=l.sender;$('sender').oninput({target:$('sender')});$('toname').value=l.toName||'';$('email').value=l.email||'';dateVal=l.date||'';$('music').value=l.music||'';photo=l.photo||'';
+function load(l){id=l.id;S=norm(l.env);TXT={vi:l.text.vi||'',en:l.text.en||'',zh:l.text.zh||''};$('sender').value=l.sender;$('sender').oninput({target:$('sender')});$('toname').value=l.toName||'';$('email').value=l.email||'';dateVal=l.date||'';$('music').value=l.music||'';photo=l.photo||'';$('openAt').value=l.openAt?toLocalInput(l.openAt):'';$('rain').value=l.rain||'auto';
  /* thư cũ: phụ kiện (@pol/@img/@aud/@vid) từng dán trên mặt thư → chuyển vào phong bì */
  ACC=(l.acc||[]).concat((l.st||[]).filter(s=>s.e&&s.e[0]=='@').map(({e,src,d,cap})=>({e,src,d,cap})));
  ST=(l.st||[]).filter(s=>!(s.e&&s.e[0]=='@')).map(s=>{let yy=s.y;if(yy>1)yy=Math.min(0.9,yy/800);return{...s,y:yy,w:s.w||64,p:s.p||0}});renderAcc();
  syncSt();renderFonts();pgKey='';paintMain();go('letter')}
-function newLetter(){id=null;S={...DEF};TXT={vi:'',en:'',zh:''};dateVal='';ST=[];ACC=[];renderAcc();photo='';['toname','email','music'].forEach(i=>$(i).value='');$('msg').hidden=true;$('senv').classList.remove('open');syncSt();mark();pgKey='';paintMain();go('env')}
+function toLocalInput(ms){const d=new Date(ms),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes())}
+function fmtLeft(ms){let s=Math.max(0,Math.ceil((ms-Date.now())/1000)),d=Math.floor(s/86400);s-=d*86400;const h=Math.floor(s/3600),m=Math.floor(s%3600/60);return (d?d+' ngày ':'')+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')}
+let REPLIES=[];
+function seenMap(){try{return JSON.parse(localStorage.seenReplies||'{}')}catch(e){return {}}}
+let _rt=null,_title=document.title;
+function notiMap(){try{return JSON.parse(localStorage.notiReplies||'{}')}catch(e){return {}}}
+function notiUI(){const b=$('notiBtn'),st=$('notiSt');if(!b)return;const ok='Notification' in window,pm=ok?Notification.permission:'unsupported';
+ b.hidden=!(ok&&pm=='default');
+ if(st)st.textContent=!ok?'(trình duyệt không hỗ trợ thông báo)':pm=='granted'?'🔔 đang bật':pm=='denied'?'🔕 đã bị chặn — bật lại trong cài đặt trình duyệt':''}
+function notiAsk(){if(!('Notification' in window))return;Notification.requestPermission().then(notiUI)}
+function emailUI(){const b=$('mailBtn'),n=$('mailNote');if(!b||!user)return;const on=localStorage.emailNoti=='1';
+ b.textContent=!on?'📧 Báo lời đáp qua Gmail của tôi':token?'📧 Báo qua Gmail: đang bật (bấm để tắt)':'📧 Phiên Gmail hết hạn — bấm để cấp lại';
+ n.textContent=on?'Email gửi tới '+user.email+' mỗi khi có lời đáp đến hạn. Chỉ hoạt động khi tab này còn mở.':'Bật để nhận email ngay khi người nhận trả lời (tab cần đang mở).'}
+async function emailToggle(){const on=localStorage.emailNoti=='1';
+ if(on&&token){localStorage.emailNoti='0';emailUI();return}
+ try{await getToken();localStorage.emailNoti='1';msg('Đã bật báo email qua Gmail ✔')}catch(e){msg('Không lấy được quyền Gmail: '+e.message,false)}emailUI()}
+async function emailReply(r){if(localStorage.emailNoti!='1'||!user)return;if(!token){emailUI();return}
+ const nm=r.name||'Người nhận',url=location.origin+location.pathname,subject='💌 '+nm+' vừa trả lời thư của bạn',t=r.text||'';
+ const text=nm+' vừa gửi lời đáp:\n\n'+t+'\n\nMở trang: '+url;
+ const html='<div style="font-family:Georgia,serif;max-width:480px;margin:auto;padding:24px;color:#4a3524;line-height:1.6"><p><b>'+esc(nm)+'</b> vừa trả lời thư của bạn:</p><blockquote style="border-left:3px solid #b03a3a;margin:14px 0;padding:6px 14px;background:#fff8ed;white-space:pre-wrap">'+esc(t)+'</blockquote><p style="text-align:center;margin:24px 0"><a href="'+url+'" style="background:#b03a3a;color:#fff;padding:11px 24px;border-radius:22px;text-decoration:none">Mở thư tình</a></p></div>';
+ try{await gmail(user.email,subject,html,text,1)}catch(e){console.error('Email báo lỗi:',e);token='';sessionStorage.gtok='';emailUI()}}
+function notifyReply(r){emailReply(r);sfx('rustle');
+ if('Notification' in window&&Notification.permission=='granted'){try{const n=new Notification('💌 Lời đáp từ '+(r.name||'người nhận'),{body:(r.text||'').slice(0,120),tag:'reply-'+r.id});n.onclick=()=>{window.focus();go('send');n.close()}}catch(e){}}}
+function paintNotices(){const now=Date.now(),box=$('notices');if(!box)return;const rows=REPLIES.slice().sort((a,b)=>(b.at||0)-(a.at||0));box.innerHTML=rows.length?'':'Chưa có lời đáp';const seen=seenMap(),noti=notiMap();let fresh=0,nextAt=0,fired=0;
+ rows.forEach(r=>{const wait=(r.showAt||0)>now;if(wait){if(!nextAt||r.showAt<nextAt)nextAt=r.showAt}
+  if(!wait&&!seen[r.id]){fresh++;if(!noti[r.id]){noti[r.id]=1;fired++;notifyReply(r)}}
+  const el=document.createElement('div');el.innerHTML='<span>'+(wait?'Đang trên đường · đến lúc '+new Date(r.showAt).toLocaleString('vi-VN'):esc((r.text||'').slice(0,80)))+'</span>';if(!wait&&!seen[r.id])el.className='nnew';box.appendChild(el)});
+ if(fired)try{localStorage.notiReplies=JSON.stringify(noti)}catch(e){}
+ document.title=fresh?'('+fresh+') '+_title:_title;
+ clearTimeout(_rt);if(nextAt&&nextAt-now<2147e6)_rt=setTimeout(paintNotices,Math.max(500,nextAt-now+300));
+ const b=$('bell');if(fresh){b.hidden=false;b.textContent=fresh+' lời đáp mới — bấm để xem';b.onclick=()=>{go('send');const s=seenMap();REPLIES.forEach(r=>{if(!(r.showAt>Date.now()))s[r.id]=1});localStorage.seenReplies=JSON.stringify(s);paintNotices()}}else b.hidden=true}
+setInterval(()=>{if(REPLIES.length)paintNotices()},15000);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&REPLIES.length)paintNotices()});
+function watchReplies(){notiUI();emailUI();db.collection('replies').where('uid','==',user.uid).onSnapshot(q=>{REPLIES=q.docs.map(d=>({id:d.id,...d.data()}));paintNotices()},()=>{$('notices').textContent='Chưa đọc được lời đáp.'})}
+function newLetter(){id=null;S={...DEF};TXT={vi:'',en:'',zh:''};dateVal='';ST=[];ACC=[];renderAcc();photo='';['toname','email','music','openAt'].forEach(i=>$(i).value='');$('rain').value='auto';$('msg').hidden=true;$('senv').classList.remove('open');syncSt();mark();pgKey='';paintMain();go('env')}
 
 /* ---------- Dịch (qua Cloudflare Worker) ---------- */
 const GEMINI_PROXY = 'https://gemini-proxy.ngthuhuong139.workers.dev';
@@ -796,9 +909,11 @@ async function send(){
  const subject=`Thư của ${d.sender} gửi ${nm}`;
  const text=`Chào ${nm},\n\n${d.sender} vừa viết cho bạn một lá thư tay trên web. Bạn mở link bên dưới để bóc phong bì và đọc nhé:\n${url}\n\nTrong phong bì có thể còn vài món nhỏ kèm theo (ảnh, ghi âm, video).\n\n— ${d.sender}`;
  const html=`<div style="font-family:Georgia,serif;max-width:480px;margin:auto;padding:24px;color:#4a3524;line-height:1.6"><p>Chào ${esc(nm)},</p><p><b>${esc(d.sender)}</b> vừa viết cho bạn một lá thư tay trên web. Bạn bấm nút bên dưới để bóc phong bì và đọc nhé.</p><p style="text-align:center;margin:26px 0"><a href="${url}" style="display:inline-block;background:#b03a3a;color:#fff;padding:12px 26px;border-radius:24px;text-decoration:none">Mở thư</a></p><p style="font-size:13px;color:#7a6a58">Trong phong bì có thể còn vài món nhỏ kèm theo (ảnh, ghi âm, video).<br>Nếu nút không bấm được: ${url}</p><p>— ${esc(d.sender)}</p></div>`;
- try{await gmail(d.email,subject,html,text);msg('Đã gửi thư từ Gmail của bạn ✔ (kiểm tra mục Thư đã gửi)')}
+ try{await gmail(d.email,subject,html,text);msg('Đã gửi thư từ Gmail của bạn ✔ (kiểm tra mục Thư đã gửi)');mailAway()}
  catch(e){console.error('Gmail error:',e);try{await navigator.clipboard.writeText(url)}catch(_){}msg('Gmail lỗi: '+e.message+' — link thư đã được copy, bạn gửi tay giúp mình nhé.',false)}
 }
+function mailAway(){let z=$('mailz');if(z)z.remove();z=document.createElement('div');z.id='mailz';z.innerHTML=`<div class="fly"><div class="scene" id="mscene">${envMarkup('m')}</div></div><div class="mt">Thư đã lên đường…</div>`;document.body.appendChild(z);
+ envApply('m',{...S,sealed:true},Date.now());addr('m',$('toname').value.trim(),$('sender').value.trim());sfx('thump');setTimeout(()=>sfx('rustle'),900);setTimeout(()=>z.remove(),5200);z.onclick=()=>z.remove()}
 async function copyLink(){if(!TXT.vi.trim())return msg('Hãy viết vài dòng',false);try{if(!await save(false))return;const u=location.origin+location.pathname+'?l='+id;await navigator.clipboard.writeText(u);msg('Đã copy link thư ✔ gửi cho ai cũng được')}catch(e){msg('Lỗi: '+e.message,false)}}
 
 /* ---------- Nhạc nền: YouTube hoặc MP3 (nghe được cả lúc viết thư lẫn lúc người nhận mở) ---------- */
@@ -846,7 +961,7 @@ function penTo(ta){const cs=getComputedStyle(ta),m=document.createElement('div')
  m.textContent=ta.value.slice(0,ta.selectionStart);const s=document.createElement('span');s.textContent='\u200b';m.appendChild(s);document.body.appendChild(m);
  const sr=s.getBoundingClientRect(),mr=m.getBoundingClientRect(),tr=ta.getBoundingClientRect(),k=tr.width/ta.offsetWidth||1,lh=parseFloat(cs.lineHeight)||36;
  PEN.style.left=tr.left+(sr.left-mr.left)*k-28+'px';PEN.style.top=tr.top+(sr.top-mr.top+lh*.85)*k-170+'px';m.remove();PEN.classList.add('on');clearTimeout(_pt);_pt=setTimeout(()=>PEN.classList.remove('on'),900)}
-document.addEventListener('input',e=>{if(e.target.matches&&e.target.matches('#pgs .lt'))penTo(e.target)});
+document.addEventListener('input',e=>{if(e.target.matches&&e.target.matches('#pgs .lt')){penTo(e.target);sfx('scratch')}});
 async function typeIn(l,t){const n=Math.max(2,Math.ceil(t.length/150));for(let i=n;;i+=n){TXT[l]=t.slice(0,i);renderEd(null,false);const a=[...$('pgs').querySelectorAll('.lt')].pop();if(a){a.selectionStart=a.selectionEnd=a.value.length;penTo(a)}if(i>=t.length)break;await new Promise(r=>setTimeout(r,30))}TXT[l]=t;renderEd(null,false)}
 /* ---------- sticker vẽ tay ---------- */
 Object.assign(STK,{
@@ -877,10 +992,10 @@ function flyIn(a){
  if(!FLY){FLY=document.createElement('div');FLY.id='insz';FLY.hidden=true;FLY.innerHTML=`<div class="insw"><div class="insc" id="insc"></div><div class="scene" id="iscene">${envMarkup('i')}</div><div class="inst" id="inst"></div></div>`;document.body.appendChild(FLY)}
  envApply('i',{...S,sealed:false},Date.now());addr('i',$('toname').value.trim(),$('sender').value.trim());
  const e=$('ienv'),c=$('insc'),t=$('inst');e.classList.remove('open');c.className='insc';c.innerHTML=accPrev(a);t.textContent='';FLY.hidden=false;
- setTimeout(()=>e.classList.add('open'),250);
+ sfx('rustle');setTimeout(()=>e.classList.add('open'),250);
  setTimeout(()=>c.classList.add('go'),900);
- setTimeout(()=>{e.classList.remove('open');t.textContent='Đã bỏ vào phong bì ✔'},1900);
- setTimeout(()=>{FLY.hidden=true},3000)}
+ setTimeout(()=>{e.classList.remove('open');sfx('rustle');t.textContent='Đã bỏ vào phong bì ✔'},1950);
+ setTimeout(()=>{FLY.hidden=true},3100)}
 const addAcc=m=>{const a={e:m.e,src:m.src,d:m.d||'',cap:m.cap||''};ACC.push(a);renderAcc();flyIn(a)};
 renderAcc();
 const rs=(f,mx,cb)=>{const r=new FileReader();r.onload=ev=>{const im=new Image();im.onload=()=>{const s=Math.min(1,mx/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.6))};im.src=ev.target.result};r.readAsDataURL(f)};
@@ -981,35 +1096,55 @@ const fst=document.createElement('style');fst.textContent='.frame i::before{cont
 
 /* ---------- NGƯỜI NHẬN: mở & xoay phong bì ---------- */
 const LID=new URLSearchParams(location.search).get('l');
+function rainSet(kind){if(kind==='sakura')return ['🌸','✿'];if(kind==='heart')return ['♥','💗'];if(kind==='mai')return ['🌼','💛'];if(kind==='mix')return ['🌸','✨','🌿','♥'];return []}
+function rainKind(l){const k=l.rain||'auto';if(k!=='auto')return k;const pat=l.env&&l.env.pat;if(pat==='sakura')return 'sakura';if(pat==='hearts'||pat==='roses')return 'heart';if(pat==='mai')return 'mai';return 'mix'}
+function spawnPetals(kind,n){const g=rainSet(kind),box=$('petals');if(!g.length)return;for(let i=0;i<n;i++){const s=document.createElement('span');s.className='petal';s.textContent=g[i%g.length];s.style.cssText='left:'+Math.random()*100+'%;font-size:'+(14+Math.random()*16)+'px;animation-duration:'+(8+Math.random()*11)+'s;animation-delay:-'+Math.random()*14+'s';box.appendChild(s)}}
 if(LID){$('login').hidden=true;$('view').hidden=false;
- for(let i=0;i<16;i++){const s=document.createElement('span');s.className='petal';s.textContent=['🌸','✨','🌿','♥'][i%4];s.style.cssText=`left:${Math.random()*100}%;font-size:${14+Math.random()*14}px;animation-duration:${9+Math.random()*10}s;animation-delay:-${Math.random()*14}s`;$('petals').appendChild(s)}
- db.collection('letters').doc(LID).get().then(s=>{if(!s.exists){$('vhint').textContent='Không tìm thấy thư này.';return}viewer(s.data())}).catch(e=>$('vhint').textContent='Lỗi: '+e.message)}
+ db.collection('letters').doc(LID).get().then(s=>{if(!s.exists){$('vhint').textContent='Không tìm thấy thư này.';return}viewer(s.data(),s.id)}).catch(e=>$('vhint').textContent='Lỗi: '+e.message)}
 
 /* phụ kiện trong phong bì: người nhận bấm "Rút món tiếp theo" để lấy từng món ra */
+const ACCW={'@pol':'ảnh polaroid','@img':'sticker','@aud':'lời ghi âm','@vid':'video'};
+function accSummary(acc){const c={};acc.forEach(a=>c[a.e]=(c[a.e]||0)+1);return Object.keys(c).map(k=>c[k]+' '+(ACCW[k]||'món quà nhỏ')).join(', ')}
 function buildAcc(o,acc){const box=$('vacc');box.innerHTML='';if(!acc.length)return;
- box.innerHTML=`<div class="vlist" id="vlist"></div><div class="scene" id="wscene">${envMarkup('w')}</div><button class="btn" id="vpull"></button>`;
+ box.innerHTML=`<div class="ahead">💌 Trong phong bì còn ${acc.length} món nhỏ</div><div class="asub">${esc(accSummary(acc))} — hãy rút ra từng món một nhé</div><div class="vlist" id="vlist"></div><div class="scene" id="wscene">${envMarkup('w')}</div><button class="btn" id="vpull"></button>`;
  envApply('w',{...o,sealed:false},Date.now());$('wenv').classList.add('open');
- let n=0;const b=$('vpull'),upd=()=>{b.hidden=n>=acc.length;b.textContent=`Rút món tiếp theo trong phong bì (còn ${acc.length-n})`};
- b.onclick=()=>{const w=document.createElement('div');w.className='vitem';w.innerHTML=accHTML(acc[n++]);$('vlist').appendChild(w);upd();setTimeout(()=>w.scrollIntoView({behavior:'smooth',block:'center'}),100)};upd()}
+ let n=0;const b=$('vpull'),upd=()=>{b.hidden=n>=acc.length;b.textContent=n?`Rút món tiếp theo (còn ${acc.length-n})`:`✋ Rút món đầu tiên ra khỏi phong bì (${acc.length})`};
+ b.onclick=()=>{sfx('rustle');const w=document.createElement('div');w.className='vitem';w.innerHTML=`<i class="ord">${n+1}</i>`+accHTML(acc[n++]);$('vlist').appendChild(w);upd();setTimeout(()=>w.scrollIntoView({behavior:'smooth',block:'center'}),150);if(n>=acc.length)$('asub')&&0};upd();
+ setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'center'}),250)}
 
-function viewer(l){const o=norm(l.env);o.sealed=true;envApply('v',o,l.updated);addr('v',l.toName,l.sender);
- $('vtitle').textContent='Thư từ '+l.sender;calcZ();
+function viewer(l,lid){const o=norm(l.env);o.sealed=true;envApply('v',o,l.updated);addr('v',l.toName,l.sender);
+ $('vtitle').textContent='Thư từ '+l.sender;calcZ();const kind=rainKind(l);spawnPetals(kind,10);
  const langs=['vi','en','zh'].filter(k=>l.text[k]&&l.text[k].trim()),names={vi:'Tiếng Việt',en:'English',zh:'中文'};
  const acc=(l.acc||[]).concat((l.st||[]).filter(s=>s.e&&s.e[0]=='@'));
  const stm=(l.st||[]).filter(s=>!(s.e&&s.e[0]=='@')).map(s=>{let yy=s.y;if(yy>1)yy=Math.min(0.9,yy/800);return{...s,y:yy,w:s.w||56,p:s.p||0}});
  let accReady=false;
  const showAcc=()=>{if(accReady||!acc.length)return;accReady=true;buildAcc(o,acc)};
+ const accNote=acc.length?' • phong bì này có kèm '+acc.length+' món 🎁':'';
+ const bar=$('vbar'),pn=document.createElement('div');pn.id='pnote';
+ if(acc.length)pn.innerHTML=`<span style="font-size:1.6rem">💌</span><div>Trong thư này có kèm <b>${esc(accSummary(acc))}</b>. Đọc xong nhớ rút chúng ra khỏi phong bì nhé!</div><button class="btn" id="pnbtn">Xem ngay</button><button class="x" title="Đóng">×</button>`;
+ document.body.appendChild(pn);
+ const openPaper=()=>{$('accz').hidden=true;bar.hidden=true;$('pfold').hidden=false;$('paper').classList.add('show');sfx('rustle')};
+ const showAccz=()=>{pn.classList.remove('on');$('paper').classList.remove('show');$('pfold').hidden=true;showAcc();$('accz').hidden=false;bar.hidden=true;sfx('rustle')};
+ const foldPaper=(auto)=>{pn.classList.remove('on');$('paper').classList.remove('show');$('pfold').hidden=true;sfx('rustle');if(acc.length&&auto)showAccz();else bar.hidden=false};
+ $('reread').onclick=openPaper;$('reacc').hidden=!acc.length;$('reacc').onclick=showAccz;$('accback').onclick=openPaper;$('pfold').onclick=()=>foldPaper(true);
+ if(acc.length){pn.querySelector('#pnbtn').onclick=showAccz;pn.querySelector('.x').onclick=()=>pn.classList.remove('on')}
  let cur=langs[0]||'vi';
  const show=k=>{cur=k;const ctx={o,l:k,date:l.date||'',photo:l.photo||'',ph:o.pf!='none'&&!!l.photo,sig:'— '+l.sender,max:99},r=paginate(l.text[k]||'',k,ctx),box=$('vpgs');box.innerHTML='';
   const sh=r.pages.map((p,i)=>{const s=buildSheet({...ctx,idx:i,total:r.pages.length,text:p,ro:true});const bx=document.createElement('div');bx.className='sheetbox';bx.appendChild(s);box.appendChild(bx);return s});
+  if(acc.length){const n=document.createElement('div');n.className='psnote';n.innerHTML='<b>P.S.</b> Trong phong bì còn kèm '+esc(accSummary(acc))+' — đọc xong nhớ rút ra nhé 💌';n.onclick=()=>showAccz();box.appendChild(n)}
   putSt(sh,stm,true);$('vtabs').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.l==k))};
  if(langs.length>1)langs.forEach(k=>{const b=document.createElement('button');b.textContent=names[k];b.dataset.l=k;b.onclick=()=>show(k);$('vtabs').appendChild(b)});
  show(cur);
  if(document.fonts&&document.fonts.addEventListener)document.fonts.addEventListener('loadingdone',()=>show(cur));
  const e=$('venv');
- const openIt=()=>{e.classList.add('open');$('vhint').textContent='';setTimeout(()=>$('paper').classList.add('show'),2200)};
- $('vseal').onclick=()=>{if(e.classList.contains('open'))return;if(l.music&&!MUS.started)musStart(l.music);if(!vRot.front()){vRot.flip();setTimeout(openIt,750)}else openIt()};
- $('paper').onclick=ev=>{if(ev.target==$('paper')||ev.target.classList.contains('lw')||ev.target.classList.contains('pgs')){$('paper').classList.remove('show');$('reread').hidden=false;showAcc()}};
+ const due=()=>+l.openAt||0,locked=()=>due()>Date.now();
+ const tick=()=>{if(!locked()){if($('vhint').dataset.lock){$('vhint').dataset.lock='';$('vhint').textContent='Kéo để xoay phong bì • chạm vào con dấu để mở thư'+accNote}return}$('vhint').dataset.lock='1';$('vhint').textContent='Thư niêm đến '+new Date(due()).toLocaleString('vi-VN')+' · còn '+fmtLeft(due())};
+  tick();if(!locked()){$('vhint').textContent='Kéo để xoay phong bì • chạm vào con dấu để mở thư'+accNote;$('vhint').classList.add('pulse')}
+ const clock=setInterval(()=>{tick();if(!locked())clearInterval(clock)},1000);
+ const openIt=()=>{e.classList.add('open');sfx('rustle');$('vhint').textContent='';$('vhint').classList.remove('pulse');spawnPetals(kind,22);$('replybox').hidden=false;setTimeout(()=>{$('pfold').hidden=false;$('paper').classList.add('show');sfx('rustle');if(acc.length)setTimeout(()=>{if($('paper').classList.contains('show'))pn.classList.add('on')},2600)},2200)};
+ $('vseal').onclick=()=>{if(e.classList.contains('open'))return;sfx('thump');if(locked()){tick();return}if(l.music&&!MUS.started)musStart(l.music);if(!vRot.front()){vRot.flip();setTimeout(openIt,750)}else openIt()};
+ $('paper').onclick=ev=>{if(ev.target==$('paper')||ev.target.classList.contains('lw')||ev.target.classList.contains('pgs'))foldPaper(true)};
+ $('replybtn').onclick=async()=>{const text=$('replytxt').value.trim();const m=$('replymsg');m.hidden=false;if(!text){m.className='msg err';m.textContent='Hãy viết vài chữ';return}const showAt=$('replyat').value?new Date($('replyat').value).getTime():Date.now();try{await db.collection('replies').add({lid:lid||LID,uid:l.uid,name:l.toName||'Người nhận',text,at:Date.now(),showAt});m.className='msg ok';m.textContent='Đã gửi lời đáp ✔';$('replybtn').disabled=true}catch(err){m.className='msg err';m.textContent='Chưa gửi được: '+err.message}};
  musPrime(l.music);
 }
 </script>
