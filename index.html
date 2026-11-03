@@ -309,10 +309,10 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
     <div class="sec s-letter"><h3>Hoạ tiết trang trí</h3><div class="g4" id="stk"></div><p class="note">Bấm là hoạ tiết dán lên thư ngay • kéo để di chuyển • cuộn chuột hoặc nút +/− để đổi cỡ • double-click để xoá</p><div class="nav"><button class="btn g" onclick="szSt(10)">＋ Lớn</button><button class="btn g" onclick="szSt(-10)">－ Nhỏ</button><button class="btn g" onclick="clearSt()">Xoá hết</button></div></div>
     <div class="sec s-letter"><h3>Phụ kiện kèm thư</h3>
 <div style="background:#fff8ed;border:1px solid #e6d5bd;border-radius:12px;padding:14px;margin:12px 0;color:#594633;font-size:.9rem;line-height:1.6">
-  <strong>🔒 Thông tin về quyền riêng tư</strong>
+  <strong>Thông tin về quyền riêng tư</strong>
   <p style="margin:8px 0">Khi bạn tải video hoặc ghi âm lên thư, các tệp này sẽ được lưu trữ trên dịch vụ Cloudinary để phục vụ việc lưu và chia sẻ thư.</p>
   <p style="margin:8px 0">Người quản lý website có thể truy cập các tệp thông qua tài khoản quản lý hệ thống. Người có đường dẫn truy cập thư cũng có thể xem hoặc nghe nội dung đính kèm theo cách chia sẻ hiện tại.</p>
-  <p style="margin:8px 0">Vui lòng không tải lên thông tin cá nhân hoặc nội dung nhạy cảm mà bạn không muốn chia sẻ.</p>
+  <p style="margin:8px 0">⚠️ Vui lòng không tải lên thông tin cá nhân hoặc nội dung nhạy cảm mà bạn không muốn chia sẻ.</p>
   <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer">
     <input type="checkbox" id="mediaConsent" style="margin-top:4px">
     <span>Tôi đã đọc và đồng ý với thông tin về việc lưu trữ video và ghi âm ở trên.</span>
@@ -882,8 +882,29 @@ function flyIn(a){
 const addAcc=m=>{const a={e:m.e,src:m.src,d:m.d||'',cap:m.cap||''};ACC.push(a);renderAcc();flyIn(a)};
 renderAcc();
 const rs=(f,mx,cb)=>{const r=new FileReader();r.onload=ev=>{const im=new Image();im.onload=()=>{const s=Math.min(1,mx/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.6))};im.src=ev.target.result};r.readAsDataURL(f)};
-const CLD={name:'wvztoilv',preset:'thu-tinh'};
-const upl=async(b)=>{const f=new FormData();f.append('file',b);f.append('upload_preset',CLD.preset);const r=await fetch(`https://api.cloudinary.com/v1_1/${CLD.name}/video/upload`,{method:'POST',body:f}),j=await r.json();if(!r.ok||!j.secure_url)throw new Error((j.error&&j.error.message)||('HTTP '+r.status));return j.secure_url};
+const SIGN_URL='https://gemini-proxy.ngthuhuong139.workers.dev/cloudinary-signature';
+const upl=async(b)=>{
+  if(!auth.currentUser)throw new Error('M cần đăng nhập trước khi tải tệp lên');
+  const idToken=await auth.currentUser.getIdToken();
+  const sr=await fetch(SIGN_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':`Bearer ${idToken}`},
+    body:JSON.stringify({})
+  });
+  const signed=await sr.json();
+  if(!sr.ok)throw new Error(signed.error||'Không lấy được chữ ký upload');
+  const f=new FormData();
+  f.append('file',b);
+  f.append('api_key',signed.api_key);
+  f.append('timestamp',signed.timestamp);
+  f.append('signature',signed.signature);
+  f.append('folder',signed.folder);
+  f.append('allowed_formats',signed.allowed_formats);
+  const r=await fetch(`https://api.cloudinary.com/v1_1/${signed.cloud_name}/${signed.resource_type}/upload`,{method:'POST',body:f});
+  const j=await r.json();
+  if(!r.ok||!j.secure_url)throw new Error((j.error&&j.error.message)||`Cloudinary HTTP ${r.status}`);
+  return j.secure_url;
+};
 $('polIn').onchange=e=>{const f=e.target.files[0];if(f)rs(f,280,u=>addAcc({e:'@pol',src:u,d:$('accd').value,cap:prompt('Dòng chữ dưới ảnh (có thể để trống)')||''}));e.target.value=''};
 $('imgIn').onchange=e=>{const f=e.target.files[0];if(f)rs(f,160,u=>addAcc({e:'@img',src:u,w:90}));e.target.value=''};
 $('vidIn').onchange=async e=>{
