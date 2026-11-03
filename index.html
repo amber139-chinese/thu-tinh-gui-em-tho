@@ -307,7 +307,18 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
     <div class="sec s-letter"><h3>Font chữ <small id="fontlang"></small></h3><div class="g3" id="fonts"></div><p class="note">Chuyển tab ngôn ngữ phía trên lá thư để chọn font cho từng ngôn ngữ.</p></div>
     <div class="sec s-letter"><h3>Màu mực</h3><div class="sw" id="sw-ink"></div></div>
     <div class="sec s-letter"><h3>Hoạ tiết trang trí</h3><div class="g4" id="stk"></div><p class="note">Bấm là hoạ tiết dán lên thư ngay • kéo để di chuyển • cuộn chuột hoặc nút +/− để đổi cỡ • double-click để xoá</p><div class="nav"><button class="btn g" onclick="szSt(10)">＋ Lớn</button><button class="btn g" onclick="szSt(-10)">－ Nhỏ</button><button class="btn g" onclick="clearSt()">Xoá hết</button></div></div>
-    <div class="sec s-letter"><h3>Phụ kiện kèm thư</h3><label>Kiểu thiết kế (polaroid / video)</label><select class="f" id="accd"><option value="">Polaroid trắng</option><option value="kraft">Giấy kraft + băng keo</option><option value="film">Phim đen</option></select><div class="g2"><button class="btn g" onclick="polIn.click()">Polaroid</button><button class="btn g" onclick="imgIn.click()">Sticker của bạn</button><button class="btn g" id="recb" onclick="rec()">Ghi âm</button><button class="btn g" onclick="vidIn.click()">Video</button></div><p class="note">Mỗi món sẽ được bỏ vào phong bì, người nhận rút ra lần lượt sau khi đọc thư. Ghi âm và video được tải lên Cloudinary.</p><div class="lst" id="acclst"></div><input type="file" id="polIn" accept="image/*" hidden><input type="file" id="imgIn" accept="image/*" hidden><input type="file" id="vidIn" accept="video/*" hidden></div>
+    <div class="sec s-letter"><h3>Phụ kiện kèm thư</h3>
+<div style="background:#fff8ed;border:1px solid #e6d5bd;border-radius:12px;padding:14px;margin:12px 0;color:#594633;font-size:.9rem;line-height:1.6">
+  <strong>🔒 Thông tin về quyền riêng tư</strong>
+  <p style="margin:8px 0">Khi bạn tải video hoặc ghi âm lên thư, các tệp này sẽ được lưu trữ trên dịch vụ Cloudinary để phục vụ việc lưu và chia sẻ thư.</p>
+  <p style="margin:8px 0">Người quản lý website có thể truy cập các tệp thông qua tài khoản quản lý hệ thống. Người có đường dẫn truy cập thư cũng có thể xem hoặc nghe nội dung đính kèm theo cách chia sẻ hiện tại.</p>
+  <p style="margin:8px 0">Vui lòng không tải lên thông tin cá nhân hoặc nội dung nhạy cảm mà bạn không muốn chia sẻ.</p>
+  <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer">
+    <input type="checkbox" id="mediaConsent" style="margin-top:4px">
+    <span>Tôi đã đọc và đồng ý với thông tin về việc lưu trữ video và ghi âm ở trên.</span>
+  </label>
+</div>
+<label>Kiểu thiết kế (polaroid / video)</label><select class="f" id="accd"><option value="">Polaroid trắng</option><option value="kraft">Giấy kraft + băng keo</option><option value="film">Phim đen</option></select><div class="g2"><button class="btn g" onclick="polIn.click()">Polaroid</button><button class="btn g" onclick="imgIn.click()">Sticker của bạn</button><button class="btn g" id="recb" onclick="rec()">Ghi âm</button><button class="btn g" onclick="vidIn.click()">Video</button></div><p class="note">Mỗi món sẽ được bỏ vào phong bì, người nhận rút ra lần lượt sau khi đọc thư. Ghi âm và video được tải lên Cloudinary.</p><div class="lst" id="acclst"></div><input type="file" id="polIn" accept="image/*" hidden><input type="file" id="imgIn" accept="image/*" hidden><input type="file" id="vidIn" accept="video/*" hidden></div>
 <div class="sec s-letter"><h3>Bản dịch</h3><p style="font-size:.88rem;color:#a0c098;margin-bottom:8px">Viết tiếng Việt xong, bấm tab <b>English</b> hoặc <b>中文</b> phía trên lá thư rồi bấm nút <b>Dịch</b>. Kết quả hiện thẳng vào thư, bạn sửa tuỳ ý.</p></div>
     <div class="nav s-letter"><button class="btn g" onclick="go('env')">← Phong bì</button><button class="btn" onclick="go('send')">Tiếp: Gửi →</button></div>
 
@@ -875,9 +886,24 @@ const CLD={name:'wvztoilv',preset:'thu-tinh'};
 const upl=async(b)=>{const f=new FormData();f.append('file',b);f.append('upload_preset',CLD.preset);const r=await fetch(`https://api.cloudinary.com/v1_1/${CLD.name}/video/upload`,{method:'POST',body:f}),j=await r.json();if(!r.ok||!j.secure_url)throw new Error((j.error&&j.error.message)||('HTTP '+r.status));return j.secure_url};
 $('polIn').onchange=e=>{const f=e.target.files[0];if(f)rs(f,280,u=>addAcc({e:'@pol',src:u,d:$('accd').value,cap:prompt('Dòng chữ dưới ảnh (có thể để trống)')||''}));e.target.value=''};
 $('imgIn').onchange=e=>{const f=e.target.files[0];if(f)rs(f,160,u=>addAcc({e:'@img',src:u,w:90}));e.target.value=''};
-$('vidIn').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(f.size>30e6)return msg('Video tối đa 30MB',false);msg('Đang tải video...');try{addAcc({e:'@vid',src:await upl(f,'mp4'),d:$('accd').value,w:190});msg('Đã thêm video ✔')}catch(er){msg('Tải lên lỗi (kiểm tra cloud name và preset Cloudinary): '+er.message,false)}};
+$('vidIn').onchange=async e=>{
+  const f=e.target.files[0];
+  e.target.value='';
+  if(!f)return;
+  if(!$('mediaConsent').checked)return msg('Vui lòng đọc và xác nhận thông tin quyền riêng tư trước khi tải video.',false);
+  if(f.size>30e6)return msg('Video tối đa 30MB',false);
+  msg('Đang tải video...');
+  try{
+    addAcc({e:'@vid',src:await upl(f,'mp4'),d:$('accd').value,w:190});
+    msg('Đã thêm video ✔');
+  }catch(er){msg('Tải lên lỗi: '+er.message,false)}
+};
 let MR=null,CH=[];
-async function rec(){const b=$('recb');if(MR){MR.stop();return}try{const s=await navigator.mediaDevices.getUserMedia({audio:true});MR=new MediaRecorder(s);CH=[];MR.ondataavailable=e=>CH.push(e.data);
+async function rec(){
+ const b=$('recb');
+ if(MR){MR.stop();return}
+ if(!$('mediaConsent').checked)return msg('Vui lòng đọc và xác nhận thông tin quyền riêng tư trước khi ghi âm.',false);
+ try{const s=await navigator.mediaDevices.getUserMedia({audio:true});MR=new MediaRecorder(s);CH=[];MR.ondataavailable=e=>CH.push(e.data);
  MR.onstop=async()=>{s.getTracks().forEach(t=>t.stop());b.textContent='Ghi âm';const bl=new Blob(CH,{type:MR.mimeType});MR=null;msg('Đang tải bản ghi âm...');try{addAcc({e:'@aud',src:await upl(bl,'webm')});msg('Đã thêm bản ghi âm ✔')}catch(er){msg('Tải lên lỗi (kiểm tra cloud name và preset Cloudinary): '+er.message,false)}};MR.start();b.textContent='Dừng ghi'}catch(er){msg('Không mở được micro',false)}}
 
 /* ---------- thắt nơ 2 bước: bắt chéo → siết nút ---------- */
