@@ -196,14 +196,32 @@ mask:radial-gradient(circle at 50% 0,#0000 3px,#000 3.5px) 0 0/10px 100% repeat-
 @keyframes fall{to{transform:translateY(112vh) rotate(360deg)}}
 #reread{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);width:auto;padding:10px 26px;z-index:65}
 @media(max-width:920px){.main{grid-template-columns:1fr}.panel{position:static}.ub{position:static;justify-content:center;margin-top:6px}}
+#login{background:radial-gradient(800px 500px at 20% 10%,#2f5a35aa,transparent 70%),radial-gradient(600px 400px at 90% 90%,#5a2f3f55,transparent 70%),#0a140c;display:block;overflow:auto}
+.lp{min-height:100%;position:relative;display:flex;align-items:center;justify-content:center;padding:30px 16px}
+.lhero{text-align:center;max-width:640px}
+.lpm{display:inline-block;border:2px solid #e8c9a0aa;border-radius:50%;width:104px;height:104px;font:700 .62rem/1.4 sans-serif;color:#e8c9a0cc;padding-top:38px;transform:rotate(-12deg);margin-bottom:10px;letter-spacing:.08em}
+.lhero h1{font-size:clamp(3rem,9vw,5.4rem);background:linear-gradient(#fff3d8,#e8c9a0);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.05}
+.lintro{font-size:1.3rem;font-style:italic;color:#c5dbc0;margin:14px auto 26px;line-height:1.5}
+.lstrip{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.lstrip .sti{transform:rotate(var(--r));filter:drop-shadow(0 4px 5px #0008)}
+.lsw{position:absolute;top:18px;right:18px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5));transform:rotate(3deg)}
+.lstamp{--a:radial-gradient(circle at 50% 0,#0000 4px,#000 4.5px) 0 0/14px 100% repeat-x,radial-gradient(circle at 50% 100%,#0000 4px,#000 4.5px) 0 0/14px 100% repeat-x,radial-gradient(circle at 0 50%,#0000 4px,#000 4.5px) 0 0/100% 14px repeat-y,radial-gradient(circle at 100% 50%,#0000 4px,#000 4.5px) 0 0/100% 14px repeat-y;-webkit-mask:var(--a);-webkit-mask-composite:source-in;mask:var(--a);mask-composite:intersect;background:#f7edd6;padding:14px;width:190px}
+.lsi{border:1.5px solid #4a352488;padding:14px 10px;text-align:center;color:#4a3524;background:#efe0bf}
+.lsi b{display:block;font:700 1.25rem 'Cormorant Garamond',serif}.lsi small{display:block;opacity:.7;margin-bottom:10px}.lsi .btn{margin:0;background:#9b2226;color:#fff4e0}
+@media(max-width:640px){.lsw{position:static;margin:0 auto 20px;display:block;width:190px}.lp{flex-direction:column-reverse}}
+.cty{margin-bottom:8px}.cty button{background:#1a2e1c;border:1.5px solid var(--bd);color:#c5dbc0;border-radius:12px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer}.cty button.on{background:#5f9a56;color:#0e1c0c}
+.tray{position:relative;width:260px;height:190px;margin-top:6px}
+.trayb{position:absolute;left:0;bottom:0;width:190px;height:120px;background:linear-gradient(#8a5a34,#5e3a1e);border-radius:10px;padding:8px;box-shadow:inset 0 0 0 3px #a8764a,0 8px 16px #0008}
+.slot{height:100%;background:#3d2412;border-radius:6px;box-shadow:inset 0 3px 8px #000a;display:grid;place-items:center;color:#c9a780;font-size:.8rem;text-align:center;padding:6px}
+.slot .sti{transform:rotate(-4deg) scale(1.05)}.slot.lift .sti{opacity:.25}
+#twz{position:absolute;left:78px;top:-20px;cursor:grab;touch-action:none;transform:rotate(-24deg);transform-origin:50% 100%;filter:drop-shadow(2px 4px 3px #0007)}
+.ghost{position:fixed;z-index:89;pointer-events:none;transform:translate(-50%,-70%) rotate(-6deg) scale(.8)}
+@keyframes press{0%{transform:scale(1.45) rotate(3deg);opacity:.6}60%{transform:scale(.93) rotate(3deg)}100%{transform:scale(1) rotate(3deg)}}.stampw.press{animation:press .35s ease-out}
 </style>
 </head>
 <body>
 
-<div id="login"><div class="box">
-  <h2>Thư tình gửi em thơ</h2><p>Đăng nhập bằng Google để viết, lưu và gửi thư qua Gmail của bạn</p>
-  <button class="btn" onclick="login()">Đăng nhập với Google</button><div class="msg err" id="lerr" hidden></div>
-</div></div>
+<div id="login"><div class="lp"><div class="lsw"><div class="lstamp"><div class="lsi"><svg viewBox="0 0 60 44" width="54" style="margin-bottom:4px"><rect x="3" y="4" width="54" height="36" rx="3" fill="#f7edd6" stroke="#4a3524" stroke-width="2"/><path d="M4 6l26 20L56 6" fill="none" stroke="#4a3524" stroke-width="2"/><circle cx="30" cy="27" r="5" fill="#9b2226"/></svg><b>Đăng nhập</b><small>bằng tài khoản Google</small><button class="btn" onclick="login()">Bước vào</button><div class="msg err" id="lerr" hidden></div></div></div></div>
+<div class="lhero"><div class="lpm">LOVE<br>LETTER</div><h1>Thư tình gửi em thơ</h1><p class="lintro">Ngày xưa xe ngựa chạy rất chậm, thư từ thì lại rất xa, một đời chỉ đủ để yêu một người mà thôi...</p><div class="lstrip" id="lstrip"></div></div></div></div>
 
 <div id="app" hidden>
 <header><h1>Thư tình gửi em thơ</h1><div class="sub">Chọn phong bì · viết thư · gửi người thương</div>
@@ -211,7 +229,7 @@ mask:radial-gradient(circle at 50% 0,#0000 3px,#000 3.5px) 0 0/10px 100% repeat-
 <nav class="stepper" id="stepper"><button class="on" data-s="env"><b>1</b>Phong bì</button><button data-s="letter"><b>2</b>Lá thư</button><button data-s="send"><b>3</b>Lưu &amp; gửi</button></nav>
 <div class="main" id="main" data-step="env">
   <div class="pv">
-    <div id="p-env" class="stage"><div class="scene" id="sscene"></div><div class="hint2" id="shint"></div>
+    <div id="p-env" class="stage"><div class="scene" id="sscene"></div><div class="hint2" id="shint"></div><div class="tray" id="tray"><div class="trayb"><div class="slot" id="slot"></div></div><svg id="twz" viewBox="0 0 40 170" width="34" height="150"><rect x="10" y="0" width="20" height="12" rx="4" fill="#8a929e"/><path d="M13 6L19 166" stroke="#c9ced6" stroke-width="5" stroke-linecap="round"/><path d="M27 6L21 166" stroke="#dfe3e8" stroke-width="5" stroke-linecap="round"/></svg></div>
       <div class="nav"><button class="btn g mini" onclick="sRot.flip()">↻ Lật phong bì</button><button class="btn g mini" onclick="$('senv').classList.toggle('open')">Mở / đóng nắp</button></div></div>
     <div id="p-letter" class="lw">
       <div class="tabs" id="tabs"><button class="on" data-l="vi">Tiếng Việt</button><button data-l="en">English</button><button data-l="zh">中文</button></div>
@@ -230,7 +248,7 @@ mask:radial-gradient(circle at 50% 0,#0000 3px,#000 3.5px) 0 0/10px 100% repeat-
     <div class="sec s-env"><h3>Dấu sáp</h3><div class="sw" id="sw-seal"></div><div class="g4" id="ems" style="margin-top:8px"></div>
       <button class="btn g" style="margin-top:8px" onclick="unseal()">↺ Bóc sáp để đóng lại</button>
       <p class="note">Chạm vào chiếc ấn trên phong bì để tự tay đóng sáp.</p></div>
-    <div class="sec s-env"><h3>Tem thư (mặt sau)</h3><div class="g3" id="stamps"></div>
+    <div class="sec s-env"><h3>Tem thư (mặt sau)</h3><div class="sw cty" id="cty"></div><div class="g3" id="stamps"></div>
       <button class="btn g" style="margin-top:8px" onclick="stampIn.click()">Dùng ảnh của bạn làm tem</button>
       <div id="stctl" hidden><label>Phóng to</label><input type="range" id="stz" min="1" max="3" step="0.05"><label>Vị trí ngang</label><input type="range" id="stx" min="0" max="100"><label>Vị trí dọc</label><input type="range" id="sty" min="0" max="100"><label><input type="checkbox" id="stf"> Phủ màu ảnh cổ</label></div></div>
     <div class="sec s-env"><h3>Chi tiết mặt sau</h3><div class="g2" id="airs"></div><div class="g2" id="pms" style="margin-top:6px"></div></div>
@@ -388,7 +406,7 @@ function envApply(p,o,ts){const g=k=>$(p+k),e=g('env'),open=e.classList.contains
  applyPat(g('pat'),o.pat);applyPat(g('pat2'),o.pat);const ps=patSpec(o.pat);if(ps){e.style.setProperty('--pt',ps[0]);e.style.setProperty('--ps',ps[1])}else{e.style.removeProperty('--pt');e.style.removeProperty('--ps')}
  g('rib').innerHTML=ribbon(p,o.rib,o.ribs);
  g('air').classList.toggle('on',!!+o.air);
- const st=g('stamp');st.innerHTML=stampHTML(o);st.style.display=o.stamp?'block':'none';
+ const st=g('stamp');st.innerHTML=stampHTML(o);st.style.display=o.stamp?'block':'none';if(o.spx!=null){st.style.right='auto';st.style.left=o.spx+'%';st.style.top=o.spy+'%'}else{st.style.left=st.style.top=st.style.right=''}
  const pm=g('pm');pm.style.display=+o.pm?'flex':'none';pm.innerHTML='LOVE<br>'+new Date(ts||Date.now()).toLocaleDateString('en-GB')}
 function addr(p,to,from){$(p+'to').textContent=to||'Người thương';$(p+'from').textContent=from||'Người gửi'}
 function paperApply(el,o){el.dataset.ps=o.ps;el.dataset.fr=o.fr;el.style.setProperty('--ink',o.ink);el.style.backgroundColor=o.paper}
@@ -456,6 +474,42 @@ function syncSt(){$('stz').value=S.stz;$('stx').value=S.stx;$('sty').value=S.sty
 $('stf').onchange=e=>{S.stf=e.target.checked?1:0;paintMain()};
 $('stampIn').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const im=new Image();im.onload=()=>{const s=Math.min(1,320/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);S.stp=c.toDataURL('image/jpeg',.8);S.stamp='photo';S.stz=1;S.stx=50;S.sty=50;syncSt();mark();paintMain()};im.src=ev.target.result};r.readAsDataURL(f);e.target.value=''};
 mark();
+
+/* ---------- tem nhiều nước ---------- */
+const CTY=[['all','Tất cả'],['jp','Nhật'],['cn','Trung Quốc'],['vn','Việt Nam'],['th','Thái Lan'],['kr','Hàn Quốc'],['my','Malaysia'],['us','Mỹ'],['uk','Anh']];
+const STC={};Object.keys(STAMPS).forEach(k=>STC[k]='jp');
+const US_STARS=[...Array(12)].map((_,i)=>spark(5+(i%4)*6.4,14+((i/4)|0)*8,.5,'#fff')).join('');
+[['cn_lantern','cn','Đèn lồng','福',`<rect width='60' height='76' fill='#b3282d'/><rect x='4' y='4' width='52' height='68' fill='none' stroke='#e8b84c'/><path d='M30 8V16' stroke='#e8b84c'/><ellipse cx='30' cy='34' rx='15' ry='17' fill='#e04a3a' stroke='#e8b84c'/><path d='M30 17V51M22 19Q17 34 22 49M38 19Q43 34 38 49' stroke='#8a1d1d' fill='none'/><rect x='24' y='14' width='12' height='4' fill='#e8b84c'/><rect x='24' y='50' width='12' height='4' fill='#e8b84c'/><text x='30' y='40' text-anchor='middle' font-size='14' fill='#f6d77a' font-family='serif'>福</text><path d='M30 54V66' stroke='#e8b84c'/>`],
+['cn_bamboo','cn','Trúc','壹元',`<rect width='60' height='76' fill='#e6ecd2'/><circle cx='42' cy='20' r='9' fill='#c0392b' opacity='.8'/><g fill='#4c7a3c'><rect x='14' width='5' height='76'/><rect x='30' width='4' height='76'/></g><path d='M14 18h5M14 40h5M14 62h5M30 10h4M30 34h4M30 58h4' stroke='#e6ecd2' stroke-width='1.5'/><path d='M19 30Q32 24 40 30Q32 34 19 30zM34 50Q46 44 54 50Q46 54 34 50z' fill='#6a9e52'/>`],
+['vn_lotus','vn','Sen','500đ',`<rect width='60' height='76' fill='#f2e6c4'/><path d='M0 56Q15 50 30 56T60 54V76H0z' fill='#3f7a45'/><g transform='translate(30 52)' stroke='#d9607f' stroke-width='.8'><ellipse rx='6' ry='15' cy='-14' fill='#f4a8bd' transform='rotate(-40)'/><ellipse rx='6' ry='15' cy='-14' fill='#f4a8bd' transform='rotate(40)'/><ellipse rx='6.5' ry='17' cy='-15' fill='#f9cdd9'/></g><path d='M30 16l1.5 4h4l-3 3 1 4-3.5-2.5L26.500 27l1-4-3-3h4z' fill='#e8b84c'/>`],
+['vn_halong','vn','Vịnh Hạ Long','1000đ',`<rect width='60' height='76' fill='#f7d9a8'/><circle cx='42' cy='20' r='8' fill='#e8602c'/><path d='M0 50L12 28L20 50zM16 50L30 22L44 50zM38 50L50 34L60 50z' fill='#4a6a58'/><rect y='50' width='60' height='26' fill='#2f6b86'/><path d='M0 58Q7 55 14 58T28 58T42 58T56 58' stroke='#b5dcec' fill='none'/><path d='M22 60h16l-3 5H25z' fill='#7a2a1a'/><path d='M30 60V50l7 7z' fill='#f6efe0'/>`],
+['th_arun','th','Wat Arun','฿5',`<rect width='60' height='76' fill='#2a2f6b'/><circle cx='46' cy='16' r='6' fill='#f2d46a'/><path d='M30 10L35 30H25zM30 22L42 44H18zM30 34L50 62H10z' fill='#f2d46a' stroke='#8a6a18' stroke-width='.8'/><rect y='62' width='60' height='14' fill='#17194a'/><path d='M0 68Q7 65 14 68T28 68T42 68T56 68' stroke='#8a8fd0' fill='none'/>`],
+['th_ele','th','Voi','฿10',`<rect width='60' height='76' fill='#f0dca8'/><circle cx='30' cy='30' r='18' fill='#d9531e' opacity='.85'/><g fill='#6b6f78'><ellipse cx='30' cy='54' rx='17' ry='10'/><circle cx='18' cy='42' r='9'/><path d='M12 44Q6 56 10 62L14 62Q12 54 17 48z'/><rect x='18' y='58' width='5' height='12'/><rect x='34' y='58' width='5' height='12'/></g><circle cx='15' cy='40' r='1.3'/><path d='M22 38Q32 34 40 44' stroke='#c9a030' stroke-width='2' fill='none'/>`],
+['kr_taegeuk','kr','Thái cực','百원',`<rect width='60' height='76' fill='#f7f1e3'/><circle cx='30' cy='34' r='14' fill='#cd2e3a'/><path d='M16 34a14 14 0 0 0 28 0a7 7 0 0 0 -14 0a7 7 0 0 1 -14 0z' fill='#0047a0'/><path d='M8 10l9-3M10 15l9-3M52 10l-9-3M50 15l-9-3M8 62l9 3M10 57l9 3M52 62l-9 3M50 57l-9 3' stroke='#111' stroke-width='2.4'/>`],
+['kr_hanok','kr','Hanok','五拾원',`<rect width='60' height='76' fill='#dfe9ef'/><circle cx='44' cy='16' r='7' fill='#f2d46a'/><path d='M6 38Q30 30 54 38L50 42H10z' fill='#3a4a5c'/><rect x='14' y='42' width='32' height='18' fill='#f3e8d0'/><path d='M20 42V60M30 42V60M40 42V60' stroke='#7a4a2a' stroke-width='2'/><rect y='60' width='60' height='16' fill='#6b8a5a'/>`],
+['my_hibiscus','my','Bunga raya','RM1',`<rect width='60' height='76' fill='#f6e7b8'/>${flo(30,36,17,'#d62f45','#f6d46a',10)}${leaf(14,66,1.2,'#4f7a3c',-30)}${leaf(46,66,1.2,'#4f7a3c',30)}`],
+['my_twin','my','Tháp đôi','RM2',`<rect width='60' height='76' fill='#1a2a5a'/><g fill='#cfd8e6'><rect x='12' y='24' width='13' height='42'/><rect x='35' y='24' width='13' height='42'/><rect x='25' y='40' width='10' height='4'/></g><path d='M18.500 24V12M41.500 24V12' stroke='#cfd8e6' stroke-width='2'/><path d='M12 34h13M35 34h13M12 46h13M35 46h13' stroke='#1a2a5a'/><rect y='66' width='60' height='10' fill='#c0392b'/>`],
+['us_flag','us','Cờ sao','25¢',`<rect width='60' height='76' fill='#f4ecd8'/><g fill='#b22234'><rect y='8' width='60' height='6'/><rect y='20' width='60' height='6'/><rect y='32' width='60' height='6'/><rect y='44' width='60' height='6'/><rect y='56' width='60' height='6'/></g><rect y='8' width='28' height='30' fill='#3c3b6e'/>${US_STARS}`],
+['uk_penny','uk','One Penny','1d',`<rect width='60' height='76' fill='#b3261e'/><rect x='5' y='5' width='50' height='66' fill='none' stroke='#f6e8d0'/><circle cx='30' cy='32' r='15' fill='#f6e8d0'/><path d='M22 28L25 21L30 26L35 21L38 28z' fill='#c9a030'/><rect x='22' y='28' width='16' height='4' fill='#c9a030'/><text x='30' y='64' text-anchor='middle' font-size='7' fill='#f6e8d0' font-family='serif'>ONE PENNY</text>`],
+['uk_bigben','uk','Big Ben','2p',`<rect width='60' height='76' fill='#dbe3ea'/><circle cx='44' cy='16' r='7' fill='#f6efe0'/><rect x='22' y='20' width='14' height='46' fill='#b89a5a'/><path d='M22 20L29 4L36 20z' fill='#6a5a3a'/><circle cx='29' cy='30' r='4.500' fill='#f6efe0' stroke='#3a2a12'/><path d='M29 27V30H31' stroke='#111' fill='none'/><rect y='66' width='60' height='10' fill='#3a5a7a'/>`]
+].forEach(([k,c,n,v,s])=>{STAMPS[k]=s;STC[k]=c;STN[k]=n;STV[k]=v});
+let PEND=null,CC='all';
+const slotShow=()=>{$('slot').innerHTML=PEND?stampHTML({stamp:PEND}):'<span>Chọn một con tem ở bảng bên phải</span>'};
+function buildStamps(){const b=$('stamps');b.innerHTML='';const none=document.createElement('button');none.className='o';none.dataset.v='';none.textContent='Gỡ tem';none.onclick=()=>{S.stamp='';mark();paintMain()};b.appendChild(none);
+ Object.keys(STAMPS).filter(k=>CC=='all'||STC[k]==CC).forEach(k=>{const x=document.createElement('button');x.className='o';x.dataset.v=k;x.innerHTML=`<div class="sm"><svg viewBox="0 0 60 76" preserveAspectRatio="xMidYMid slice">${STAMPS[k]}</svg></div>${STN[k]}`;
+  x.onclick=()=>{PEND=k;slotShow();if(sRot.front())sRot.flip();$('shint').textContent='Kẹp tem bằng cái gắp, rồi thả lên mặt sau phong bì để dán';};b.appendChild(x)});mark()}
+CTY.forEach(([v,n])=>{const x=document.createElement('button');x.textContent=n;x.className=v==CC?'on':'';x.onclick=()=>{CC=v;[...$('cty').children].forEach(y=>y.classList.toggle('on',y==x));buildStamps()};$('cty').appendChild(x)});
+buildStamps();slotShow();
+/* cái gắp tem */
+(function(){const tw=$('twz');let drag=0,gh=null;
+ const mv=e=>{tw.style.left=e.clientX-17+'px';tw.style.top=e.clientY-150+'px';gh.style.left=e.clientX+'px';gh.style.top=e.clientY+'px'};
+ tw.onpointerdown=e=>{if(!PEND)return;e.preventDefault();tw.setPointerCapture(e.pointerId);drag=1;tw.style.cssText='position:fixed;z-index:90;transform:rotate(-8deg);transform-origin:50% 100%';
+  gh=document.createElement('div');gh.className='ghost';gh.innerHTML=stampHTML({stamp:PEND});document.body.appendChild(gh);$('slot').classList.add('lift');mv(e)};
+ tw.onpointermove=e=>{if(drag)mv(e)};
+ tw.onpointerup=e=>{if(!drag)return;drag=0;const r=$('sfb').getBoundingClientRect();gh.remove();tw.style.cssText='';$('slot').classList.remove('lift');
+  if(e.clientX>r.left&&e.clientX<r.right&&e.clientY>r.top&&e.clientY<r.bottom){S.stamp=PEND;S.spx=Math.max(2,Math.min(80,(e.clientX-r.left)/r.width*100-9));S.spy=Math.max(2,Math.min(60,(e.clientY-r.top)/r.height*100-9));PEND=null;slotShow();mark();paintMain();
+   const w=$('sstamp');w.classList.remove('press');void w.offsetWidth;w.classList.add('press');$('shint').textContent='Đã dán tem ✔ — chọn tem khác để thay'}else $('shint').textContent='Thả gắp ngay trên mặt sau phong bì nhé'};})();
+(function(){const s=$('lstrip');['fuji','vn_lotus','cn_lantern','th_arun','kr_taegeuk','my_hibiscus','us_flag','uk_penny'].forEach((k,i)=>{const d=document.createElement('div');d.innerHTML=stampHTML({stamp:k});d.firstChild.style.setProperty('--r',(i%2?4:-4)+'deg');s.appendChild(d.firstChild)})})();
 
 /* ---------- sticker ---------- */
 const STK={
