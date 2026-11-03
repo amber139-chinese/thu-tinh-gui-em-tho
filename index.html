@@ -283,7 +283,7 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
       <input class="f" id="music" placeholder="Dán link YouTube hoặc link file .mp3">
       <div class="g2"><button class="btn g" id="musplay" onclick="musToggle()">▶ Nghe nhạc</button><button class="btn g" onclick="musIn.click()">Tải file nhạc lên</button></div>
       <label style="margin-top:6px">Âm lượng</label><input type="range" id="musvol" min="0" max="100" value="60">
-      <p class="note">Bấm Nghe nhạc để vừa viết vừa nghe. Nhạc sẽ phát cho người nhận khi họ mở phong bì. Link MP3 phải là link trực tiếp tới file; tải file lên thì dùng Cloudinary (tối đa 20MB). Để trống nếu không muốn có nhạc.</p>
+      <p class="note">Bấm Nghe nhạc để vừa viết vừa nghe. Nhạc sẽ phát cho người nhận khi họ mở phong bì. Link MP3 phải là link trực tiếp tới file (tối đa 20MB). Để trống nếu không muốn có nhạc.</p>
       <input type="file" id="musIn" accept="audio/*" hidden></div>
     <div class="sec s-env"><h3>Ghi trên phong bì</h3><label>Tên người nhận</label><input class="f" id="toname" maxlength="28" placeholder="Em thơ"><label>Tên người gửi</label><input class="f" id="sender" maxlength="28" placeholder="Tên của bạn"></div>
     <div class="sec s-env"><h3>Dịp đặc biệt <small>(chọn nhanh bộ phong bì)</small></h3><div class="g3" id="evs"></div></div>
@@ -308,15 +308,17 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
     <div class="sec s-letter"><h3>Màu mực</h3><div class="sw" id="sw-ink"></div></div>
     <div class="sec s-letter"><h3>Hoạ tiết trang trí</h3><div class="g4" id="stk"></div><p class="note">Bấm là hoạ tiết dán lên thư ngay • kéo để di chuyển • cuộn chuột hoặc nút +/− để đổi cỡ • double-click để xoá</p><div class="nav"><button class="btn g" onclick="szSt(10)">＋ Lớn</button><button class="btn g" onclick="szSt(-10)">－ Nhỏ</button><button class="btn g" onclick="clearSt()">Xoá hết</button></div></div>
     <div class="sec s-letter"><h3>Phụ kiện kèm thư</h3>
-<div style="background:#fff8ed;border:1px solid #e6d5bd;border-radius:12px;padding:14px;margin:12px 0;color:#594633;font-size:.9rem;line-height:1.6">
-  <strong>Thông tin về quyền riêng tư</strong>
-  <p style="margin:8px 0">Khi bạn tải video hoặc ghi âm lên thư, các tệp này sẽ được lưu trữ trên dịch vụ Cloudinary để phục vụ việc lưu và chia sẻ thư.</p>
-  <p style="margin:8px 0">Người quản lý website có thể truy cập các tệp thông qua tài khoản quản lý hệ thống. Người có đường dẫn truy cập thư cũng có thể xem hoặc nghe nội dung đính kèm theo cách chia sẻ hiện tại.</p>
-  <p style="margin:8px 0">⚠️ Vui lòng không tải lên thông tin cá nhân hoặc nội dung nhạy cảm mà bạn không muốn chia sẻ.</p>
+<div style="width:fit-content;max-width:100%;background:#fff8ed;border:1px solid #e6d5bd;border-radius:8px;padding:10px 12px;margin:10px 0;color:#594633;font-size:12px;line-height:1.5;box-sizing:border-box">
+
+  <p style="margin:0 0 8px">
+    ⚠️ Vui lòng không tải lên thông tin cá nhân hoặc nội dung nhạy cảm mà bạn không muốn chia sẻ.
+  </p>
+
   <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer">
-    <input type="checkbox" id="mediaConsent" style="margin-top:4px">
+    <input type="checkbox" id="mediaConsent" style="margin-top:3px;flex-shrink:0">
     <span>Tôi đã đọc và đồng ý với thông tin về việc lưu trữ video và ghi âm ở trên.</span>
   </label>
+
 </div>
 <label>Kiểu thiết kế (polaroid / video)</label><select class="f" id="accd"><option value="">Polaroid trắng</option><option value="kraft">Giấy kraft + băng keo</option><option value="film">Phim đen</option></select><div class="g2"><button class="btn g" onclick="polIn.click()">Polaroid</button><button class="btn g" onclick="imgIn.click()">Sticker của bạn</button><button class="btn g" id="recb" onclick="rec()">Ghi âm</button><button class="btn g" onclick="vidIn.click()">Video</button></div><p class="note">Mỗi món sẽ được bỏ vào phong bì, người nhận rút ra lần lượt sau khi đọc thư. Ghi âm và video được tải lên Cloudinary.</p><div class="lst" id="acclst"></div><input type="file" id="polIn" accept="image/*" hidden><input type="file" id="imgIn" accept="image/*" hidden><input type="file" id="vidIn" accept="video/*" hidden></div>
 <div class="sec s-letter"><h3>Bản dịch</h3><p style="font-size:.88rem;color:#a0c098;margin-bottom:8px">Viết tiếng Việt xong, bấm tab <b>English</b> hoặc <b>中文</b> phía trên lá thư rồi bấm nút <b>Dịch</b>. Kết quả hiện thẳng vào thư, bạn sửa tuỳ ý.</p></div>
