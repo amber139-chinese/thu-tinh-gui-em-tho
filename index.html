@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!--
+  Thư tình gửi em thơ
+  © 2026 Amber-chinese. Bảo lưu mọi quyền. Không được sao chép, chỉnh sửa hay phân phối lại mã nguồn, giao diện hoặc nội dung nếu chưa được sự đồng ý bằng văn bản.
+-->
 <html lang="vi">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -234,12 +238,15 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
 .mxb input[type=color]{width:100%;height:34px;border:0;background:none}
 #mh{background:linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00);height:10px;border-radius:5px;-webkit-appearance:none}
 .seal::after{filter:drop-shadow(-1px -1px 0 rgba(0,0,0,.6)) drop-shadow(1px 1px 0 rgba(255,255,255,.3))}
+.pen{width:56px;height:170px;filter:drop-shadow(3px 5px 4px rgba(0,0,0,.45))}
+@keyframes drop{0%{transform:translateY(-140px) rotate(-14deg) scale(1.35);opacity:0}55%{transform:translateY(8px) rotate(2deg) scale(.96);opacity:1}100%{transform:none}}.st.drop{animation:drop .65s cubic-bezier(.2,.8,.3,1)}
+@keyframes pop{from{opacity:0;transform:translateY(70px) scale(.5) rotate(-10deg)}to{opacity:1;transform:none}}#paper .st{opacity:0}#paper.show .st{animation:pop .7s cubic-bezier(.2,.8,.3,1) both;animation-delay:calc(1.1s + var(--d,0)*1s)}
 </style>
 </head>
 <body>
 
 <div id="login"><div class="lp"><div class="lsw"><div class="lstamp"><div class="lsi"><svg viewBox="0 0 60 44" width="54" style="margin-bottom:4px"><rect x="3" y="4" width="54" height="36" rx="3" fill="#f7edd6" stroke="#4a3524" stroke-width="2"/><path d="M4 6l26 20L56 6" fill="none" stroke="#4a3524" stroke-width="2"/><circle cx="30" cy="27" r="5" fill="#9b2226"/></svg><b>Đăng nhập</b><small>bằng tài khoản Google</small><button class="btn" onclick="login()">Bước vào</button><div class="msg err" id="lerr" hidden></div></div></div></div>
-<div class="lhero"><div class="lpm">LOVE<br>LETTER</div><h1>Thư tình gửi em thơ</h1><p class="lintro">Một góc nhỏ để viết thư tay cho người thương: chọn phong bì, dán tem, đóng sáp, rồi gửi đi như một lá thư thật.</p><div class="lstrip" id="lstrip"></div></div></div></div>
+<div class="lhero"><div class="lpm">LOVE<br>LETTER</div><h1>Thư tình gửi em thơ</h1><p class="lintro">Ngày xưa xe ngựa chạy rất chậm, thư từ thì lại gửi đi rất xa, một đời chỉ đủ để yêu một người mà thôi...</p><div class="lstrip" id="lstrip"></div></div></div></div>
 
 <div id="app" hidden>
 <header><h1>Thư tình gửi em thơ</h1><div class="sub">Chọn phong bì · viết thư · gửi người thương</div>
@@ -591,9 +598,9 @@ function paginate(text,l,c0){const mz=$('mz'),max=c0.max||MAXP;mz.innerHTML='';
  mz.innerHTML='';return{pages,trunc}}
 
 /* hoạ tiết dán: mỗi hoạ tiết thuộc về 1 lá (p) */
-function mkSt(m,ro){const el=document.createElement('div');el.className='st';el.dataset.k=m.e;el.innerHTML=accHTML(m)||stHTML(m.e);if(m.e[0]=='@')el.classList.add('acc');
+function mkSt(m,ro){const el=document.createElement('div');el.className='st';el.dataset.k=m.e;el.innerHTML=accHTML(m)||stHTML(m.e);if(m.e[0]=='@')el.classList.add('acc');if(m.fresh){el.classList.add('drop');delete m.fresh}
  el.style.cssText=`left:${m.x*100}%;top:${m.y*100}%;width:${m.w}px;height:${m.e[0]=='@'?'auto':m.w+'px'}`+(ro?';cursor:default':'');
- if(ro)return el;
+ if(ro){el.style.setProperty('--d',Math.random()*.9);return el}
  el._m=m;let d=0,sx,sy,bl,bt;
  el.onpointerdown=ev=>{if(ev.target.closest('audio,video'))return;selSt=el;d=1;sx=ev.clientX;sy=ev.clientY;bl=el.offsetLeft;bt=el.offsetTop;el.setPointerCapture(ev.pointerId)};
  el.onpointermove=ev=>{if(!d)return;el.style.left=(bl+(ev.clientX-sx)/Z)+'px';el.style.top=(bt+(ev.clientY-sy)/Z)+'px'};
@@ -605,7 +612,7 @@ function putSt(sheets,list,ro){sheets.forEach(sh=>sh.querySelectorAll('.st').for
  list.forEach(m=>{const sh=sheets[Math.min(m.p||0,sheets.length-1)];if(sh)sh.appendChild(mkSt(m,ro))})}
 function renderSt(){selSt=null;putSt([...$('pgs').querySelectorAll('.sheet')],ST,false)}
 function curPage(){let best=0,bv=-1;[...$('pgs').querySelectorAll('.sheet')].forEach((e,i)=>{const r=e.getBoundingClientRect(),v=Math.min(r.bottom,innerHeight)-Math.max(r.top,0);if(v>bv){bv=v;best=i}});return best}
-function addSt(k,x,y,w=64,p){const m={e:k,x,y,w,p:p==null?curPage():p};ST.push(m);renderSt();selSt=[...$('pgs').querySelectorAll('.st')].find(e=>e._m===m)||null}
+function addSt(k,x,y,w=64,p){const m={e:k,x,y,w,p:p==null?curPage():p,fresh:1};ST.push(m);renderSt();selSt=[...$('pgs').querySelectorAll('.st')].find(e=>e._m===m)||null}
 function szSt(d,el=selSt){if(!el||!el._m)return;const w=Math.max(28,Math.min(180,el._m.w+d));el._m.w=w;el.style.width=el.style.height=w+'px'}
 function clearSt(){ST=[];renderSt()}
 
@@ -781,11 +788,11 @@ ribbon=function(p,c,st){if(!st||st=='none')return '';const x=st.startsWith('cros
 [['cross','Quấn chéo'],['crossthin','Chéo mảnh']].forEach(([v,n])=>{const b=document.createElement('button');b.className='o';b.dataset.v=v;b.textContent=n;b.onclick=()=>{S.ribs=v;S.tied=false;TS=0;mark();paintMain()};$('ribs').appendChild(b)});
 $('ribs').querySelectorAll('.o').forEach(b=>{const f=b.onclick;if(!b.dataset.v||b.dataset.v.startsWith('cross'))return;b.onclick=()=>{S.tied=false;TS=0;f()}});
 /* ---------- bút máy ---------- */
-const PEN=document.createElement('div');PEN.className='pen';PEN.innerHTML='<svg viewBox="0 0 34 90"><path d="M17 90L11 70L13 20Q17 14 21 20L23 70z" fill="#1d2b4f"/><path d="M13 20H21L22 8Q17 0 12 8z" fill="#c9a030"/><path d="M17 90L14 74H20z" fill="#c9a030"/><path d="M13 30H21M13 36H21" stroke="#c9a030" stroke-width="1.5"/></svg>';document.body.appendChild(PEN);let _pt;
+const PEN=document.createElement('div');PEN.className='pen';PEN.innerHTML='<svg viewBox="0 0 60 170" width="56" height="170"><defs><linearGradient id="pb" x1="0" x2="1"><stop offset="0" stop-color="#4a0b17"/><stop offset=".35" stop-color="#b03a48"/><stop offset=".7" stop-color="#6d1422"/><stop offset="1" stop-color="#3a0710"/></linearGradient><linearGradient id="pg" x1="0" x2="1"><stop offset="0" stop-color="#8a6a1c"/><stop offset=".4" stop-color="#f6e08a"/><stop offset=".75" stop-color="#c9a030"/><stop offset="1" stop-color="#7a5a14"/></linearGradient></defs><path d="M16 22Q16 8 30 6Q44 8 44 22V118H16z" fill="url(#pb)"/><path d="M22 20V112" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-linecap="round"/><rect x="15" y="38" width="30" height="3" fill="url(#pg)"/><rect x="15" y="44" width="30" height="2" fill="url(#pg)"/><path d="M44 26Q53 28 53 42V74Q53 78 46 78" fill="none" stroke="url(#pg)" stroke-width="3" stroke-linecap="round"/><rect x="14" y="112" width="32" height="7" rx="1" fill="url(#pg)"/><path d="M19 119H41L37 143H23z" fill="#1c1210"/><path d="M24 121L26 141" stroke="#fff" stroke-opacity=".25" stroke-width="2"/><path d="M23 143H37L33 160L30 168L27 160z" fill="url(#pg)" stroke="#6a4a10" stroke-width=".8"/><path d="M30 153V168" stroke="#3a2a08" stroke-width=".9"/><circle cx="30" cy="152" r="1.7" fill="#3a2a08"/></svg>';document.body.appendChild(PEN);let _pt;
 function penTo(ta){const cs=getComputedStyle(ta),m=document.createElement('div');m.style.cssText=`position:fixed;left:-9999px;top:0;width:${ta.clientWidth}px;white-space:pre-wrap;word-wrap:break-word;font:${cs.font};line-height:${cs.lineHeight};letter-spacing:${cs.letterSpacing}`;
  m.textContent=ta.value.slice(0,ta.selectionStart);const s=document.createElement('span');s.textContent='\u200b';m.appendChild(s);document.body.appendChild(m);
  const sr=s.getBoundingClientRect(),mr=m.getBoundingClientRect(),tr=ta.getBoundingClientRect(),k=tr.width/ta.offsetWidth||1,lh=parseFloat(cs.lineHeight)||36;
- PEN.style.left=tr.left+(sr.left-mr.left)*k-17+'px';PEN.style.top=tr.top+(sr.top-mr.top+lh*.85)*k-90+'px';m.remove();PEN.classList.add('on');clearTimeout(_pt);_pt=setTimeout(()=>PEN.classList.remove('on'),900)}
+ PEN.style.left=tr.left+(sr.left-mr.left)*k-28+'px';PEN.style.top=tr.top+(sr.top-mr.top+lh*.85)*k-170+'px';m.remove();PEN.classList.add('on');clearTimeout(_pt);_pt=setTimeout(()=>PEN.classList.remove('on'),900)}
 document.addEventListener('input',e=>{if(e.target.matches&&e.target.matches('#pgs .lt'))penTo(e.target)});
 async function typeIn(l,t){const n=Math.max(2,Math.ceil(t.length/150));for(let i=n;;i+=n){TXT[l]=t.slice(0,i);renderEd(null,false);const a=[...$('pgs').querySelectorAll('.lt')].pop();if(a){a.selectionStart=a.selectionEnd=a.value.length;penTo(a)}if(i>=t.length)break;await new Promise(r=>setTimeout(r,30))}TXT[l]=t;renderEd(null,false)}
 /* ---------- sticker vẽ tay ---------- */
@@ -805,7 +812,7 @@ function accHTML(m){const k=m.e;
  if(k=='@img')return `<img src="${m.src}" style="width:100%;display:block">`;
  if(k=='@aud')return `<div class="pol kraft"><svg viewBox="0 0 80 40" width="100%"><rect x="2" y="2" width="76" height="36" rx="4" fill="#efe3c8" stroke="#5a4028"/><circle cx="24" cy="20" r="8" fill="#5a4028"/><circle cx="56" cy="20" r="8" fill="#5a4028"/><circle cx="24" cy="20" r="3" fill="#efe3c8"/><circle cx="56" cy="20" r="3" fill="#efe3c8"/></svg><audio controls src="${m.src}"></audio></div>`;
  if(k=='@vid')return `<div class="pol ${m.d||'film'}"><video controls playsinline src="${m.src}"></video></div>`;return ''}
-const addAcc=m=>{ST.push({x:.3,y:.3,w:150,p:curPage(),...m});renderSt()};
+const addAcc=m=>{ST.push({x:.3,y:.3,w:150,p:curPage(),fresh:1,...m});renderSt()};
 const rs=(f,mx,cb)=>{const r=new FileReader();r.onload=ev=>{const im=new Image();im.onload=()=>{const s=Math.min(1,mx/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.6))};im.src=ev.target.result};r.readAsDataURL(f)};
 const CLD={name:'wvztoilv',preset:'thu-tinh'};
 const upl=async(b)=>{const f=new FormData();f.append('file',b);f.append('upload_preset',CLD.preset);const r=await fetch(`https://api.cloudinary.com/v1_1/${CLD.name}/video/upload`,{method:'POST',body:f}),j=await r.json();if(!r.ok||!j.secure_url)throw new Error((j.error&&j.error.message)||('HTTP '+r.status));return j.secure_url};
