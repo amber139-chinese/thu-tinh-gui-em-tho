@@ -7,7 +7,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 <style>
 :root{--bg:#1a2e1c;--panel:#122016;--bd:#3a5c3e;--tx:#d8e8d0;--ink:#2a1c12;
 --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .22 0 0 0 0 .12 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -240,7 +239,7 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
 <body>
 
 <div id="login"><div class="lp"><div class="lsw"><div class="lstamp"><div class="lsi"><svg viewBox="0 0 60 44" width="54" style="margin-bottom:4px"><rect x="3" y="4" width="54" height="36" rx="3" fill="#f7edd6" stroke="#4a3524" stroke-width="2"/><path d="M4 6l26 20L56 6" fill="none" stroke="#4a3524" stroke-width="2"/><circle cx="30" cy="27" r="5" fill="#9b2226"/></svg><b>Đăng nhập</b><small>bằng tài khoản Google</small><button class="btn" onclick="login()">Bước vào</button><div class="msg err" id="lerr" hidden></div></div></div></div>
-<div class="lhero"><div class="lpm">LOVE<br>LETTER</div><h1>Thư tình gửi em thơ</h1><p class="lintro">Ngày xưa xe ngựa chạy rất chậm, thư từ thì lại gửi đi rất xa, một đời chỉ đủ để yêu một người mà thôi...</p><div class="lstrip" id="lstrip"></div></div></div></div>
+<div class="lhero"><div class="lpm">LOVE<br>LETTER</div><h1>Thư tình gửi em thơ</h1><p class="lintro">Một góc nhỏ để viết thư tay cho người thương: chọn phong bì, dán tem, đóng sáp, rồi gửi đi như một lá thư thật.</p><div class="lstrip" id="lstrip"></div></div></div></div>
 
 <div id="app" hidden>
 <header><h1>Thư tình gửi em thơ</h1><div class="sub">Chọn phong bì · viết thư · gửi người thương</div>
@@ -280,7 +279,7 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
     <div class="sec s-letter"><h3>Font chữ <small id="fontlang"></small></h3><div class="g3" id="fonts"></div><p class="note">Chuyển tab ngôn ngữ phía trên lá thư để chọn font cho từng ngôn ngữ.</p></div>
     <div class="sec s-letter"><h3>Màu mực</h3><div class="sw" id="sw-ink"></div></div>
     <div class="sec s-letter"><h3>Hoạ tiết trang trí</h3><div class="g4" id="stk"></div><p class="note">Bấm là hoạ tiết dán lên thư ngay • kéo để di chuyển • cuộn chuột hoặc nút +/− để đổi cỡ • double-click để xoá</p><div class="nav"><button class="btn g" onclick="szSt(10)">＋ Lớn</button><button class="btn g" onclick="szSt(-10)">－ Nhỏ</button><button class="btn g" onclick="clearSt()">Xoá hết</button></div></div>
-    <div class="sec s-letter"><h3>Phụ kiện kèm thư</h3><label>Kiểu thiết kế (polaroid / video)</label><select class="f" id="accd"><option value="">Polaroid trắng</option><option value="kraft">Giấy kraft + băng keo</option><option value="film">Phim đen</option></select><div class="g2"><button class="btn g" onclick="polIn.click()">Polaroid</button><button class="btn g" onclick="imgIn.click()">Sticker của bạn</button><button class="btn g" id="recb" onclick="rec()">Ghi âm</button><button class="btn g" onclick="vidIn.click()">Video</button></div><p class="note">Kéo để đặt, double-click để xoá. Ghi âm và video được tải lên Firebase Storage.</p><input type="file" id="polIn" accept="image/*" hidden><input type="file" id="imgIn" accept="image/*" hidden><input type="file" id="vidIn" accept="video/*" hidden></div>
+    <div class="sec s-letter"><h3>Phụ kiện kèm thư</h3><label>Kiểu thiết kế (polaroid / video)</label><select class="f" id="accd"><option value="">Polaroid trắng</option><option value="kraft">Giấy kraft + băng keo</option><option value="film">Phim đen</option></select><div class="g2"><button class="btn g" onclick="polIn.click()">Polaroid</button><button class="btn g" onclick="imgIn.click()">Sticker của bạn</button><button class="btn g" id="recb" onclick="rec()">Ghi âm</button><button class="btn g" onclick="vidIn.click()">Video</button></div><p class="note">Kéo để đặt, double-click để xoá. Ghi âm và video được tải lên Cloudinary.</p><input type="file" id="polIn" accept="image/*" hidden><input type="file" id="imgIn" accept="image/*" hidden><input type="file" id="vidIn" accept="video/*" hidden></div>
 <div class="sec s-letter"><h3>Bản dịch</h3><p style="font-size:.88rem;color:#a0c098;margin-bottom:8px">Viết tiếng Việt xong, bấm tab <b>English</b> hoặc <b>中文</b> phía trên lá thư rồi bấm nút <b>Dịch</b>. Kết quả hiện thẳng vào thư, bạn sửa tuỳ ý.</p></div>
     <div class="nav s-letter"><button class="btn g" onclick="go('env')">← Phong bì</button><button class="btn" onclick="go('send')">Tiếp: Gửi →</button></div>
 
@@ -808,13 +807,14 @@ function accHTML(m){const k=m.e;
  if(k=='@vid')return `<div class="pol ${m.d||'film'}"><video controls playsinline src="${m.src}"></video></div>`;return ''}
 const addAcc=m=>{ST.push({x:.3,y:.3,w:150,p:curPage(),...m});renderSt()};
 const rs=(f,mx,cb)=>{const r=new FileReader();r.onload=ev=>{const im=new Image();im.onload=()=>{const s=Math.min(1,mx/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.6))};im.src=ev.target.result};r.readAsDataURL(f)};
-const upl=async(b,ext)=>{const r=firebase.storage().ref(`media/${user.uid}/${Date.now()}.${ext}`);await r.put(b,{contentType:b.type});return r.getDownloadURL()};
+const CLD={name:'wvztoilv',preset:'thu-tinh'};
+const upl=async(b)=>{const f=new FormData();f.append('file',b);f.append('upload_preset',CLD.preset);const r=await fetch(`https://api.cloudinary.com/v1_1/${CLD.name}/video/upload`,{method:'POST',body:f}),j=await r.json();if(!r.ok||!j.secure_url)throw new Error((j.error&&j.error.message)||('HTTP '+r.status));return j.secure_url};
 $('polIn').onchange=e=>{const f=e.target.files[0];if(f)rs(f,280,u=>addAcc({e:'@pol',src:u,d:$('accd').value,cap:prompt('Dòng chữ dưới ảnh (có thể để trống)')||''}));e.target.value=''};
 $('imgIn').onchange=e=>{const f=e.target.files[0];if(f)rs(f,160,u=>addAcc({e:'@img',src:u,w:90}));e.target.value=''};
-$('vidIn').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(f.size>30e6)return msg('Video tối đa 30MB',false);msg('Đang tải video...');try{addAcc({e:'@vid',src:await upl(f,'mp4'),d:$('accd').value,w:190});msg('Đã thêm video ✔')}catch(er){msg('Tải lên lỗi (cần bật Firebase Storage): '+er.message,false)}};
+$('vidIn').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(f.size>30e6)return msg('Video tối đa 30MB',false);msg('Đang tải video...');try{addAcc({e:'@vid',src:await upl(f,'mp4'),d:$('accd').value,w:190});msg('Đã thêm video ✔')}catch(er){msg('Tải lên lỗi (kiểm tra cloud name và preset Cloudinary): '+er.message,false)}};
 let MR=null,CH=[];
 async function rec(){const b=$('recb');if(MR){MR.stop();return}try{const s=await navigator.mediaDevices.getUserMedia({audio:true});MR=new MediaRecorder(s);CH=[];MR.ondataavailable=e=>CH.push(e.data);
- MR.onstop=async()=>{s.getTracks().forEach(t=>t.stop());b.textContent='Ghi âm';const bl=new Blob(CH,{type:MR.mimeType});MR=null;msg('Đang tải bản ghi âm...');try{addAcc({e:'@aud',src:await upl(bl,'webm')});msg('Đã thêm bản ghi âm ✔')}catch(er){msg('Tải lên lỗi (cần bật Firebase Storage): '+er.message,false)}};MR.start();b.textContent='Dừng ghi'}catch(er){msg('Không mở được micro',false)}}
+ MR.onstop=async()=>{s.getTracks().forEach(t=>t.stop());b.textContent='Ghi âm';const bl=new Blob(CH,{type:MR.mimeType});MR=null;msg('Đang tải bản ghi âm...');try{addAcc({e:'@aud',src:await upl(bl,'webm')});msg('Đã thêm bản ghi âm ✔')}catch(er){msg('Tải lên lỗi (kiểm tra cloud name và preset Cloudinary): '+er.message,false)}};MR.start();b.textContent='Dừng ghi'}catch(er){msg('Không mở được micro',false)}}
 
 /* ---------- thắt nơ 2 bước: bắt chéo → siết nút ---------- */
 let TS=0;
