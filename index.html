@@ -629,6 +629,88 @@ const US_STARS=[...Array(12)].map((_,i)=>spark(5+(i%4)*6.4,14+((i/4)|0)*8,.5,'#f
 ['uk_crown','uk','Vương miện','5p',`<rect width='60' height='76' fill='#4a1d4e'/><path d='M12 44L20 22L30 36L40 22L48 44z' fill='#e8b84c'/>`],
 ['uk_booth','uk','Bốt điện thoại','4p',`<rect width='60' height='76' fill='#d5e2ea'/><rect x='18' y='16' width='24' height='50' fill='#c0392b'/><rect x='22' y='26' width='16' height='14' fill='#d5eaf5'/>`],
 ].forEach(([k,c,n,v,s])=>{STAMPS[k]=s;STC[k]=c;STN[k]=n;STV[k]=v});
+
+/* ---------- vẽ lại một số tem ---------- */
+(function(){
+const pt=(cx,cy,r,a)=>[(cx+r*Math.sin(a*Math.PI/180)).toFixed(1),(cy-r*Math.cos(a*Math.PI/180)).toFixed(1)];
+const sec=(cx,cy,r1,r2,a0,a1,f,st)=>{const A=pt(cx,cy,r2,a0),B=pt(cx,cy,r2,a1),C=pt(cx,cy,r1,a1),D=pt(cx,cy,r1,a0);return `<path d='M${A}A${r2} ${r2} 0 0 1 ${B}L${C}A${r1} ${r1} 0 0 0 ${D}z' fill='${f}' stroke='${st||'none'}' stroke-width='.8'/>`};
+const ray=(cx,cy,r1,r2,a,st,w)=>{const A=pt(cx,cy,r1,a),B=pt(cx,cy,r2,a);return `<path d='M${A}L${B}' stroke='${st}' stroke-width='${w||.7}'/>`};
+const pet=(cx,cy,R,r,rot,f,st)=>[0,1,2,3,4].map(i=>{const a=(i*72+rot)*Math.PI/180;return `<circle cx='${(cx+R*Math.sin(a)).toFixed(1)}' cy='${(cy-R*Math.cos(a)).toFixed(1)}' r='${r}' fill='${f}' stroke='${st}' stroke-width='.8'/>`}).join('');
+const N=(a,b)=>Array.from({length:b-a+1},(_,i)=>a+i);
+
+/* Hổ — mặt hổ dân gian Hàn, bình minh */
+const tiger=`<rect width='60' height='76' fill='#f2e3bf'/><circle cx='30' cy='34' r='27' fill='#f0c27a' opacity='.55'/><path d='M0 62Q15 55 30 61T60 58V76H0z' fill='#587646'/><path d='M0 68Q18 62 34 67T60 65V76H0z' fill='#3f5b34'/>
+<circle cx='13' cy='19' r='7' fill='#df8a2c' stroke='#2a1c12' stroke-width='1.2'/><circle cx='47' cy='19' r='7' fill='#df8a2c' stroke='#2a1c12' stroke-width='1.2'/><circle cx='13' cy='19' r='3.4' fill='#f6d9b0'/><circle cx='47' cy='19' r='3.4' fill='#f6d9b0'/>
+<ellipse cx='30' cy='38' rx='21' ry='19' fill='#ea9a34' stroke='#2a1c12' stroke-width='1.4'/>
+<g stroke='#2a1c12' stroke-width='2.2' stroke-linecap='round' fill='none'><path d='M30 20V28M24 21L26 28M36 21L34 28'/><path d='M10 33L17 36M9 40L17 41M11 47L18 45M50 33L43 36M51 40L43 41M49 47L42 45'/></g>
+<ellipse cx='30' cy='47' rx='12' ry='8.5' fill='#fbf0d8' stroke='#2a1c12' stroke-width='1'/><ellipse cx='19' cy='44' rx='5' ry='4' fill='#fbf0d8'/><ellipse cx='41' cy='44' rx='5' ry='4' fill='#fbf0d8'/>
+<g stroke='#2a1c12' stroke-width='1.2'><ellipse cx='22' cy='35' rx='4' ry='3' fill='#f7e58a'/><ellipse cx='38' cy='35' rx='4' ry='3' fill='#f7e58a'/></g><circle cx='22' cy='35' r='1.7' fill='#1a1009'/><circle cx='38' cy='35' r='1.7' fill='#1a1009'/><circle cx='22.6' cy='34.3' r='.6' fill='#fff'/><circle cx='38.6' cy='34.3' r='.6' fill='#fff'/>
+<path d='M17 30Q22 27 26 30M43 30Q38 27 34 30' stroke='#2a1c12' stroke-width='1.6' fill='none' stroke-linecap='round'/>
+<path d='M26 42H34L30 47z' fill='#2a1c12'/><path d='M30 47V50M30 50Q26 54 22 51M30 50Q34 54 38 51' stroke='#2a1c12' stroke-width='1.3' fill='none' stroke-linecap='round'/>
+<g fill='#2a1c12'><circle cx='24' cy='47' r='.6'/><circle cx='22' cy='49' r='.6'/><circle cx='36' cy='47' r='.6'/><circle cx='38' cy='49' r='.6'/></g>`;
+
+/* Hồng Anh — hoa hồng Tudor */
+const sepal=N(0,4).map(i=>`<path d='M0 0C5-4 5-14 0-20C-5-14-5-4 0 0z' fill='#3f7a45' stroke='#24502b' stroke-width='.7' transform='translate(30 38) rotate(${i*72+36})'/>`).join('');
+const rose=`<rect width='60' height='76' fill='#f3ead6'/><rect x='3' y='3' width='54' height='70' fill='none' stroke='#b3261e' stroke-width='.9'/><rect x='5.500' y='5.500' width='49' height='65' fill='none' stroke='#b3261e' stroke-width='.4'/>
+<circle cx='30' cy='38' r='24' fill='#e9dcc0'/>${sepal}${pet(30,38,11.500,8.500,0,'#c4283a','#7a1420')}${pet(30,38,6.800,5.800,36,'#fbf6ea','#a88f7a')}<circle cx='30' cy='38' r='3.800' fill='#e8b84c' stroke='#8a6a18' stroke-width='.8'/><g fill='#8a6a18'><circle cx='30' cy='36.500' r='.6'/><circle cx='28.500' cy='38.500' r='.6'/><circle cx='31.500' cy='38.500' r='.6'/></g>
+<path d='M14 66Q30 71 46 66' stroke='#b3261e' stroke-width='1' fill='none'/>`;
+
+/* Vương miện */
+const arches=`<path d='M13 50Q13 26 30 22Q47 26 47 50' fill='#8e1f2c' stroke='none'/><path d='M13 50Q13 26 30 22Q47 26 47 50' fill='none' stroke='#e8b84c' stroke-width='3.200'/><path d='M13 50Q13 26 30 22Q47 26 47 50' fill='none' stroke='#8a6a18' stroke-width='.6'/><path d='M22 50Q22 30 30 22Q38 30 38 50' fill='none' stroke='#e8b84c' stroke-width='2.600'/><path d='M22 50Q22 30 30 22Q38 30 38 50' fill='none' stroke='#8a6a18' stroke-width='.5'/>`;
+const crown=`<rect width='60' height='76' fill='#2b1850'/><g fill='#f2d46a' opacity='.8'>${[[8,10],[50,12],[6,34],[54,30],[10,60],[52,62],[44,6]].map(([x,y])=>`<circle cx='${x}' cy='${y}' r='.9'/>`).join('')}</g>
+${arches}<circle cx='30' cy='22' r='3.600' fill='#e8b84c' stroke='#8a6a18' stroke-width='.7'/><rect x='29' y='10' width='2' height='9' fill='#e8b84c' stroke='#8a6a18' stroke-width='.5'/><rect x='26' y='13' width='8' height='2' fill='#e8b84c' stroke='#8a6a18' stroke-width='.5'/><circle cx='30' cy='9.500' r='1.300' fill='#f6efe0'/>
+<g fill='#f6efe0' stroke='#b9a888' stroke-width='.4'>${[[15.500,38],[18,32],[22.500,27.500],[37.500,27.500],[42,32],[44.500,38]].map(([x,y])=>`<circle cx='${x}' cy='${y}' r='1.500'/>`).join('')}</g>
+<rect x='11' y='49' width='38' height='9' rx='1.500' fill='#e8b84c' stroke='#8a6a18' stroke-width='.8'/><g stroke='#8a6a18' stroke-width='.5'><circle cx='17' cy='53.500' r='2.300' fill='#c4283a'/><circle cx='30' cy='53.500' r='2.600' fill='#2a63b0'/><circle cx='43' cy='53.500' r='2.300' fill='#2f9a5a'/><circle cx='23.500' cy='53.500' r='1.300' fill='#f6efe0'/><circle cx='36.500' cy='53.500' r='1.300' fill='#f6efe0'/></g>
+<path d='M9 58Q9 66 14 67H46Q51 66 51 58z' fill='#f6efe0' stroke='#b9a888' stroke-width='.7'/><g fill='#2a1c12'>${[[16,62],[24,64],[32,62],[40,64],[46,61]].map(([x,y])=>`<path d='M${x} ${y}l1.200 2.500l-2.400 0z M${x} ${y}l-.6 -1.600l1.200 0z'/>`).join('')}</g>`;
+
+/* Quạt — quạt giấy gấp Hàn Quốc */
+const fanRibs=N(-4,4).map(i=>ray(30,66,14,40,i*11,'#7a3a1a',.6)).join('');
+const fan=`<rect width='60' height='76' fill='#dbe7ee'/><circle cx='47' cy='14' r='6' fill='#f4d36a' opacity='.9'/><path d='M4 14Q9 10 14 14M10 8Q14 5 18 8' stroke='#9db4c4' fill='none' stroke-width='1'/>
+<path d='M26 66L22 75M34 66L38 75' stroke='#7a4a22' stroke-width='3' stroke-linecap='round'/>${sec(30,66,14,40,-50,50,'#f8efd6','#7a3a1a')}${sec(30,66,33,40,-50,50,'#1f4f98')}${sec(30,66,28,33,-50,50,'#cd2e3a')}${fanRibs}
+<g transform='translate(30 46)'><g fill='#f4a8bd' stroke='#c0446a' stroke-width='.6'>${[0,1,2,3,4].map(i=>`<ellipse cx='0' cy='-5' rx='3.200' ry='4.600' transform='rotate(${i*72})'/>`).join('')}</g><circle r='2' fill='#f2d46a'/></g>
+<path d='M24 55Q18 50 15 54Q19 58 24 55zM36 55Q42 50 45 54Q41 58 36 55z' fill='#6a9e52' stroke='#3f6b38' stroke-width='.5'/>
+<circle cx='30' cy='66' r='2.200' fill='#8a5a2a'/><path d='M30 68Q31 72 29 75' stroke='#cd2e3a' stroke-width='1.200' fill='none'/>`;
+
+/* Lan — hoa lan hồ điệp */
+const orchid=`<rect width='60' height='76' fill='#f6ecd9'/><circle cx='30' cy='34' r='25' fill='#f2dcc4' opacity='.6'/>
+<path d='M52 76C50 54 42 40 28 30' stroke='#5a7a3a' stroke-width='1.800' fill='none'/><circle cx='51' cy='52' r='2.600' fill='#d86fb5'/><circle cx='47' cy='44' r='2.200' fill='#e48cc6'/>
+<path d='M-2 76C0 60 14 54 30 58C22 65 12 71 -2 76z' fill='#4f7a3c' stroke='#2f5a2a' stroke-width='.6'/><path d='M12 76C22 66 38 62 54 66C46 72 30 75 12 76z' fill='#6a9e52' stroke='#3f6b38' stroke-width='.6'/>
+<g stroke='#9a3a84' stroke-width='.9'><ellipse cx='21' cy='47' rx='6' ry='10' transform='rotate(18 21 47)' fill='#e183c2'/><ellipse cx='35' cy='47' rx='6' ry='10' transform='rotate(-18 35 47)' fill='#e183c2'/><ellipse cx='18.500' cy='28' rx='10.500' ry='12' transform='rotate(-24 18.500 28)' fill='#f2a8d8'/><ellipse cx='37.500' cy='28' rx='10.500' ry='12' transform='rotate(24 37.500 28)' fill='#f2a8d8'/></g>
+<g stroke='#c85fa6' stroke-width='.5' fill='none'><path d='M18 20Q16 28 20 33M37 20Q40 28 36 33M21 41Q22 47 24 53M35 41Q34 47 32 53'/></g>
+<path d='M28 36C23 38 22 44 25 47Q28 51 31 47C34 44 33 38 28 36z' fill='#8a2a7a' stroke='#5a1a52' stroke-width='.7'/><path d='M26 42Q28 40 30 42' stroke='#f4d86a' stroke-width='1.300' fill='none'/><circle cx='28' cy='34.500' r='3' fill='#f4e07a' stroke='#b0902a' stroke-width='.6'/><circle cx='28' cy='34.500' r='1' fill='#fff6c8'/>`;
+
+/* Nón lá */
+const weave=[.25,.45,.65,.85].map(k=>`<path d='M${(30-24*k).toFixed(1)} ${(16+34*k).toFixed(1)}A${(24*k).toFixed(1)} ${(8*k).toFixed(1)} 0 0 0 ${(30+24*k).toFixed(1)} ${(16+34*k).toFixed(1)}' fill='none' stroke='#a8822a' stroke-width='.6'/>`).join('');
+const spokes=N(-4,4).map(i=>{const u=i*20;const x=30+24*Math.sin(u*Math.PI/180),y=50+8*Math.cos(u*Math.PI/180);return `<path d='M30 16L${x.toFixed(1)} ${y.toFixed(1)}' stroke='#c9a64e' stroke-width='.6'/>`}).join('');
+const paddy=N(0,6).map(i=>`<path d='M0 ${62+i*2.200}Q15 ${60+i*2.200} 30 ${62+i*2.200}T60 ${62+i*2.200}' stroke='#5a8a3c' stroke-width='.8' fill='none'/>`).join('');
+const nonla=`<rect width='60' height='76' fill='#cfe6d8'/><circle cx='49' cy='13' r='5.500' fill='#f4d36a'/><path d='M0 58Q14 50 28 57T60 55V76H0z' fill='#8fbf6a'/><path d='M0 62H60V76H0z' fill='#7fae5a'/>${paddy}
+<path d='M30 16L5 50A25 8.500 0 0 0 55 50z' fill='#ecce7a' stroke='#8a6a1a' stroke-width='1'/>${spokes}${weave}<path d='M30 16L5 50A25 8.500 0 0 0 55 50z' fill='none' stroke='#8a6a1a' stroke-width='1'/><path d='M30 16L30 50' stroke='#fff6d0' stroke-width='1.200' opacity='.5'/>
+<path d='M9 52Q6 62 12 68M51 52Q54 62 48 68' stroke='#c0392b' stroke-width='1.800' fill='none' stroke-linecap='round'/><path d='M12 68Q14 70 16 68M48 68Q46 70 44 68' stroke='#c0392b' stroke-width='1.400' fill='none'/><circle cx='30' cy='15.500' r='1.800' fill='#a8822a'/>`;
+
+/* Áo dài */
+const dots=[[26,38],[34,40],[28,46],[36,50],[26,54],[33,58],[28,62],[22,34],[39,34]].map(([x,y])=>`<circle cx='${x}' cy='${y}' r='1.200' fill='#fbe3e8' opacity='.9'/>`).join('');
+const aodai=`<rect width='60' height='76' fill='#efe2c0'/><circle cx='30' cy='38' r='28' fill='#f4d29a' opacity='.55'/><path d='M0 70Q15 66 30 70T60 68V76H0z' fill='#a9c58a'/>
+<path d='M24 55L21 73H29L30 62L31 73H39L36 55z' fill='#fbf4e4' stroke='#c8b890' stroke-width='.7'/><ellipse cx='25' cy='74' rx='4' ry='1.400' fill='#7a3a22'/><ellipse cx='35' cy='74' rx='4' ry='1.400' fill='#7a3a22'/>
+<path d='M21 29Q14 40 16 52' stroke='#e5708a' stroke-width='5' stroke-linecap='round' fill='none'/><path d='M39 29Q46 40 44 52' stroke='#e5708a' stroke-width='5' stroke-linecap='round' fill='none'/><circle cx='16' cy='54' r='2.300' fill='#f0cfae'/><circle cx='44' cy='54' r='2.300' fill='#f0cfae'/>
+<path d='M22 29Q30 25 38 29L37.500 44L41 66Q30 68.500 19 66L22.500 44z' fill='#e5708a' stroke='#b84a64' stroke-width='.8'/><path d='M30 27V67' stroke='#b84a64' stroke-width='.8'/><path d='M22.500 44L19 66M37.500 44L41 66' stroke='#c95a75' stroke-width='.6'/>${dots}
+<rect x='27.500' y='23' width='5' height='6' rx='1.500' fill='#f0cfae'/><path d='M26 27Q30 31 34 27' stroke='#b84a64' stroke-width='1.200' fill='none'/>
+<ellipse cx='30' cy='15' rx='7.500' ry='8.500' fill='#1d1410'/><circle cx='30' cy='7' r='3.400' fill='#1d1410'/><ellipse cx='30' cy='17' rx='5.200' ry='6.500' fill='#f0cfae'/><path d='M24.500 14Q30 7 35.500 14Q30 11.500 24.500 14z' fill='#1d1410'/><circle cx='27.800' cy='17' r='.6' fill='#2a1c12'/><circle cx='32.200' cy='17' r='.6' fill='#2a1c12'/><path d='M28.600 20.500Q30 21.800 31.400 20.500' stroke='#b84a64' stroke-width='.7' fill='none'/>`;
+
+/* Chùa tầng */
+const tiers=[[56,22],[46,19],[36,16],[26,13],[16,10]].map(([y,w])=>`<rect x='${30-w*.7}' y='${y+6}' width='${w*1.4}' height='7' fill='#f3e6c8' stroke='#3a1410' stroke-width='.6'/>`+N(0,3).map(i=>`<rect x='${(30-w*.7+i*(w*1.4)/3).toFixed(1)}' y='${y+6}' width='1.200' height='7' fill='#a8323a'/>`).join('')+`<path d='M${30-w-3} ${y+2}Q${30-w+4} ${y+4} ${30-w*.55} ${y+1}Q${30-w*.2} ${y-3} 30 ${y-5}Q${30+w*.2} ${y-3} ${30+w*.55} ${y+1}Q${30+w-4} ${y+4} ${30+w+3} ${y+2}Q${30+w-2} ${y+7} 30 ${y+7}Q${30-w+2} ${y+7} ${30-w-3} ${y+2}z' fill='#7a2a22' stroke='#3a1410' stroke-width='.8'/>`).join('');
+const pagoda=`<rect width='60' height='76' fill='#f4dcc0'/><circle cx='47' cy='14' r='6.500' fill='#c0392b'/><path d='M0 22Q10 18 20 22T40 22' stroke='#fff' stroke-opacity='.6' stroke-width='1.500' fill='none'/><path d='M0 68Q20 60 38 66T60 62V76H0z' fill='#6a8a5a'/><rect y='69' width='60' height='7' fill='#4a6b3a'/>
+${tiers}<path d='M30 3V10' stroke='#3a1410' stroke-width='1.200'/><g fill='#e8b84c' stroke='#8a6a18' stroke-width='.4'><circle cx='30' cy='5' r='1.200'/><rect x='28' y='7' width='4' height='1.200'/></g>
+<g fill='#f4a8bd'><circle cx='8' cy='34' r='1.400'/><circle cx='52' cy='40' r='1.400'/><circle cx='12' cy='50' r='1.200'/><circle cx='50' cy='28' r='1.200'/></g>`;
+
+/* Vạn Lý Trường Thành */
+const WALL='M-3 68Q8 62 14 55T28 47Q36 40 42 35T63 21';
+const tower=(x,y)=>`<g transform='translate(${x} ${y})'><rect x='-4.500' y='-10' width='9' height='10' fill='#c49a5e' stroke='#5a3a18' stroke-width='.8'/><path d='M-6 -10L0 -15L6 -10z' fill='#7a2a22' stroke='#3a1410' stroke-width='.7'/><rect x='-1.500' y='-7' width='3' height='3.500' fill='#3a2412'/><path d='M-4.500 -10V-11.500M-1.500 -10V-11.500M1.500 -10V-11.500M4.500 -10V-11.500' stroke='#5a3a18' stroke-width='.8'/></g>`;
+const wall=`<rect width='60' height='76' fill='#f2e0bc'/><circle cx='46' cy='15' r='7.500' fill='#d9532a' opacity='.9'/><path d='M0 46L10 32L18 42L28 24L40 40L48 29L60 44V76H0z' fill='#aebfae' opacity='.8'/><path d='M0 60L12 46L24 58L38 42L60 62V76H0z' fill='#7d977f'/><path d='M0 68Q20 62 36 66T60 64V76H0z' fill='#5f7d5f'/>
+<path d='${WALL}' fill='none' stroke='#5a3a18' stroke-width='6.500' stroke-linecap='round'/><path d='${WALL}' fill='none' stroke='#c49a5e' stroke-width='5' stroke-linecap='round'/><path d='${WALL}' fill='none' stroke='#e0bd82' stroke-width='1.200' stroke-dasharray='1.800 1.400' transform='translate(0 -2.400)'/>
+${tower(14,55)}${tower(28,47)}${tower(42,35)}<path d='M0 70Q15 66 30 71T60 69V76H0z' fill='#fff' opacity='.3'/>`;
+
+Object.assign(STAMPS,{kr_tiger:tiger,uk_rose:rose,uk_crown:crown,kr_fan:fan,th_orchid:orchid,vn_nonla:nonla,vn_aodai:aodai,jp_pagoda:pagoda,cn_wall:wall});
+})();
 let PEND=null,CC='all';
 const slotShow=()=>{$('slot').innerHTML=PEND?stampHTML({stamp:PEND}):'<span>Chọn một con tem ở bảng bên phải</span>'};
 function buildStamps(){const b=$('stamps');b.innerHTML='';const none=document.createElement('button');none.className='o';none.dataset.v='';none.textContent='Gỡ tem';none.onclick=()=>{S.stamp='';mark();paintMain()};b.appendChild(none);
@@ -961,7 +1043,7 @@ function penTo(ta){const cs=getComputedStyle(ta),m=document.createElement('div')
  m.textContent=ta.value.slice(0,ta.selectionStart);const s=document.createElement('span');s.textContent='\u200b';m.appendChild(s);document.body.appendChild(m);
  const sr=s.getBoundingClientRect(),mr=m.getBoundingClientRect(),tr=ta.getBoundingClientRect(),k=tr.width/ta.offsetWidth||1,lh=parseFloat(cs.lineHeight)||36;
  PEN.style.left=tr.left+(sr.left-mr.left)*k-28+'px';PEN.style.top=tr.top+(sr.top-mr.top+lh*.85)*k-170+'px';m.remove();PEN.classList.add('on');clearTimeout(_pt);_pt=setTimeout(()=>PEN.classList.remove('on'),900)}
-document.addEventListener('input',e=>{if(e.target.matches&&e.target.matches('#pgs .lt')){penTo(e.target);sfx('scratch')}});
+document.addEventListener('input',e=>{if(e.target.matches&&e.target.matches('#pgs .lt')){penTo(e.target)}});
 async function typeIn(l,t){const n=Math.max(2,Math.ceil(t.length/150));for(let i=n;;i+=n){TXT[l]=t.slice(0,i);renderEd(null,false);const a=[...$('pgs').querySelectorAll('.lt')].pop();if(a){a.selectionStart=a.selectionEnd=a.value.length;penTo(a)}if(i>=t.length)break;await new Promise(r=>setTimeout(r,30))}TXT[l]=t;renderEd(null,false)}
 /* ---------- sticker vẽ tay ---------- */
 Object.assign(STK,{
