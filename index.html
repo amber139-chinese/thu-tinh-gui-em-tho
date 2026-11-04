@@ -322,7 +322,7 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
 <div class="lhero"><div class="lpm">LOVE<br>LETTER</div><h1>Thư tình gửi em thơ</h1><p class="lintro">Ngày xưa xe ngựa chạy rất chậm, thư từ thì lại gửi đi rất xa, một đời chỉ đủ để yêu một người mà thôi...</p><div class="lstrip" id="lstrip"></div></div></div></div>
 
 <div id="app" hidden>
-<header><h1>Thư tình gửi em thơ</h1><div class="sub">Xuân đi, hạ đến, thu rời, đông sang. Tôi vẫn yêu em bốn mùa chẳng đổi thay.</div>
+<header><h1>Thư tình gửi em thơ</h1><div class="sub">Chọn phong bì, viết thư, gửi đến người thương</div>
   <div class="ub"><button id="notiBtn" hidden onclick="notiAsk()">Nhận thông báo lời đáp</button><span id="who"></span><button onclick="auth.signOut().then(()=>location.reload())">Đăng xuất</button></div></header>
 <nav class="stepper" id="stepper"><button class="on" data-s="env"><b>1</b>Phong bì</button><button data-s="letter"><b>2</b>Lá thư</button><button data-s="send"><b>3</b>Gửi đi</button></nav>
 <div class="bell" id="bell" hidden></div>
@@ -546,7 +546,7 @@ function paintStamp(){stampApply('s',S);$('stctl').hidden=S.stamp!='photo';const
 function addr(p,to,from){$(p+'to').textContent=to||'Người thương';$(p+'from').textContent=from||'Người gửi'}
 function paperApply(el,o){el.dataset.ps=o.ps;el.dataset.fr=o.fr;el.style.setProperty('--ink',o.ink);el.style.backgroundColor=o.paper}
 function upHint(){$('shint').textContent=S.sealed?'Kéo để xoay · chạm vào dấu sáp để mở nắp':'Chạm vào chiếc ấn để tự tay đóng sáp · kéo để xoay'}
-function paintMain(){envApply('s',S,Date.now());addr('s',$('toname').value.trim(),$('sender').value.trim());
+function paintMain(){patSw();envApply('s',S,Date.now());addr('s',$('toname').value.trim(),$('sender').value.trim());
  upHint();tieUI();$('stctl').hidden=S.stamp!='photo';paintPages()}
 function rot(sc,e3){let ry=0,rx=0,d=0,sx,sy,hx_=0,hy_=0;const gs=sc.querySelector('.gsh'),shs=e3.querySelectorAll('.shine'),RX=9,RY=-13;
  const up=()=>{const X=rx+RX+hx_,Y=ry+RY+hy_,a=((Y%360)+360)%360*Math.PI/180;e3.style.transform=`rotateX(${X}deg) rotateY(${Y}deg)`;
@@ -586,7 +586,9 @@ const EV=[['Cổ điển',{shape:'classic',color:'#e8d5b5',pat:'none',seal:'red'
 EV.forEach(([n,v])=>{const x=document.createElement('button');x.className='o';x.innerHTML=`<span class="chip" style="background:${v.color}"></span>${n}`;x.onclick=()=>{Object.assign(S,v);mark();paintMain()};$('evs').appendChild(x)});
 opts('shapes',[['classic','Cổ điển'],['square','Nắp vuông'],['wavy','Sóng'],['scalloped','Răng cưa'],['heart','Trái tim']],'shape');
 swatches('sw-env',ENV_C,'color');
-opts('pats',PATS.map(([v,n])=>{const t=TILES[v];return [v,`<span class="pp" style="background:${t?t.u+' 0 0/'+t.s:'none'};background-color:#e8d5b5${v=='dots'?';background-image:radial-gradient(circle,rgba(0,0,0,.25) 1.3px,transparent 1.4px);background-size:12px 12px':''}"></span>${n}`]}),'pat');
+opts('pats',PATS.map(([v,n])=>[v,`<span class="pp"></span>${n}`]),'pat');
+function patSw(){const b=$('pats');if(!b)return;PATS.forEach(([v],i)=>{const pp=b.children[i]&&b.children[i].querySelector('.pp');if(!pp)return;const d=patSpec(v);pp.style.backgroundColor=S.color||'#e8d5b5';pp.style.backgroundImage=d?d[0]:'none';let sz=d?d[1]:'auto';const m=/^(\d+)px (\d+)px$/.exec(sz);if(m&&TILES[v]){const k=Math.min(1,34/+m[2]);sz=Math.round(m[1]*k)+'px '+Math.round(m[2]*k)+'px'}pp.style.backgroundSize=sz})}
+patSw();
 opts('ribs',[['none','Không'],['satin','Lụa nơ'],['thin','Dải mảnh'],['twine','Dây thừng']],'ribs');
 swatches('sw-rib',RIB_C,'rib');
 swatches('sw-seal',SEAL_C,'seal');
