@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thư tình gửi em thơ</title>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Pacifico&family=Mali:wght@400;600&family=Patrick+Hand&family=Playfair+Display:ital@1&family=Kalam:wght@400;700&family=Caveat:wght@500;700&family=Homemade+Apple&family=Sacramento&family=Indie+Flower&family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&family=Liu+Jian+Mao+Cao&family=Long+Cang&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500;1,600&family=Pacifico&family=Mali:wght@400;600&family=Patrick+Hand&family=Playfair+Display:ital@1&family=Kalam:wght@400;700&family=Caveat:wght@500;700&family=Homemade+Apple&family=Sacramento&family=Indie+Flower&family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&family=Liu+Jian+Mao+Cao&family=Long+Cang&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -297,49 +297,67 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
 #mailz .mt{font:2.6rem 'Great Vibes',cursive;color:#f2e8d5;opacity:0;animation:fi 1s 2.6s forwards}
 .main[data-step=send] .panel .hintbox{font-size:.88rem;color:#a0c098;margin-bottom:8px}
 </style>
+<style id="classic-skin">
+:root{--ivory:#f4eee1;--card:#fbf7ee;--line:#cdbf9f;--ink2:#3a2f28;--mute:#7a6a58;--wine:#7a2432;--gold:#a98845}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:2px;box-shadow:0 6px 24px rgba(0,0,0,.35);outline:1px solid #e6dbc2;outline-offset:-6px;padding:20px;color:var(--ink2)}
+.panel h3,.mxb h3{font:italic 600 1.2rem 'Cormorant Garamond',serif;color:var(--wine);border-bottom:1px solid var(--line);padding-bottom:5px;margin-bottom:10px}
+.panel h3 small{color:var(--mute);font-weight:400}
+.panel .o{background:#fffdf8;border:1px solid #d8ccb0;border-radius:2px;color:#4a3d32}
+.panel .o:hover,.panel .o.on{background:#f6ead4;border-color:var(--wine);color:var(--wine)}
+.panel .sw i{border:2px solid #fffdf8;box-shadow:0 0 0 1px var(--line)}.panel .sw i.on,.panel .sw i:hover{border-color:#fffdf8;box-shadow:0 0 0 2px var(--wine)}
+.panel label{color:var(--mute)}.panel .note{color:#8a7a64}
+.panel input.f,.panel select.f,.mxb input.f{background:#fffdf8;border:1px solid var(--line);border-radius:2px;color:var(--ink2)}
+.panel input.f:focus,.panel select.f:focus{outline:none;border-color:var(--wine)}
+.panel input[type=range]{accent-color:var(--wine)}
+.panel .btn{background:var(--wine);color:var(--ivory);border:1px solid #5c1824;border-radius:2px;letter-spacing:.04em;font-weight:600}
+.panel .btn.g{background:transparent;color:var(--wine);border:1px solid #b9a67e}.panel .btn.g:hover{background:#f2e8d3;filter:none}
+.panel .msg.ok{background:#e9efdc;color:#3f5a2a}.panel .msg.err{background:#f3dddd;color:#7a2424}
+.panel .lst div{border-bottom-color:#e6dbc2}.panel .lst a{color:var(--wine)}.panel .lst a.d{color:#a05050}.panel .nnew{color:var(--wine);font-weight:600}
+.mxb{background:var(--card);border:1px solid var(--gold);border-radius:2px;color:var(--ink2)}
+</style>
 </head>
 <body>
 
-<div id="login"><div class="lp"><div class="lsw"><div class="lstamp"><div class="lsi"><svg viewBox="0 0 60 44" width="54" style="margin-bottom:4px"><rect x="3" y="4" width="54" height="36" rx="3" fill="#f7edd6" stroke="#4a3524" stroke-width="2"/><path d="M4 6l26 20L56 6" fill="none" stroke="#4a3524" stroke-width="2"/><circle cx="30" cy="27" r="5" fill="#9b2226"/></svg><b>Đăng nhập</b><small>bằng tài khoản Google</small><button class="btn" onclick="login()">Bước vào</button><div class="msg err" id="lerr" hidden></div></div></div></div>
+<div id="login"><div class="lp"><div class="lsw"><div class="lstamp"><div class="lsi"><svg viewBox="0 0 60 44" width="54" style="margin-bottom:4px"><rect x="3" y="4" width="54" height="36" rx="3" fill="#f7edd6" stroke="#4a3524" stroke-width="2"/><path d="M4 6l26 20L56 6" fill="none" stroke="#4a3524" stroke-width="2"/><circle cx="30" cy="27" r="5" fill="#9b2226"/></svg><b>Mở phong thư</b><small>Đăng nhập để bắt đầu viết</small><button class="btn" onclick="login()">Bước vào</button><div class="msg err" id="lerr" hidden></div></div></div></div>
 <div class="lhero"><div class="lpm">LOVE<br>LETTER</div><h1>Thư tình gửi em thơ</h1><p class="lintro">Ngày xưa xe ngựa chạy rất chậm, thư từ thì lại gửi đi rất xa, một đời chỉ đủ để yêu một người mà thôi...</p><div class="lstrip" id="lstrip"></div></div></div></div>
 
 <div id="app" hidden>
-<header><h1>Thư tình gửi em thơ</h1><div class="sub">Chọn phong bì · viết thư · gửi người thương</div>
-  <div class="ub"><button id="notiBtn" hidden onclick="notiAsk()">🔔 Bật thông báo lời đáp</button><span id="who"></span><button onclick="auth.signOut().then(()=>location.reload())">Đăng xuất</button></div></header>
-<nav class="stepper" id="stepper"><button class="on" data-s="env"><b>1</b>Phong bì</button><button data-s="letter"><b>2</b>Lá thư</button><button data-s="send"><b>3</b>Lưu &amp; gửi</button></nav>
+<header><h1>Thư tình gửi em thơ</h1><div class="sub">Chọn phong bì, viết thư, gửi đến người thương</div>
+  <div class="ub"><button id="notiBtn" hidden onclick="notiAsk()">Nhận thông báo lời đáp</button><span id="who"></span><button onclick="auth.signOut().then(()=>location.reload())">Đăng xuất</button></div></header>
+<nav class="stepper" id="stepper"><button class="on" data-s="env"><b>1</b>Phong bì</button><button data-s="letter"><b>2</b>Lá thư</button><button data-s="send"><b>3</b>Gửi đi</button></nav>
 <div class="bell" id="bell" hidden></div>
 <div class="main" id="main" data-step="env">
   <div class="pv">
     <div id="p-env" class="stage"><div class="scene" id="sscene"></div><div class="hint2" id="shint"></div><div class="tray" id="tray"><div class="trayb"><div class="slot" id="slot"></div></div><svg id="twz" viewBox="0 0 40 170" width="34" height="150"><rect x="10" y="0" width="20" height="12" rx="4" fill="#8a929e"/><path d="M13 6L19 166" stroke="#c9ced6" stroke-width="5" stroke-linecap="round"/><path d="M27 6L21 166" stroke="#dfe3e8" stroke-width="5" stroke-linecap="round"/></svg></div>
-      <div class="nav"><button class="btn g mini" onclick="sRot.flip()">↻ Lật phong bì</button><button class="btn g mini" onclick="$('senv').classList.toggle('open')">Mở / đóng nắp</button></div></div>
+      <div class="nav"><button class="btn g mini" onclick="sRot.flip()">Lật mặt sau</button><button class="btn g mini" onclick="$('senv').classList.toggle('open')">Mở hoặc đóng nắp</button></div></div>
     <div id="p-letter" class="lw">
       <div class="tabs" id="tabs"><button class="on" data-l="vi">Tiếng Việt</button><button data-l="en">English</button><button data-l="zh">中文</button></div>
-      <button class="btn mini trb" id="trbtn" hidden onclick="tr(document.querySelector('#tabs [data-l].on')?.dataset.l)">✨ Dịch từ tiếng Việt</button>
+      <button class="btn mini trb" id="trbtn" hidden onclick="tr(document.querySelector('#tabs [data-l].on')?.dataset.l)">Dịch từ tiếng Việt</button>
       <div class="pgc" id="pgc"></div><div class="tip">Cứ viết như đang cầm bút: chữ tự xuống lá mới khi hết giấy. Chạm vào khung ảnh để đính ảnh, kéo hoạ tiết để dán lên thư.</div>
       <div class="pgs" id="pgs"></div>
     </div>
   </div>
   <div class="panel">
-    <div class="sec" id="musec"><h3>🎵 Nhạc nền <small>(YouTube hoặc MP3)</small></h3>
+    <div class="sec" id="musec"><h3>Nhạc nền <small>(YouTube hoặc MP3)</small></h3>
       <input class="f" id="music" placeholder="Dán link YouTube hoặc link file .mp3">
-      <div class="g2"><button class="btn g" id="musplay" onclick="musToggle()">▶ Nghe nhạc</button><button class="btn g" onclick="musIn.click()">Tải file nhạc lên</button></div>
+      <div class="g2"><button class="btn g" id="musplay" onclick="musToggle()">Nghe nhạc</button><button class="btn g" onclick="musIn.click()">Chọn tệp nhạc</button></div>
       <label style="margin-top:6px">Âm lượng</label><input type="range" id="musvol" min="0" max="100" value="60">
       <p class="note">Bấm Nghe nhạc để vừa viết vừa nghe. Nhạc sẽ phát cho người nhận khi họ mở phong bì. Link MP3 phải là link trực tiếp tới file (tối đa 20MB). Để trống nếu không muốn có nhạc.</p>
       <input type="file" id="musIn" accept="audio/*" hidden></div>
-    <div class="sec s-env"><h3>Ghi trên phong bì</h3><label>Tên người nhận</label><input class="f" id="toname" maxlength="28" placeholder="Em thơ"><label>Tên người gửi</label><input class="f" id="sender" maxlength="28" placeholder="Tên của bạn"></div>
-    <div class="sec s-env"><h3>Dịp đặc biệt <small>(chọn nhanh bộ phong bì)</small></h3><div class="g3" id="evs"></div></div>
+    <div class="sec s-env"><h3>Đề tên phong bì</h3><label>Gửi tới</label><input class="f" id="toname" maxlength="28" placeholder="Em thơ"><label>Người gửi</label><input class="f" id="sender" maxlength="28" placeholder="Tên của bạn"></div>
+    <div class="sec s-env"><h3>Dịp gửi thư <small>(mẫu dựng sẵn)</small></h3><div class="g3" id="evs"></div></div>
     <div class="sec s-env"><h3>Hình dạng nắp</h3><div class="g3" id="shapes"></div></div>
     <div class="sec s-env"><h3>Màu phong bì</h3><div class="sw" id="sw-env"></div></div>
-    <div class="sec s-env"><h3>Hoạ tiết nền</h3><div class="g3" id="pats"></div></div>
+    <div class="sec s-env"><h3>Hoạ tiết phong bì</h3><div class="g3" id="pats"></div></div>
     <div class="sec s-env"><h3>Ruy băng</h3><div class="g4" id="ribs"></div><div class="sw" id="sw-rib" style="margin-top:8px"></div></div>
     <div class="sec s-env"><h3>Dấu sáp</h3><div class="sw" id="sw-seal"></div><div class="g4" id="ems" style="margin-top:8px"></div>
-      <button class="btn g" style="margin-top:8px" onclick="unseal()">↺ Bóc sáp để đóng lại</button>
+      <button class="btn g" style="margin-top:8px" onclick="unseal()">Bóc dấu sáp</button>
       <p class="note">Chạm vào chiếc ấn trên phong bì để tự tay đóng sáp.</p></div>
     <div class="sec s-env"><h3>Tem thư (mặt sau)</h3><div class="sw cty" id="cty"></div><div class="g3" id="stamps"></div>
-      <button class="btn g" style="margin-top:8px" onclick="stampIn.click()">Dùng ảnh của bạn làm tem</button>
+      <button class="btn g" style="margin-top:8px" onclick="stampIn.click()">Dùng ảnh riêng làm tem</button>
       <div id="stctl" hidden><label>Phóng to</label><input type="range" id="stz" min="1" max="3" step="0.05"><label>Vị trí ngang</label><input type="range" id="stx" min="0" max="100"><label>Vị trí dọc</label><input type="range" id="sty" min="0" max="100"><label><input type="checkbox" id="stf"> Phủ màu ảnh cổ</label></div></div>
     <div class="sec s-env"><h3>Chi tiết mặt sau</h3><div class="g2" id="airs"></div><div class="g2" id="pms" style="margin-top:6px"></div></div>
-    <div class="nav s-env"><button class="btn" onclick="go('letter')">Tiếp: Viết thư →</button></div>
+    <div class="nav s-env"><button class="btn" onclick="go('letter')">Tiếp tục: Viết thư</button></div>
 
     <div class="sec s-letter"><h3>Kiểu giấy</h3><div class="g4" id="pss"></div></div>
     <div class="sec s-letter"><h3>Màu giấy</h3><div class="sw" id="sw-paper"></div></div>
@@ -363,13 +381,13 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
 </div>
 <label>Kiểu thiết kế (polaroid / video)</label><select class="f" id="accd"><option value="">Polaroid trắng</option><option value="kraft">Giấy kraft + băng keo</option><option value="film">Phim đen</option></select><div class="g2"><button class="btn g" onclick="polIn.click()">Polaroid</button><button class="btn g" onclick="imgIn.click()">Sticker của bạn</button><button class="btn g" id="recb" onclick="rec()">Ghi âm</button><button class="btn g" onclick="vidIn.click()">Video</button></div><p class="note">Mỗi món sẽ được bỏ vào phong bì, người nhận rút ra lần lượt sau khi đọc thư. Ghi âm và video được tải lên Cloudinary.</p><div class="lst" id="acclst"></div><input type="file" id="polIn" accept="image/*" hidden><input type="file" id="imgIn" accept="image/*" hidden><input type="file" id="vidIn" accept="video/*" hidden></div>
 <div class="sec s-letter"><h3>Bản dịch</h3><p style="font-size:.88rem;color:#a0c098;margin-bottom:8px">Viết tiếng Việt xong, bấm tab <b>English</b> hoặc <b>中文</b> phía trên lá thư rồi bấm nút <b>Dịch</b>. Kết quả hiện thẳng vào thư, bạn sửa tuỳ ý.</p></div>
-    <div class="nav s-letter"><button class="btn g" onclick="go('env')">← Phong bì</button><button class="btn" onclick="go('send')">Tiếp: Gửi →</button></div>
+    <div class="nav s-letter"><button class="btn g" onclick="go('env')">Quay lại phong bì</button><button class="btn" onclick="go('send')">Tiếp tục: Gửi thư</button></div>
 
-    <div class="sec s-send"><h3>Gửi thư</h3><label>Email người nhận</label><input class="f" id="email" type="email" placeholder="em@gmail.com">
-      <label>Mở thư lúc <small>(để trống = mở ngay)</small></label><input class="f" id="openAt" type="datetime-local"><label>Mưa khi mở nắp</label><select class="f" id="rain"><option value="auto">Theo dịp</option><option value="mai">Mai vàng</option><option value="sakura">Hoa anh đào</option><option value="heart">Trái tim</option><option value="mix">Lá và hoa</option><option value="off">Không mưa</option></select><button class="btn g" onclick="save()">💾 Lưu thư</button><button class="btn" onclick="send()">Gửi qua Gmail của tôi ✉</button><button class="btn g" onclick="copyLink()">🔗 Copy link thư</button><button class="btn g" onclick="newLetter()">+ Thư mới</button></div>
+    <div class="sec s-send"><h3>Gửi đến người nhận</h3><label>Email người nhận</label><input class="f" id="email" type="email" placeholder="em@gmail.com">
+      <label>Hẹn giờ mở thư <small>(bỏ trống: mở ngay)</small></label><input class="f" id="openAt" type="datetime-local"><label>Hiệu ứng khi mở thư</label><select class="f" id="rain"><option value="auto">Theo dịp</option><option value="mai">Mai vàng</option><option value="sakura">Hoa anh đào</option><option value="heart">Trái tim</option><option value="mix">Lá và hoa</option><option value="off">Không mưa</option></select><button class="btn g" onclick="save()">Lưu thư</button><button class="btn" onclick="send()">Gửi bằng Gmail</button><button class="btn g" onclick="copyLink()">Sao chép liên kết</button><button class="btn g" onclick="newLetter()">Viết thư mới</button></div>
     <div class="sec s-send"><h3>Lời đáp <small id="notiSt"></small></h3><button class="btn g" id="mailBtn" onclick="emailToggle()" style="margin-bottom:4px"></button><p class="note" id="mailNote"></p><div class="lst" id="notices">Chưa có lời đáp</div></div>
     <div class="sec s-send"><h3>Thư đã lưu</h3><div class="lst" id="lst">Chưa có thư</div></div>
-    <div class="nav s-send"><button class="btn g" onclick="go('letter')">← Lá thư</button></div>
+    <div class="nav s-send"><button class="btn g" onclick="go('letter')">Quay lại lá thư</button></div>
     <div class="msg" id="msg" hidden></div>
   </div>
 </div>
@@ -383,16 +401,16 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
   <div class="vtitle vi" id="vtitle"></div>
   <div class="scene" id="vscene"></div>
   <div class="hint" id="vhint">Kéo để xoay phong bì • chạm vào con dấu để mở thư</div>
-  <button class="btn g mini" onclick="vRot.flip()">↻ Lật phong bì</button>
+  <button class="btn g mini" onclick="vRot.flip()">Lật mặt sau</button>
   <div id="paper"><div class="lw"><div class="tabs" id="vtabs"></div>
     <div class="pgs" id="vpgs"></div><div class="replybox" id="replybox" hidden><h3>Viết lại cho người gửi</h3><textarea id="replytxt" maxlength="800" placeholder="Vài dòng gửi ngược lại..."></textarea><label>Gửi lời này lúc (để trống = gửi ngay)</label><input class="f" id="replyat" type="datetime-local"><button class="btn" id="replybtn" style="background:#9b2226;color:#fff">Gửi lời đáp</button><div class="msg" id="replymsg" hidden></div></div></div></div>
-  <button id="pfold" class="btn g mini" hidden>✕ Gấp thư lại</button>
-  <div id="accz" hidden><div class="vacc" id="vacc"></div><button class="btn g mini" id="accback">📖 Đọc lại thư</button></div>
-  <div id="vbar" hidden><button class="btn" id="reread">📖 Đọc lại thư</button><button class="btn" id="reacc" hidden>🎁 Món kèm theo</button></div>
+  <button id="pfold" class="btn g mini" hidden>Gấp thư lại</button>
+  <div id="accz" hidden><div class="vacc" id="vacc"></div><button class="btn g mini" id="accback">Đọc lại thư</button></div>
+  <div id="vbar" hidden><button class="btn" id="reread">Đọc lại thư</button><button class="btn" id="reacc" hidden>Xem món kèm theo</button></div>
 </div>
 
 <div id="music-box" hidden style="position:fixed;bottom:18px;left:18px;z-index:130;display:flex;gap:8px;align-items:center;background:#122016ee;border:1px solid #4a7c42;border-radius:22px;padding:5px 8px 5px 5px">
-  <button id="music-toggle" onclick="musToggle()" style="background:#2a4530;border:1px solid #4a7c42;color:#c8e0b8;padding:7px 14px;border-radius:18px;cursor:pointer;font-family:inherit">🔇 Bật nhạc</button>
+  <button id="music-toggle" onclick="musToggle()" style="background:#2a4530;border:1px solid #4a7c42;color:#c8e0b8;padding:7px 14px;border-radius:18px;cursor:pointer;font-family:inherit">Bật nhạc</button>
   <span style="color:#a0c098;font-size:.8rem">🎵</span><input type="range" id="musvol2" min="0" max="100" value="60" style="width:80px;accent-color:#7fbf70">
 </div>
 <iframe id="yt-player" style="position:fixed;left:-9999px;top:0;width:220px;height:220px;border:0;pointer-events:none" allow="autoplay; encrypted-media" src=""></iframe>
@@ -425,8 +443,8 @@ const RIB_C=['#b03a3a','#c9a030','#2f6fb0','#e07a9a','#2e7d4f','#7a3a9a','#e0556
 
 /* ---------- font chữ [tên, family, style, cỡ] ---------- */
 const FONTS={
-vi:[['Dancing Script',"'Dancing Script',cursive",'',1.55],['Pacifico',"'Pacifico',cursive",'',1.2],['Mali',"'Mali',cursive",'',1.2],['Patrick Hand',"'Patrick Hand',cursive",'',1.5],['Playfair Display',"'Playfair Display',serif",'italic',1.3]],
-en:[['Kalam',"'Kalam',cursive",'',1.4],['Caveat',"'Caveat',cursive",'',1.75],['Homemade Apple',"'Homemade Apple',cursive",'',1.05],['Sacramento',"'Sacramento',cursive",'',1.95],['Indie Flower',"'Indie Flower',cursive",'',1.4]],
+vi:[['Dancing Script',"'Dancing Script',cursive",'',1.55],['Pacifico',"'Pacifico',cursive",'',1.2],['Mali',"'Mali',cursive",'',1.2],['Patrick Hand',"'Patrick Hand',cursive",'',1.5],['Playfair Display',"'Playfair Display',serif",'italic',1.3],['Cormorant Garamond',"'Cormorant Garamond',serif",'italic',1.75]],
+en:[['Kalam',"'Kalam',cursive",'',1.4],['Caveat',"'Caveat',cursive",'',1.75],['Homemade Apple',"'Homemade Apple',cursive",'',1.05],['Sacramento',"'Sacramento',cursive",'',1.95],['Indie Flower',"'Indie Flower',cursive",'',1.4],['Cormorant Garamond',"'Cormorant Garamond',serif",'italic',1.75]],
 zh:[['Ma Shan Zheng',"'Ma Shan Zheng',serif",'',1.65],['Zhi Mang Xing',"'Zhi Mang Xing',serif",'',1.7],['Liu Jian Mao Cao',"'Liu Jian Mao Cao',serif",'',1.7],['Long Cang',"'Long Cang',serif",'',1.7],['Noto Serif SC',"'Noto Serif SC',serif",'',1.3]]};
 const SAMP={vi:'Yêu em',en:'My love',zh:'亲爱的'};
 function fontApply(el,l,name){const f=FONTS[l].find(x=>x[0]==name)||FONTS[l][0];el.style.fontFamily=f[1];el.style.fontStyle=f[2]||'normal';el.style.fontSize=f[3]+'rem'}
@@ -1019,10 +1037,10 @@ let _rt=null,_title=document.title;
 function notiMap(){try{return JSON.parse(localStorage.notiReplies||'{}')}catch(e){return {}}}
 function notiUI(){const b=$('notiBtn'),st=$('notiSt');if(!b)return;const ok='Notification' in window,pm=ok?Notification.permission:'unsupported';
  b.hidden=!(ok&&pm=='default');
- if(st)st.textContent=!ok?'(trình duyệt không hỗ trợ thông báo)':pm=='granted'?'🔔 đang bật':pm=='denied'?'🔕 đã bị chặn — bật lại trong cài đặt trình duyệt':''}
+ if(st)st.textContent=!ok?'(trình duyệt không hỗ trợ thông báo)':pm=='granted'?'đang bật':pm=='denied'?'đã bị chặn — bật lại trong cài đặt trình duyệt':''}
 function notiAsk(){if(!('Notification' in window))return;Notification.requestPermission().then(notiUI)}
 function emailUI(){const b=$('mailBtn'),n=$('mailNote');if(!b||!user)return;const on=localStorage.emailNoti=='1';
- b.textContent=!on?'📧 Báo lời đáp qua Gmail của tôi':token?'📧 Báo qua Gmail: đang bật (bấm để tắt)':'📧 Phiên Gmail hết hạn — bấm để cấp lại';
+ b.textContent=!on?'Báo lời đáp qua Gmail':token?'Báo qua Gmail: đang bật (bấm để tắt)':'Phiên Gmail hết hạn — bấm để cấp lại';
  n.textContent=on?'Email gửi tới '+user.email+' mỗi khi có lời đáp đến hạn. Chỉ hoạt động khi tab này còn mở.':'Bật để nhận email ngay khi người nhận trả lời (tab cần đang mở).'}
 async function emailToggle(){const on=localStorage.emailNoti=='1';
  if(on&&token){localStorage.emailNoti='0';emailUI();return}
@@ -1114,7 +1132,7 @@ function getYoutubeId(url){if(!url)return null;const m=url.match(/(?:youtube\.co
 const MUS={url:'',k:'',au:null,started:false,on:false,vol:60};
 function parseMusic(u){u=(u||'').trim();if(!u)return null;const y=getYoutubeId(u);if(y)return{k:'yt',id:y};if(/^https?:\/\//i.test(u))return{k:'au',url:u};return null}
 function ytCmd(fn,args){try{$('yt-player').contentWindow.postMessage(JSON.stringify({event:'command',func:fn,args:args||[]}),'*')}catch(e){}}
-function musUI(){const b=$('music-toggle'),p=$('musplay'),box=$('music-box');box.hidden=!MUS.url;b.textContent=MUS.on?'🔊 Tắt nhạc':'🔇 Bật nhạc';p.textContent=MUS.on?'⏸ Dừng nhạc':'▶ Nghe nhạc'}
+function musUI(){const b=$('music-toggle'),p=$('musplay'),box=$('music-box');box.hidden=!MUS.url;b.textContent=MUS.on?'Tắt nhạc':'Bật nhạc';p.textContent=MUS.on?'Dừng nhạc':'Nghe nhạc'}
 function musKill(){if(MUS.au){MUS.au.pause();MUS.au=null}$('yt-player').src='';MUS.started=false;MUS.on=false}
 function musStart(url){url=(url||'').trim();const m=parseMusic(url);musKill();MUS.url=m?url:'';
  if(!m){musUI();if(url)msg('Link nhạc chưa đúng. Hãy dán link YouTube hoặc link trực tiếp tới file .mp3',false);return false}
@@ -1301,9 +1319,9 @@ if(LID){$('login').hidden=true;$('view').hidden=false;
 const ACCW={'@pol':'ảnh polaroid','@img':'sticker','@aud':'lời ghi âm','@vid':'video'};
 function accSummary(acc){const c={};acc.forEach(a=>c[a.e]=(c[a.e]||0)+1);return Object.keys(c).map(k=>c[k]+' '+(ACCW[k]||'món quà nhỏ')).join(', ')}
 function buildAcc(o,acc){const box=$('vacc');box.innerHTML='';if(!acc.length)return;
- box.innerHTML=`<div class="ahead">💌 Trong phong bì còn ${acc.length} món nhỏ</div><div class="asub">${esc(accSummary(acc))} — hãy rút ra từng món một nhé</div><div class="vlist" id="vlist"></div><div class="scene" id="wscene">${envMarkup('w')}</div><button class="btn" id="vpull"></button>`;
+ box.innerHTML=`<div class="ahead">Trong phong bì còn ${acc.length} món nhỏ</div><div class="asub">${esc(accSummary(acc))} — hãy rút ra từng món một nhé</div><div class="vlist" id="vlist"></div><div class="scene" id="wscene">${envMarkup('w')}</div><button class="btn" id="vpull"></button>`;
  envApply('w',{...o,sealed:false},Date.now());$('wenv').classList.add('open');
- let n=0;const b=$('vpull'),upd=()=>{b.hidden=n>=acc.length;b.textContent=n?`Rút món tiếp theo (còn ${acc.length-n})`:`✋ Rút món đầu tiên ra khỏi phong bì (${acc.length})`};
+ let n=0;const b=$('vpull'),upd=()=>{b.hidden=n>=acc.length;b.textContent=n?`Rút món tiếp theo (còn ${acc.length-n})`:`Rút món đầu tiên ra khỏi phong bì (${acc.length})`};
  b.onclick=()=>{sfx('rustle');const w=document.createElement('div');w.className='vitem';w.innerHTML=`<i class="ord">${n+1}</i>`+accHTML(acc[n++]);$('vlist').appendChild(w);upd();setTimeout(()=>w.scrollIntoView({behavior:'smooth',block:'center'}),150);if(n>=acc.length)$('asub')&&0};upd();
  setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'center'}),250)}
 
@@ -1316,7 +1334,7 @@ function viewer(l,lid){const o=norm(l.env);o.sealed=true;envApply('v',o,l.update
  const showAcc=()=>{if(accReady||!acc.length)return;accReady=true;buildAcc(o,acc)};
  const accNote=acc.length?' • phong bì này có kèm '+acc.length+' món 🎁':'';
  const bar=$('vbar'),pn=document.createElement('div');pn.id='pnote';
- if(acc.length)pn.innerHTML=`<span style="font-size:1.6rem">💌</span><div>Trong thư này có kèm <b>${esc(accSummary(acc))}</b>. Đọc xong nhớ rút chúng ra khỏi phong bì nhé!</div><button class="btn" id="pnbtn">Xem ngay</button><button class="x" title="Đóng">×</button>`;
+ if(acc.length)pn.innerHTML=`<span style="font-size:1.6rem">✉</span><div>Trong thư này có kèm <b>${esc(accSummary(acc))}</b>. Đọc xong nhớ rút chúng ra khỏi phong bì nhé!</div><button class="btn" id="pnbtn">Xem ngay</button><button class="x" title="Đóng">×</button>`;
  document.body.appendChild(pn);
  const openPaper=()=>{$('accz').hidden=true;bar.hidden=true;$('pfold').hidden=false;$('paper').classList.add('show');sfx('rustle')};
  const showAccz=()=>{pn.classList.remove('on');$('paper').classList.remove('show');$('pfold').hidden=true;showAcc();$('accz').hidden=false;bar.hidden=true;sfx('rustle')};
@@ -1326,7 +1344,7 @@ function viewer(l,lid){const o=norm(l.env);o.sealed=true;envApply('v',o,l.update
  let cur=langs[0]||'vi';
  const show=k=>{cur=k;const ctx={o,l:k,date:l.date||'',photo:l.photo||'',ph:o.pf!='none'&&!!l.photo,sig:'— '+l.sender,max:99},r=paginate(l.text[k]||'',k,ctx),box=$('vpgs');box.innerHTML='';
   const sh=r.pages.map((p,i)=>{const s=buildSheet({...ctx,idx:i,total:r.pages.length,text:p,ro:true});const bx=document.createElement('div');bx.className='sheetbox';bx.appendChild(s);box.appendChild(bx);return s});
-  if(acc.length){const n=document.createElement('div');n.className='psnote';n.innerHTML='<b>P.S.</b> Trong phong bì còn kèm '+esc(accSummary(acc))+' — đọc xong nhớ rút ra nhé 💌';n.onclick=()=>showAccz();box.appendChild(n)}
+  if(acc.length){const n=document.createElement('div');n.className='psnote';n.innerHTML='<b>P.S.</b> Trong phong bì còn kèm '+esc(accSummary(acc))+' — đọc xong nhớ rút ra nhé';n.onclick=()=>showAccz();box.appendChild(n)}
   putSt(sh,stm,true);$('vtabs').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.l==k))};
  if(langs.length>1)langs.forEach(k=>{const b=document.createElement('button');b.textContent=names[k];b.dataset.l=k;b.onclick=()=>show(k);$('vtabs').appendChild(b)});
  show(cur);
