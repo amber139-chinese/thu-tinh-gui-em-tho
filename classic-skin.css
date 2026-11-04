@@ -1,0 +1,48 @@
+:root{--ivory:#f4eee1;--card:#fbf7ee;--line:#cdbf9f;--ink2:#3a2f28;--mute:#7a6a58;--wine:#7a2432;--gold:#a98845}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:2px;box-shadow:0 6px 24px rgba(0,0,0,.35);outline:1px solid #e6dbc2;outline-offset:-6px;padding:20px;color:var(--ink2)}
+.panel h3,.mxb h3{font:italic 600 1.2rem 'Cormorant Garamond',serif;color:var(--wine);border-bottom:1px solid var(--line);padding-bottom:5px;margin-bottom:10px}
+.panel h3 small{color:var(--mute);font-weight:400}
+.panel .o{background:#fffdf8;border:1px solid #d8ccb0;border-radius:2px;color:#4a3d32}
+.panel .o:hover,.panel .o.on{background:#f6ead4;border-color:var(--wine);color:var(--wine)}
+.panel .sw i{border:2px solid #fffdf8;box-shadow:0 0 0 1px var(--line)}.panel .sw i.on,.panel .sw i:hover{border-color:#fffdf8;box-shadow:0 0 0 2px var(--wine)}
+.panel label{color:var(--mute)}.panel .note{color:#8a7a64}
+.panel input.f,.panel select.f,.mxb input.f{background:#fffdf8;border:1px solid var(--line);border-radius:2px;color:var(--ink2)}
+.panel input.f:focus,.panel select.f:focus{outline:none;border-color:var(--wine)}
+.panel input[type=range]{accent-color:var(--wine)}
+.panel .btn{background:var(--wine);color:var(--ivory);border:1px solid #5c1824;border-radius:2px;letter-spacing:.04em;font-weight:600}
+.panel .btn.g{background:transparent;color:var(--wine);border:1px solid #b9a67e}.panel .btn.g:hover{background:#f2e8d3;filter:none}
+.panel .msg.ok{background:#e9efdc;color:#3f5a2a}.panel .msg.err{background:#f3dddd;color:#7a2424}
+.panel .lst div{border-bottom-color:#e6dbc2}.panel .lst a{color:var(--wine)}.panel .lst a.d{color:#a05050}.panel .nnew{color:var(--wine);font-weight:600}
+.mxb{background:var(--card);border:1px solid var(--gold);border-radius:2px;color:var(--ink2)}
+
+/* giấy thật: mỏng, mờ, có thớ giấy, cạnh sáng như mép cắt */
+.e3{--d:1.6px}
+.edge{background:linear-gradient(rgba(255,248,230,.45),rgba(255,248,230,.45)),var(--c,#e8d5b5);box-shadow:none}
+.edge::before{opacity:.35}
+.edge.l{filter:brightness(.95)}.edge.r{filter:brightness(.85)}.edge.t{filter:brightness(1.04)}.edge.d{filter:brightness(.8)}
+.face.b{border-radius:2px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05),inset 0 0 18px rgba(0,0,0,.07)}
+.eb{border-radius:2px;box-shadow:inset 0 0 18px rgba(0,0,0,.07),inset 0 1px 1px rgba(255,255,255,.18),inset 0 -2px 3px rgba(0,0,0,.08)}
+.envelope{filter:drop-shadow(0 1px 2px rgba(0,0,0,.28))}
+.flapw{filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
+.fold{opacity:.75}
+.eb::after,.face.b::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(87deg,rgba(255,255,255,.07) 0 1px,transparent 1px 3px),repeating-linear-gradient(4deg,rgba(60,40,20,.035) 0 1px,transparent 1px 5px)}
+.shine{border-radius:2px;background:linear-gradient(105deg,rgba(255,255,255,0) calc(var(--sx,50%) - 26%),rgba(255,255,255,.16) var(--sx,50%),rgba(255,255,255,0) calc(var(--sx,50%) + 26%))}
+.shine::after{border-radius:2px;background:radial-gradient(ellipse at 50% 40%,rgba(255,255,255,.1),rgba(255,255,255,0) 60%),linear-gradient(rgba(30,15,0,calc(var(--sd,0)*.16)),rgba(30,15,0,calc(var(--sd,0)*.16)))}
+.gsh{opacity:.7}
+
+/* giấy mới, khung viền mới, polaroid & photobooth */
+.letter:is([data-ps=linen],[data-ps=hearts],[data-ps=floral],[data-ps=sakurap],[data-ps=stars],[data-ps=sunset],[data-ps=sky],[data-ps=mint],[data-ps=airmail]) :is(.lt,.vt){background:none}
+.letter[data-ps=airmail]{border:10px solid transparent;border-image:repeating-linear-gradient(135deg,#c0392b 0 12px,#fff 12px 24px,#2a5db0 24px 36px,#fff 36px 48px) 10}
+.letter:is([data-fr=gold],[data-fr=dotted],[data-fr=lace],[data-fr=art],[data-fr=stars],[data-fr=leaf],[data-fr=rose]) .frame{display:block}
+.letter[data-fr=gold] .frame{border:1.5px solid #b8903a;box-shadow:0 0 0 4px transparent,0 0 0 5.5px rgba(184,144,58,.6)}
+.letter[data-fr=dotted] .frame{border:3px dotted rgba(90,60,40,.55);border-radius:10px}
+.letter[data-fr=art] .frame{border:2px solid rgba(90,60,40,.55);outline:1px solid rgba(90,60,40,.4);outline-offset:4px}
+.letter[data-fr=lace] .frame{--lc:rgba(90,60,40,.5);background:radial-gradient(circle at 50% 0,transparent 5.5px,var(--lc) 6px,var(--lc) 7px,transparent 7.5px) 0 0/16px 9px repeat-x,radial-gradient(circle at 50% 100%,transparent 5.5px,var(--lc) 6px,var(--lc) 7px,transparent 7.5px) 0 100%/16px 9px repeat-x,radial-gradient(circle at 0 50%,transparent 5.5px,var(--lc) 6px,var(--lc) 7px,transparent 7.5px) 0 0/9px 16px repeat-y,radial-gradient(circle at 100% 50%,transparent 5.5px,var(--lc) 6px,var(--lc) 7px,transparent 7.5px) 100% 0/9px 16px repeat-y}
+.letter:is([data-fr=stars],[data-fr=leaf],[data-fr=rose]) .frame{border:1px solid rgba(90,60,40,.3)}
+.letter:is([data-fr=stars],[data-fr=leaf],[data-fr=rose]) .frame i{display:block}
+.pol.pink{background:#f8d9e4}.pol.mint{background:#d8ecdc}.pol.sky{background:#d6e6f5}.pol.lilac{background:#e6dcf3}
+.pol.sepia{background:#efe0bf}.pol.sepia img{filter:sepia(.6) contrast(.95)}.pol.bw img{filter:grayscale(1) contrast(1.05)}
+.pol.gold{outline:3px solid #d9b24a;outline-offset:-3px}
+.pol.tape::before{content:'';position:absolute;top:-8px;left:28%;width:44%;height:14px;background:repeating-linear-gradient(45deg,rgba(240,160,180,.85) 0 6px,rgba(255,255,255,.8) 6px 12px);transform:rotate(-3deg)}
+.pol.strip{background:none;padding:0;transform:rotate(-2deg)}.pol.strip img{box-shadow:0 3px 8px #0005}
+.insc .pol.strip img{max-height:210px;width:auto;margin:0 auto}
