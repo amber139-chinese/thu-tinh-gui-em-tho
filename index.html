@@ -296,6 +296,24 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
 @keyframes away{to{transform:translate(60vw,-80vh) rotate(18deg) scale(.15);opacity:0}}
 #mailz .mt{font:2.6rem 'Great Vibes',cursive;color:#f2e8d5;opacity:0;animation:fi 1s 2.6s forwards}
 .main[data-step=send] .panel .hintbox{font-size:.88rem;color:#a0c098;margin-bottom:8px}
+
+/* ---- preview phụ kiện trước khi bỏ vào phong bì ---- */
+#accPrev{position:fixed;inset:0;z-index:130;background:rgba(5,12,6,.88);display:flex;align-items:center;justify-content:center;padding:16px;animation:fi .25s}
+#accPrev .apbox{background:#122016;border:2px solid var(--bd);border-radius:12px;padding:18px 16px 14px;max-width:560px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 12px 40px #0008}
+#accPrev .apbox h3{font:700 1.15rem 'Cormorant Garamond',serif;color:#c5dbc0;margin:0 0 8px;text-align:center}
+#accPrev .apnote{font-size:.82rem;color:#8aaa82;text-align:center;margin-bottom:10px;font-style:italic;line-height:1.4}
+#accPrev .apstyle{margin-bottom:10px}
+#accPrev .apstyle label{margin-bottom:3px;display:block;color:#a0c098;font-size:.85rem}
+#accPrev .aplist{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0 14px;max-height:42vh;overflow:auto}
+#accPrev .apitem{width:148px;max-width:48%;display:flex;flex-direction:column;align-items:center;gap:6px}
+#accPrev .apitem .pol{width:100%;transform:rotate(-2deg);font-size:.8rem}
+#accPrev .apitem .pol img{max-height:150px;width:100%;object-fit:cover;display:block}
+#accPrev .apitem .pol.strip{width:auto;max-width:100%;background:none;padding:0}
+#accPrev .apitem .pol.strip img{max-height:220px;width:auto;object-fit:contain}
+#accPrev .apitem > img{max-width:100%;max-height:150px;border-radius:4px;object-fit:cover}
+#accPrev .apitem input.f{font-size:.82rem;padding:5px 8px;margin:0;width:100%}
+#accPrev .apnav{display:flex;gap:10px;justify-content:center;margin-top:6px;flex-wrap:wrap}
+#accPrev .apnav .btn{width:auto;padding:9px 20px;margin:0}
 </style>
 <style id="classic-skin">
 :root{--ivory:#f4eee1;--card:#fbf7ee;--line:#cdbf9f;--ink2:#3a2f28;--mute:#7a6a58;--wine:#7a2432;--gold:#a98845}
@@ -460,7 +478,7 @@ select.f{width:100%;padding:8px;margin-bottom:8px;border:1.5px solid var(--bd);b
   </label>
 
 </div>
-<label>Kiểu thiết kế (polaroid / video) · chọn được nhiều ảnh cùng lúc</label><select class="f" id="accd"><option value="">Polaroid trắng</option><option value="kraft">Giấy kraft + băng keo</option><option value="film">Phim đen</option><option value="pink">Hồng pastel</option><option value="mint">Xanh bạc hà</option><option value="sky">Xanh trời</option><option value="lilac">Tím oải hương</option><option value="sepia">Kem cổ điển</option><option value="gold">Viền vàng</option><option value="tape">Băng washi hồng</option><option value="bw">Ảnh đen trắng</option><option value="peach">Cam đào</option><option value="lemon">Vàng chanh</option><option value="red">Đỏ đô</option><option value="navy">Xanh navy</option><option value="ink">Đen trơn</option><option value="rainbow">Cầu vồng</option><option value="candy">Sọc kẹo hồng</option><option value="mini">Instax mini (nhỏ)</option><option value="wide">Instax ngang</option><option value="round">Ảnh tròn</option><option value="arch">Ảnh vòm</option><option value="vintage">Cổ điển ố vàng</option><option value="fade">Phai nhẹ (film)</option><option value="warm">Tông ấm</option><option value="cool">Tông lạnh</option><option value="tape2">Băng keo 2 góc</option><option value="pin">Ghim đỏ</option></select><div class="g2"><button class="btn g" onclick="polIn.click()">Polaroid</button><button class="btn g" onclick="imgIn.click()">Sticker từ ảnh của bạn</button><button class="btn g" onclick="$('stkpick').hidden=!$('stkpick').hidden">Sticker có sẵn</button><button class="btn g" id="recb" onclick="rec()">Ghi âm</button><button class="btn g" onclick="vidIn.click()">Video</button></div><div id="stkpick" class="g4" hidden style="margin:8px 0"></div><div class="sec" style="margin-top:10px"><label>Photobooth: chọn nhiều ảnh cùng lúc (tối đa 9)</label><select class="f" id="boothl"><option value="v4">Dải dọc 4 ảnh</option><option value="v3">Dải dọc 3 ảnh</option><option value="v2">Dải dọc 2 ảnh</option><option value="v6">Dải dọc 6 ảnh</option><option value="h3">Dải ngang 3 ảnh</option><option value="h4">Dải ngang 4 ảnh</option><option value="g4">Lưới 2×2</option><option value="g6">Lưới 2×3 (6 ảnh)</option><option value="g9">Lưới 3×3 (9 ảnh)</option></select><label>Màu khung</label><select class="f" id="boothc"><option value="white">Trắng</option><option value="black">Đen phim</option><option value="pink">Hồng pastel</option><option value="mint">Xanh bạc hà</option><option value="cream">Kem cổ điển</option><option value="lilac">Tím oải hương</option><option value="sky">Xanh trời</option><option value="peach">Cam đào</option><option value="kraft">Giấy kraft</option><option value="red">Đỏ đô</option><option value="navy">Xanh navy</option><option value="bw">Trắng, ảnh đen trắng</option></select><label>Bộ lọc ảnh</label><select class="f" id="boothf"><option value="none">Ảnh gốc</option><option value="bw">Đen trắng</option><option value="sepia">Cổ điển</option><option value="warm">Tông ấm</option><option value="cool">Tông lạnh</option><option value="fade">Phai nhẹ</option><option value="vivid">Rực rỡ</option></select><label>Trang trí góc ảnh</label><select class="f" id="boothd"><option value="none">Không</option><option value="hearts">Tim nhỏ ♥</option><option value="stars">Sao ★</option><option value="flowers">Hoa ❀</option></select><button class="btn g" onclick="boothIn.click()">Chọn ảnh &amp; tạo dải photobooth</button><input type="file" id="boothIn" accept="image/*" multiple hidden></div><p class="note">Mỗi món sẽ được bỏ vào phong bì, người nhận rút ra lần lượt sau khi đọc thư. Ghi âm và video được tải lên Cloudinary.</p><div class="lst" id="acclst"></div><input type="file" id="polIn" accept="image/*" multiple hidden><input type="file" id="imgIn" accept="image/*" multiple hidden><input type="file" id="vidIn" accept="video/*" hidden></div>
+<label>Kiểu thiết kế (polaroid / video) · chọn được nhiều ảnh cùng lúc</label><select class="f" id="accd"><option value="">Polaroid trắng</option><option value="kraft">Giấy kraft + băng keo</option><option value="film">Phim đen</option><option value="pink">Hồng pastel</option><option value="mint">Xanh bạc hà</option><option value="sky">Xanh trời</option><option value="lilac">Tím oải hương</option><option value="sepia">Kem cổ điển</option><option value="gold">Viền vàng</option><option value="tape">Băng washi hồng</option><option value="bw">Ảnh đen trắng</option><option value="peach">Cam đào</option><option value="lemon">Vàng chanh</option><option value="red">Đỏ đô</option><option value="navy">Xanh navy</option><option value="ink">Đen trơn</option><option value="rainbow">Cầu vồng</option><option value="candy">Sọc kẹo hồng</option><option value="mini">Instax mini (nhỏ)</option><option value="wide">Instax ngang</option><option value="round">Ảnh tròn</option><option value="arch">Ảnh vòm</option><option value="vintage">Cổ điển ố vàng</option><option value="fade">Phai nhẹ (film)</option><option value="warm">Tông ấm</option><option value="cool">Tông lạnh</option><option value="tape2">Băng keo 2 góc</option><option value="pin">Ghim đỏ</option></select><div class="g2"><button class="btn g" onclick="polIn.click()">Polaroid</button><button class="btn g" onclick="imgIn.click()">Sticker từ ảnh của bạn</button><button class="btn g" onclick="$('stkpick').hidden=!$('stkpick').hidden">Sticker có sẵn</button><button class="btn g" id="recb" onclick="rec()">Ghi âm</button><button class="btn g" onclick="vidIn.click()">Video</button></div><div id="stkpick" class="g4" hidden style="margin:8px 0"></div><div class="sec" style="margin-top:10px"><label>Photobooth: chọn nhiều ảnh cùng lúc (tối đa 9)</label><select class="f" id="boothl"><option value="v4">Dải dọc 4 ảnh</option><option value="v3">Dải dọc 3 ảnh</option><option value="v2">Dải dọc 2 ảnh</option><option value="v6">Dải dọc 6 ảnh</option><option value="h3">Dải ngang 3 ảnh</option><option value="h4">Dải ngang 4 ảnh</option><option value="g4">Lưới 2×2</option><option value="g6">Lưới 2×3 (6 ảnh)</option><option value="g9">Lưới 3×3 (9 ảnh)</option></select><label>Màu khung</label><select class="f" id="boothc"><option value="white">Trắng</option><option value="black">Đen phim</option><option value="pink">Hồng pastel</option><option value="mint">Xanh bạc hà</option><option value="cream">Kem cổ điển</option><option value="lilac">Tím oải hương</option><option value="sky">Xanh trời</option><option value="peach">Cam đào</option><option value="kraft">Giấy kraft</option><option value="red">Đỏ đô</option><option value="navy">Xanh navy</option><option value="bw">Trắng, ảnh đen trắng</option></select><label>Bộ lọc ảnh</label><select class="f" id="boothf"><option value="none">Ảnh gốc</option><option value="bw">Đen trắng</option><option value="sepia">Cổ điển</option><option value="warm">Tông ấm</option><option value="cool">Tông lạnh</option><option value="fade">Phai nhẹ</option><option value="vivid">Rực rỡ</option></select><label>Trang trí góc ảnh</label><select class="f" id="boothd"><option value="none">Không</option><option value="hearts">Tim nhỏ ♥</option><option value="stars">Sao ★</option><option value="flowers">Hoa ❀</option></select><button class="btn g" onclick="boothIn.click()">Chọn ảnh &amp; tạo dải photobooth</button><input type="file" id="boothIn" accept="image/*" multiple hidden></div><p class="note">Chọn ảnh xong sẽ hiện xem trước thiết kế (khung polaroid / dải photobooth). Xác nhận rồi mới bỏ vào phong bì. Người nhận rút ra lần lượt sau khi đọc thư. Ghi âm và video được tải lên Cloudinary.</p><div class="lst" id="acclst"></div><input type="file" id="polIn" accept="image/*" multiple hidden><input type="file" id="imgIn" accept="image/*" multiple hidden><input type="file" id="vidIn" accept="video/*" hidden></div>
 <div class="sec s-letter"><h3>Bản dịch</h3><p style="font-size:.88rem;color:#a0c098;margin-bottom:8px">Viết tiếng Việt xong, bấm tab <b>English</b> hoặc <b>中文</b> phía trên lá thư rồi bấm nút <b>Dịch</b>. Kết quả hiện thẳng vào thư, bạn sửa tuỳ ý.</p></div>
     <div class="nav s-letter"><button class="btn g" onclick="go('env')">Quay lại phong bì</button><button class="btn" onclick="go('send')">Tiếp tục: Gửi thư</button></div>
 
@@ -1319,7 +1337,7 @@ function accHTML(m){const k=m.e;
  if(k=='@stk')return `<div style="width:100%;aspect-ratio:1;filter:drop-shadow(0 3px 4px #0005)">${stHTML(m.src)}</div>`;
  if(k=='@strip')return `<div class="pol strip"><img src="${m.src}"></div>`;
  if(k=='@vid')return `<div class="pol ${m.d||'film'}"><video controls playsinline src="${m.src}"></video></div>`;return ''}
-let ACC=[],FLY=null;
+let ACC=[],FLY=null,APEND=null;
 const ACCN={'@stk':'Sticker có sẵn','@strip':'Dải photobooth','@pol':'Polaroid','@img':'Sticker','@aud':'Ghi âm','@vid':'Video'};
 function accPrev(a){
  if(a.e=='@aud')return `<div class="pol kraft"><svg viewBox="0 0 80 40" width="100%"><rect x="2" y="2" width="76" height="36" rx="4" fill="#efe3c8" stroke="#5a4028"/><circle cx="24" cy="20" r="8" fill="#5a4028"/><circle cx="56" cy="20" r="8" fill="#5a4028"/><circle cx="24" cy="20" r="3" fill="#efe3c8"/><circle cx="56" cy="20" r="3" fill="#efe3c8"/></svg><div>Ghi âm</div></div>`;
@@ -1335,13 +1353,90 @@ function flyIn(a){
  setTimeout(()=>c.classList.add('go'),900);
  setTimeout(()=>{e.classList.remove('open');sfx('rustle');t.textContent='Đã bỏ vào phong bì ✔'},1950);
  setTimeout(()=>{FLY.hidden=true},3100)}
-const addAcc=(m,q)=>{const a={e:m.e,src:m.src,d:m.d||'',cap:m.cap||''};ACC.push(a);renderAcc();if(!q)flyIn(a)};
+const addAcc=(m,q)=>{const a={e:m.e,src:m.src,d:m.d||'',cap:m.cap||'',w:m.w};ACC.push(a);renderAcc();if(!q)flyIn(a)};
 renderAcc();
+
+/* ---- xem trước thiết kế trước khi bỏ vào phong bì ---- */
+function ensureAccPrev(){
+  if(APEND)return APEND;
+  const el=document.createElement('div');el.id='accPrev';el.hidden=true;
+  el.innerHTML=`<div class="apbox">
+    <h3>Xem trước thiết kế</h3>
+    <p class="apnote">Đây là cách món sẽ trông khi người nhận rút ra khỏi phong bì. Bạn có thể đổi kiểu khung rồi bấm Bỏ vào phong bì.</p>
+    <div class="apstyle" id="apStyleWrap" hidden>
+      <label>Kiểu khung / thiết kế</label>
+      <select class="f" id="apStyle"></select>
+    </div>
+    <div class="aplist" id="apList"></div>
+    <div class="apnav">
+      <button class="btn g" id="apCancel">Hủy / chọn lại</button>
+      <button class="btn" id="apOk">Bỏ vào phong bì</button>
+    </div>
+  </div>`;
+  document.body.appendChild(el);
+  APEND=el;
+  $('apCancel').onclick=()=>{el.hidden=true;APEND._items=null};
+  $('apOk').onclick=()=>{
+    const items=APEND._items||[];
+    // sync captions & current style from UI
+    const styleSel=$('apStyle');
+    const style=styleSel&&!styleSel.closest('[hidden]')?styleSel.value:'';
+    items.forEach((it,i)=>{
+      const inp=$('apCap'+i);
+      if(inp)it.cap=inp.value.trim();
+      if(style!=='' && (it.e==='@pol'||it.e==='@vid'))it.d=style;
+    });
+    el.hidden=true;
+    items.forEach((m,i)=>addAcc(m,i>0)); // only first does flyIn animation
+    if(items.length)msg(items.length===1?'Đã bỏ vào phong bì ✔':'Đã bỏ '+items.length+' món vào phong bì ✔');
+    APEND._items=null;
+  };
+  $('apStyle').onchange=()=>{
+    const style=$('apStyle').value;
+    const items=APEND._items||[];
+    items.forEach(it=>{if(it.e==='@pol'||it.e==='@vid')it.d=style});
+    renderAccPreviewList();
+  };
+  return el;
+}
+function renderAccPreviewList(){
+  const list=$('apList');if(!list||!APEND||!APEND._items)return;
+  list.innerHTML='';
+  APEND._items.forEach((m,i)=>{
+    const wrap=document.createElement('div');wrap.className='apitem';
+    const html=accHTML(m);
+    wrap.innerHTML=html+(m.e==='@pol'?`<input class="f" id="apCap${i}" placeholder="Dòng chữ dưới ảnh (tuỳ chọn)" value="${esc(m.cap||'')}">`:'');
+    // make strip a bit larger in preview
+    if(m.e==='@strip'){const img=wrap.querySelector('img');if(img)img.style.maxHeight='320px'}
+    list.appendChild(wrap);
+  });
+}
+function showAccPreview(items,opts){
+  opts=opts||{};
+  const el=ensureAccPrev();
+  APEND._items=items.map(m=>({...m})); // clone
+  const styleWrap=$('apStyleWrap');
+  const styleSel=$('apStyle');
+  // populate style options from the main #accd if polaroid/video
+  const needStyle=items.some(m=>m.e==='@pol'||m.e==='@vid');
+  if(needStyle){
+    styleWrap.hidden=false;
+    styleSel.innerHTML=$('accd').innerHTML;
+    styleSel.value=items[0].d||$('accd').value||'';
+  }else{
+    styleWrap.hidden=true;
+  }
+  renderAccPreviewList();
+  el.hidden=false;
+  // focus first caption if any
+  setTimeout(()=>{const c=$('apCap0');if(c)c.focus()},200);
+}
+
 (function(){const b=$('stkpick');Object.keys(STK).forEach(k=>{const x=document.createElement('button');x.className='o';x.innerHTML=`<svg viewBox="0 0 64 64" width="34" height="34">${STK[k]}</svg>`;x.onclick=()=>addAcc({e:'@stk',src:k});b.appendChild(x)})})();
+
 $('boothIn').onchange=async e=>{const fs=[...e.target.files];e.target.value='';if(!fs.length)return;
  const L=$('boothl').value,cl=$('boothc').value,ft=$('boothf').value,dc=$('boothd').value,[cols,rows]={v2:[1,2],v3:[1,3],v4:[1,4],v6:[1,6],h3:[3,1],h4:[4,1],g4:[2,2],g6:[2,3],g9:[3,3]}[L]||[1,4],n=cols*rows,
  C={white:['#fff','#555'],black:['#1a1a1a','#ddd'],pink:['#f8d9e4','#8a3a50'],mint:['#d8ecdc','#3a6a50'],cream:['#efe0bf','#6a5030'],bw:['#fff','#555'],lilac:['#e6dcf3','#5a4380'],sky:['#d6e6f5','#2f5a8a'],peach:['#fbdcc4','#8a4a2a'],kraft:['#cfa86f','#4a3220'],red:['#b03a3a','#fff'],navy:['#24385e','#e8ecf5']}[cl]||['#fff','#555'],F=cl=='bw'&&ft=='none'?'bw':ft;
- const cap=prompt('Dòng chữ cuối dải ảnh (có thể để trống)',new Date().toLocaleDateString('vi-VN'))||'';
  const ims=await Promise.all(fs.slice(0,n).map(f=>new Promise(r=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{URL.revokeObjectURL(u);r(im)};im.src=u})));
  const fw={1:170,2:150,3:120,4:100}[cols],fh=Math.round(fw*.75),pd=12,fo=46,W=cols*fw+(cols+1)*pd,H=rows*fh+(rows+1)*pd+fo,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');x.fillStyle=C[0];x.fillRect(0,0,W,H);
  const fx=d=>{for(let i=0;i<d.length;i+=4){let r=d[i],g=d[i+1],b=d[i+2];if(F=='bw'){r=g=b=.3*r+.59*g+.11*b}else if(F=='sepia'){const R=.393*r+.769*g+.189*b,G=.349*r+.686*g+.168*b,B=.272*r+.534*g+.131*b;r=R;g=G;b=B}else if(F=='warm'){r*=1.08;b*=.9}else if(F=='cool'){r*=.92;b*=1.1}else if(F=='fade'){r=r*.8+45;g=g*.8+45;b=b*.8+45}else if(F=='vivid'){const m=(r+g+b)/3;r=m+(r-m)*1.5;g=m+(g-m)*1.5;b=m+(b-m)*1.5}d[i]=r;d[i+1]=g;d[i+2]=b}};
@@ -1349,8 +1444,15 @@ $('boothIn').onchange=async e=>{const fs=[...e.target.files];e.target.value='';i
  for(let i=0;i<n;i++){const im=ims[i%ims.length],cx=pd+(i%cols)*(fw+pd),cy=pd+((i/cols)|0)*(fh+pd),s=Math.max(fw/im.width,fh/im.height),sw=fw/s,sh=fh/s;x.drawImage(im,(im.width-sw)/2,(im.height-sh)/2,sw,sh,cx,cy,fw,fh);
   if(F!='none'){const id=x.getImageData(cx,cy,fw,fh);fx(id.data);x.putImageData(id,cx,cy)}
   if(ch){x.fillStyle='#fff';x.strokeStyle=C[1];x.lineWidth=2;x.font='16px serif';x.textAlign='right';x.strokeText(ch,cx+fw-5,cy+fh-5);x.fillText(ch,cx+fw-5,cy+fh-5)}}
- x.fillStyle=C[1];x.font="italic 600 17px 'Cormorant Garamond',serif";x.textAlign='center';x.fillText(cap,W/2,H-17);
- addAcc({e:'@strip',src:cv.toDataURL('image/jpeg',.75)});msg(fs.length<n?'Bạn chọn '+fs.length+' ảnh nên mình lặp lại cho đủ '+n+' khung':'Đã tạo dải ảnh photobooth')};
+ // temporary caption placeholder; user can edit in preview
+ const defaultCap=new Date().toLocaleDateString('vi-VN');
+ x.fillStyle=C[1];x.font="italic 600 17px 'Cormorant Garamond',serif";x.textAlign='center';x.fillText(defaultCap,W/2,H-17);
+ const dataUrl=cv.toDataURL('image/jpeg',.75);
+ showAccPreview([{e:'@strip',src:dataUrl,cap:defaultCap}]);
+ if(fs.length<n)msg('Bạn chọn '+fs.length+' ảnh nên mình lặp lại cho đủ '+n+' khung — hãy xem trước rồi xác nhận');
+ else msg('Xem trước dải photobooth rồi bấm Bỏ vào phong bì');
+};
+
 const rs=(f,mx,cb)=>{const r=new FileReader();r.onload=ev=>{const im=new Image();im.onload=()=>{const s=Math.min(1,mx/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.6))};im.src=ev.target.result};r.readAsDataURL(f)};
 const SIGN_URL='https://gemini-proxy.ngthuhuong139.workers.dev/cloudinary-signature';
 const upl=async(b,ext)=>{
@@ -1377,8 +1479,21 @@ const upl=async(b,ext)=>{
   if(!r.ok||!j.secure_url)throw new Error('[bước 2/2] '+((j.error&&j.error.message)||'Cloudinary HTTP '+r.status));
   return j.secure_url;
 };
-$('polIn').onchange=e=>{const fs=[...e.target.files].slice(0,8);e.target.value='';if(!fs.length)return;const cap=prompt(fs.length>1?'Dòng chữ chung dưới các ảnh (có thể để trống)':'Dòng chữ dưới ảnh (có thể để trống)')||'';fs.forEach((f,i)=>rs(f,280,u=>addAcc({e:'@pol',src:u,d:$('accd').value,cap},i>0)))};
-$('imgIn').onchange=e=>{const fs=[...e.target.files].slice(0,8);e.target.value='';fs.forEach((f,i)=>rs(f,160,u=>addAcc({e:'@img',src:u,w:90},i>0)))};
+$('polIn').onchange=e=>{const fs=[...e.target.files].slice(0,8);e.target.value='';if(!fs.length)return;
+  const style=$('accd').value;const pending=[];
+  let left=fs.length;
+  fs.forEach((f,i)=>rs(f,280,u=>{
+    pending.push({e:'@pol',src:u,d:style,cap:''});
+    if(--left===0){showAccPreview(pending);msg('Xem trước polaroid với khung đã chọn, có thể đổi kiểu rồi bấm Bỏ vào phong bì')}
+  }));
+};
+$('imgIn').onchange=e=>{const fs=[...e.target.files].slice(0,8);e.target.value='';if(!fs.length)return;
+  const pending=[];let left=fs.length;
+  fs.forEach((f,i)=>rs(f,160,u=>{
+    pending.push({e:'@img',src:u,w:90});
+    if(--left===0){showAccPreview(pending);msg('Xem trước sticker từ ảnh của bạn rồi bấm Bỏ vào phong bì')}
+  }));
+};
 $('vidIn').onchange=async e=>{
   const f=e.target.files[0];
   e.target.value='';
